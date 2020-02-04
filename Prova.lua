@@ -1,4 +1,5 @@
-Upload 2020-02-05
+-- Auto upload by PageToGitHub2020-02-05
+-- This code from pageProva
 -- Questo codice proviene dal Modulo:FunzioniGeneriche
 
 local p = {} --p stands for packag
@@ -30,7 +31,7 @@ function p.Esempio(frame)
 end
 
 function p.test()
-	return "KO"
+	return "OK"
 end
 
 return p
