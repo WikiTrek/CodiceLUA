@@ -1,5 +1,5 @@
 -- Auto upload by PageToGitHub2020-02-05
--- This code from pageFunzioniGeneriche
+-- This code from page Modulo:FunzioniGeneriche
 -- Questo codice proviene dal Modulo:FunzioniGeneriche
 
 local p = {} --p stands for package
