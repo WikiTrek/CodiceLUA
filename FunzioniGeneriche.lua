@@ -1,4 +1,4 @@
--- Auto upload by PageToGitHub2020-02-05
+-- Auto upload by PageToGitHub on 2020-02-05T22:55:15+01:00
 -- This code from page Modulo:FunzioniGeneriche
 -- Questo codice proviene dal Modulo:FunzioniGeneriche
 
@@ -21,7 +21,7 @@ function p.EsempioTemplate(frame)
     SubPageTitle = mw.title.makeTitle(Title.namespace, Title.text .. '/' .. SubPageName)
 
     local Intro = 'Questo esempio è automaticamente generato tramite script LUA a partire dal codice di esempio presente in <code>[[' .. SubPageTitle.prefixedText .. ']]</code>'
-    local CodeString = 'Il codice:'
+    local CodeString = 'Il codice'
     local ReturnString = 'restituisce'
 
     pre
