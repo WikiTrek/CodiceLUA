@@ -1,4 +1,4 @@
--- Auto upload by PageToGitHub on 2020-02-06T00:10:43+01:00
+-- Auto upload by PageToGitHub on 2020-02-08T15:57:17+01:00
 -- This code from page Modulo:DTEpisodio
 -- This code comes from Modulo:DTEpisodio
 local p = {}
@@ -90,7 +90,7 @@ function p.ListFirstAir(frame)
 	local Statements = mw.wikibase.getAllStatements(CurrItem, 'P2')
 	for _, Statement in pairs(Statements) do
 		local Result
-		Result = '<li>' .. frame:expandTemplate{ title = 'TimeL', args = {Tipo='ITEstesa', Data=Statement['mainsnak'].datavalue['value'].time} } .. " su ''" .. Statement['qualifiers']['P4'][1].datavalue['value'] .. "'' (" .. Statement['qualifiers']['P34'][1].datavalue['value'] .. ")</li>"
+		Result = '<li>' .. frame:expandTemplate{ title = 'TimeL', args = {Tipo='ITEstesa', Istante=Statement['mainsnak'].datavalue['value'].time} } .. " su ''" .. Statement['qualifiers']['P4'][1].datavalue['value'] .. "'' (" .. Statement['qualifiers']['P34'][1].datavalue['value'] .. ")</li>"
 		
 		Results[#Results + 1] = Result
 	end
