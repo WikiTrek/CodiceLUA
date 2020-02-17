@@ -1,7 +1,5 @@
--- Auto upload by PageToGitHub on 2020-02-05T22:55:15+01:00
+-- Auto upload by PageToGitHub on 2020-02-17T21:54:00+01:00
 -- This code from page Modulo:FunzioniGeneriche
--- Questo codice proviene dal Modulo:FunzioniGeneriche
-
 local p = {} --p stands for package
 
 function p.EsempioTemplate(frame)
@@ -29,5 +27,7 @@ function p.EsempioTemplate(frame)
        :wikitext(mw.text.nowiki(SubPageTitle:getContent()))
     return  Intro .. DoubleLF .. CodeString .. DoubleLF .. tostring(pre) .. DoubleLF  .. ReturnString .. DoubleLF .. frame:expandTemplate{ title = SubPageTitle }
 end
-
+function p.NoWiki(frame)
+    return mw.text.nowiki(frame.args[1])
+end
 return p
