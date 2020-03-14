@@ -1,6 +1,6 @@
--- Auto upload by PageToGitHub on 2020-02-06T00:00:49+01:00
--- This code from page Modulo:DTBase
--- This code comes from Modulo:DTBase
+-- [P2G] Auto upload by PageToGitHub on 2020-03-14T18:43:49+01:00
+-- [P2G] This code from page Modulo:DTBase
+-- Keyword: wikitrek
 local p = {}
 function p.Epilogo(frame)
 	local DoubleReturn = string.char(10) .. string.char(10)
@@ -132,7 +132,7 @@ function p.LinkToEntity(frame)
 	if mw.wikibase.getEntity() then
 		return "Modifica i dati nella pagina [[:datatrek-loc:Item:" .. mw.wikibase.getEntityIdForCurrentPage() .. "|della entità su ''DataTrek'']]"
 	else
-		return ""
+		return "Impossibile trovare l'entità collegata"
 	end
 end
 function p.LabelByLang(frame)
