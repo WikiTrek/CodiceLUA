@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2020-03-15T10:49:35+01:00
+-- [P2G] Auto upload by PageToGitHub on 2020-03-15T11:35:50+01:00
 -- [P2G] This code from page Modulo:DTBase
 -- Keyword: wikitrek
 local p = {}
@@ -49,7 +49,7 @@ function p.ExtLinks(frame)
 	end
 		
 	--return AllRows .. string.char(10) .. string.char(10) .. "=== Interwiki ===" .. string.char(10) .. "* " .. frame:expandTemplate{title = 'InterlinkMA', args = {Nome=Item:getSitelink("enma")}} .. string.char(10) .. p.SiteLinksInterwiki()
-	return AllRows .. string.char(10) .. string.char(10) .. "=== Interwiki ===" .. string.char(10) .. "* " .. p.SiteLinksInterwiki()
+	return AllRows .. string.char(10) .. string.char(10) .. "=== Interwiki ===" .. string.char(10) .. p.SiteLinksInterwiki()
 end
 function p.Categories(frame)
 	local Opening = '[[Categoria:'
@@ -138,7 +138,7 @@ function p.LinkToEntity(frame)
 	local p = mw.html.create('p')
 	
 	if mw.wikibase.getEntity() then
-		Text = "Modifica i dati nella [[:datatrek-loc:Item:" .. mw.wikibase.getEntityIdForCurrentPage() .. "|pagina della entità]] su ''DataTrek''"
+		Text = "Modifica i dati nella [[:datatrek:Item:" .. mw.wikibase.getEntityIdForCurrentPage() .. "|pagina della entità]] su ''DataTrek''"
 	else
 		Text = "Impossibile trovare l'entità collegata"
 	end
@@ -173,5 +173,34 @@ function p.ItemIcon()
 	IconFileName = Item['claims']['P3'][1].mainsnak.datavalue['value']
 	
 	return IconFileName
+end
+function p.ItemImage()
+	local ImageFileName
+	
+	local Item = mw.wikibase.getEntity()
+	if not Item then
+		Item = mw.wikibase.getEntity('Q1')
+	end
+	
+	ImageFileName = Item['claims']['P37'][1].mainsnak.datavalue['value']
+	
+	return ImageFileName
+end
+function p.GenericValue(Property)
+	-- |FileIcona=dsg.png
+	local Value
+	
+	local Item = mw.wikibase.getEntity()
+	if not Item then
+		Item = mw.wikibase.getEntity('Q1')
+	end
+
+	Value = Item['claims'][Property][1].mainsnak.datavalue['value']
+	
+	if not Value then
+		Value = "''Proprietà non trovata''"
+	end
+	
+	return Value
 end
 return p
