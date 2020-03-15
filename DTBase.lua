@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2020-03-15T09:06:16+01:00
+-- [P2G] Auto upload by PageToGitHub on 2020-03-15T10:49:35+01:00
 -- [P2G] This code from page Modulo:DTBase
 -- Keyword: wikitrek
 local p = {}
@@ -21,7 +21,7 @@ function p.Epilogo(frame)
 [[Categoria:Episodio di Discovery]]
 [[Categoria:Episodi]]
 	]===]
-	return frame:expandTemplate{ title = 'paginecheportanoqui' } .. DoubleReturn .. "== Collegamenti esterni ==" .. DoubleReturn .. "==" .. frame:expandTemplate{ title = 'Etichetta', args = {Tipo=Annotazioni} } .. "==" .. string.char(10) ..  mw.text.nowiki("<references/>") .. DoubleReturn .. string.char(10) .. frame:expandTemplate{ title = 'NavGlobale' }  .. "categorie"
+	return frame:expandTemplate{ title = 'paginecheportanoqui' } .. DoubleReturn .. "== Collegamenti esterni ==" .. DoubleReturn .. p.ExtLinks(frame) .. DoubleReturn .. "==" .. frame:expandTemplate{ title = 'Etichetta', args = {Tipo=Annotazioni} } .. "==" .. string.char(10) ..  mw.text.nowiki("<references/>") .. DoubleReturn .. string.char(10) .. frame:expandTemplate{ title = 'NavGlobale' }  .. "categorie"
 end
 function p.ExtLinks(frame)
 	local AllRows
@@ -44,7 +44,12 @@ function p.ExtLinks(frame)
 		end
 	end
 	
-	return AllRows .. string.char(10) .. string.char(10) .. "=== Interwiki ===" .. string.char(10) .. "* " .. frame:expandTemplate{title = 'InterlinkMA', args = {Nome=Item:getSitelink("enma")}} .. string.char(10) .. p.SiteLinksInterwiki()
+	if not AllRows then
+		AllRows = "''Nessun collegamento esterno trovato su DataTrek''"
+	end
+		
+	--return AllRows .. string.char(10) .. string.char(10) .. "=== Interwiki ===" .. string.char(10) .. "* " .. frame:expandTemplate{title = 'InterlinkMA', args = {Nome=Item:getSitelink("enma")}} .. string.char(10) .. p.SiteLinksInterwiki()
+	return AllRows .. string.char(10) .. string.char(10) .. "=== Interwiki ===" .. string.char(10) .. "* " .. p.SiteLinksInterwiki()
 end
 function p.Categories(frame)
 	local Opening = '[[Categoria:'
@@ -129,11 +134,21 @@ function p.LinkToEntity(frame)
 	-- La URI si otterrebbe con
 	-- mw.wikibase.getEntityUrl()
 	-- ma noi usiamo uno InterWiki link
+	local Text
+	local p = mw.html.create('p')
+	
 	if mw.wikibase.getEntity() then
-		return "Modifica i dati nella pagina [[:datatrek-loc:Item:" .. mw.wikibase.getEntityIdForCurrentPage() .. "|della entità su ''DataTrek'']]"
+		Text = "Modifica i dati nella [[:datatrek-loc:Item:" .. mw.wikibase.getEntityIdForCurrentPage() .. "|pagina della entità]] su ''DataTrek''"
 	else
-		return "Impossibile trovare l'entità collegata"
+		Text = "Impossibile trovare l'entità collegata"
 	end
+	
+	p
+	   :css('font-size', 'smaller')
+       :css('text-align', 'right')
+       :css('margin', '1px')
+       :wikitext(Text)
+    return  tostring(p)
 end
 function p.LabelByLang(frame)
 	local Item = mw.wikibase.getEntityIdForCurrentPage()
@@ -157,6 +172,6 @@ function p.ItemIcon()
 	--FileName = mw.wikibase.getEntity(SeriesQ)['claims']['P3'][1]['mainsnak'].datavalue['value']
 	IconFileName = Item['claims']['P3'][1].mainsnak.datavalue['value']
 	
-	return FileName
+	return IconFileName
 end
 return p
