@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2020-03-15T09:24:11+01:00
+-- [P2G] Auto upload by PageToGitHub on 2020-03-15T09:26:30+01:00
 -- [P2G] This code from page Modulo:DTGenerico
 -- Keyword: wikitrek
 local p = {}
@@ -32,7 +32,7 @@ function p.Title(frame)
 	--return ItemQ
 	--return mw.wikibase.getEntity(ItemQ)['claims']['P3'][1].mainsnak.datavalue['value']
 	
-	return mw.wikibase.getLabelByLang(ItemQ, frame.args['Lingua'])
+	return mw.wikibase.getLabelByLang(ItemQ, 'it')
 end
 function p.ExtLinks(frame)
 	local AllRows
