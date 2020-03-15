@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2020-03-14T18:43:49+01:00
+-- [P2G] Auto upload by PageToGitHub on 2020-03-15T09:01:22+01:00
 -- [P2G] This code from page Modulo:DTBase
 -- Keyword: wikitrek
 local p = {}
@@ -143,5 +143,20 @@ function p.LabelByLang(frame)
 	end
 	
 	return mw.wikibase.getLabelByLang(Item, Lang)
+end
+function p.ItemIcon()
+	-- |FileIcona=dsg.png
+	local IconFileName
+	
+	local Item = mw.wikibase.getEntity()
+	if not Item then
+		Item = mw.wikibase.getEntity('Q1')
+	end
+	
+	--SeriesQ = Item['claims']['P16'][1]['mainsnak'].datavalue['value']['id']
+	--FileName = mw.wikibase.getEntity(SeriesQ)['claims']['P3'][1]['mainsnak'].datavalue['value']
+	IconFileName = Item['claims']['P3'][0]['mainsnak'].datavalue['value']
+	
+	return FileName
 end
 return p
