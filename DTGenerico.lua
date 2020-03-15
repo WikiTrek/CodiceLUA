@@ -1,20 +1,14 @@
--- [P2G] Auto upload by PageToGitHub on 2020-03-15T09:26:30+01:00
+-- [P2G] Auto upload by PageToGitHub on 2020-03-15T09:36:37+01:00
 -- [P2G] This code from page Modulo:DTGenerico
 -- Keyword: wikitrek
 local p = {}
 function p.QFromP(Property)
-	local EpisodeTitle
-	local Link
-	local item = mw.wikibase.getEntity() --local item = mw.wikibase.getEntityIdForCurrentPage()
-	if not item then return '' end
-	if not item['claims'][Property] then
-		EpisodeTitle = "''Nessuno''"
-		Link = EpisodeTitle
-	else
-		EpisodeTitle = item['claims'][Property][1]['mainsnak'].datavalue['value']
-		Link = '[[' .. EpisodeTitle .. '|' .. EpisodeTitle .. ']]'
+	local Item = mw.wikibase.getEntity()
+	if not Item then
+		Item = mw.wikibase.getEntity('Q1')
 	end
-	return Link
+	
+	return Item['claims'][Property][1].mainsnak.datavalue['value']['id']
 end
 function p.Title(frame)
 	-- |FileIcona=dsg.png
@@ -25,7 +19,8 @@ function p.Title(frame)
 		Item = mw.wikibase.getEntity('Q1')
 	end
 	
-	ItemQ = Item['claims']['P14'][1].mainsnak.datavalue['value']['id']
+	--ItemQ = Item['claims']['P14'][1].mainsnak.datavalue['value']['id']
+	ItemQ = p.QFromP('14')
 	--SeriesQ = Item['claims']['P16'][1]['mainsnak'].datavalue['value']['id']
 	--FileName = mw.wikibase.getEntity(SeriesQ)['claims']['P3'][1]['mainsnak'].datavalue['value']
 	--IconFileName = Item['claims']['P3'][1].mainsnak.datavalue['value']
