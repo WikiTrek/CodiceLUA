@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2020-03-15T09:01:22+01:00
+-- [P2G] Auto upload by PageToGitHub on 2020-03-15T09:04:43+01:00
 -- [P2G] This code from page Modulo:DTBase
 -- Keyword: wikitrek
 local p = {}
@@ -155,7 +155,7 @@ function p.ItemIcon()
 	
 	--SeriesQ = Item['claims']['P16'][1]['mainsnak'].datavalue['value']['id']
 	--FileName = mw.wikibase.getEntity(SeriesQ)['claims']['P3'][1]['mainsnak'].datavalue['value']
-	IconFileName = Item['claims']['P3'][0]['mainsnak'].datavalue['value']
+	IconFileName = Item['claims']['P3'][1]['mainsnak'].datavalue['value']
 	
 	return FileName
 end
