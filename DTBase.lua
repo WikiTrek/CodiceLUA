@@ -1,26 +1,10 @@
--- [P2G] Auto upload by PageToGitHub on 2020-03-15T11:35:50+01:00
+-- [P2G] Auto upload by PageToGitHub on 2020-03-20T17:29:21+01:00
 -- [P2G] This code from page Modulo:DTBase
 -- Keyword: wikitrek
 local p = {}
 function p.Epilogo(frame)
 	local DoubleReturn = string.char(10) .. string.char(10)
-	--[===[
-	{{paginecheportanoqui}}
-
-== Collegamenti esterni ==
-* {{InterlinkMA|Nome=If Memory Serves (episode)}}
-* {{LinkTM|https://trekmovie.com/2019/03/07/review-star-trek-discovery-shares-its-dreams-in-if-memory-serves/|Review: ‘Star Trek: Discovery’ Shares Its Dreams In “If Memory Serves” }}
-* {{LinkTM|https://trekmovie.com/2019/03/08/new-star-trek-discovery-photos-offer-a-better-look-at-talos-from-if-memory-serves/|New ‘Star Trek: Discovery’ Photos Offer A Better Look At Talos IV From “If Memory Serves”}}
-* [http://www.treknews.net/2019/03/08/review-star-trek-discovery-208-if-memory-serves/ ''<nowiki>[REVIEW]: STAR TREK: DISCOVERY 208 “If Memory Serves” …Serves Us Well</nowiki>''], TrekNews
-
-== {{Etichetta|Tipo=Annotazioni}} ==
-<references/>
-
-{{NavGlobale}}
-
-[[Categoria:Episodio di Discovery]]
-[[Categoria:Episodi]]
-	]===]
+	
 	return frame:expandTemplate{ title = 'paginecheportanoqui' } .. DoubleReturn .. "== Collegamenti esterni ==" .. DoubleReturn .. p.ExtLinks(frame) .. DoubleReturn .. "==" .. frame:expandTemplate{ title = 'Etichetta', args = {Tipo=Annotazioni} } .. "==" .. string.char(10) ..  mw.text.nowiki("<references/>") .. DoubleReturn .. string.char(10) .. frame:expandTemplate{ title = 'NavGlobale' }  .. "categorie"
 end
 function p.ExtLinks(frame)
@@ -174,6 +158,21 @@ function p.ItemIcon()
 	
 	return IconFileName
 end
+function p.ItemIconCascade()
+	-- |FileIcona=dsg.png
+	local IconFileName
+	
+	local Item = mw.wikibase.getEntity()
+	if not Item then
+		Item = mw.wikibase.getEntity('Q1')
+	end
+	
+	-- TODO
+	-- Studiare come cercare l'icona nella P3 in ordine nella Q se esite, nel "TIPO", se esiste, oppure nella "ISTANZA"
+	IconFileName = Item['claims']['P3'][1].mainsnak.datavalue['value']
+	
+	return IconFileName
+end
 function p.ItemImage()
 	local ImageFileName
 	
@@ -202,5 +201,29 @@ function p.GenericValue(Property)
 	end
 	
 	return Value
+end
+function p.LabelOrLink(Item)
+	local Label
+	local WTLink
+	
+	local Item = mw.wikibase.getEntity(Item)
+	if not Item then
+		return "''Elemento non trovato''"
+	end
+	
+	Label = Item['claims']['P20'][1].mainsnak.datavalue['value']
+	WTLink = Item.sitelinks['wikitrek'].title
+	
+	if not WTlink then
+		if not Label then
+			Label = Item.labels['it'].value
+		end
+		return Label
+	else
+		if not Label then
+			Label = WTLink
+		end
+		return "[[" .. WTLink .. "|" .. Label .. "]]"
+	end
 end
 return p
