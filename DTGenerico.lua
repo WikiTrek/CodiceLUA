@@ -1,6 +1,8 @@
--- [P2G] Auto upload by PageToGitHub on 2020-03-15T09:36:37+01:00
+-- [P2G] Auto upload by PageToGitHub on 2020-03-21T18:19:25+01:00
 -- [P2G] This code from page Modulo:DTGenerico
 -- Keyword: wikitrek
+local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
+local LabelOrLink = require('Modulo:DTBase').LabelOrLink
 local p = {}
 function p.QFromP(Property)
 	local Item = mw.wikibase.getEntity()
@@ -20,7 +22,7 @@ function p.Title(frame)
 	end
 	
 	--ItemQ = Item['claims']['P14'][1].mainsnak.datavalue['value']['id']
-	ItemQ = p.QFromP('14')
+	ItemQ = p.QFromP('P14')
 	--SeriesQ = Item['claims']['P16'][1]['mainsnak'].datavalue['value']['id']
 	--FileName = mw.wikibase.getEntity(SeriesQ)['claims']['P3'][1]['mainsnak'].datavalue['value']
 	--IconFileName = Item['claims']['P3'][1].mainsnak.datavalue['value']
@@ -29,6 +31,43 @@ function p.Title(frame)
 	
 	return mw.wikibase.getLabelByLang(ItemQ, 'it')
 end
+function p.ListAllP(frame)
+	local AllP
+	local AllRows = {}
+	local HTMLTable
+	local ExcludeP = {P37 = true, P3 = true, P26 = true}
+	local Item = mw.wikibase.getEntity()
+	if not Item then
+		Item = mw.wikibase.getEntity('Q1')
+	end
+	
+	AllP = mw.wikibase.orderProperties(Item:getProperties())
+	for _, Property in pairs(AllP) do
+		if not ExcludeP[Property] then
+			local Value = Item['claims'][Property][1].mainsnak.datavalue['value']
+			local Header = mw.wikibase.getLabelByLang(Property, 'it') .. '-' .. Property .. ":"
+			if (type(Value) == "table") then
+				if Value['entity-type'] == 'item' then
+					AllRows[#AllRows + 1] = {Header, LabelOrLink(Value['id'])} 
+				else
+					AllRows[#AllRows + 1] = {Header, 'TABLE'}
+				end
+			else
+				AllRows[#AllRows + 1] = {Header, Value}
+			end
+		end
+	end
+	
+	HTMLTable = TableFromArray(AllRows)
+	HTMLTable
+		:addClass('infobox')
+	
+	-- return table.concat(AllRows, "<br />" .. string.char(10)) .. string.char(10)
+	-- return HTMLTable
+	return tostring(HTMLTable)
+end
+	
+--[==[
 function p.ExtLinks(frame)
 	local AllRows
 	local Item = mw.wikibase.getEntity()
@@ -135,11 +174,20 @@ function p.LinkToEntity(frame)
 	-- La URI si otterrebbe con
 	-- mw.wikibase.getEntityUrl()
 	-- ma noi usiamo uno InterWiki link
+	local Text
+	local p = mw.html.create('p')
+	
 	if mw.wikibase.getEntity() then
-		return "Modifica i dati nella pagina [[:datatrek-loc:Item:" .. mw.wikibase.getEntityIdForCurrentPage() .. "|della entità su ''DataTrek'']]"
+		Text = "Modifica i dati nella pagina [[:datatrek-loc:Item:" .. mw.wikibase.getEntityIdForCurrentPage() .. "|della entità su ''DataTrek'']]"
 	else
-		return "Impossibile trovare l'entità collegata"
+		Text = "Impossibile trovare l'entità collegata"
 	end
+	
+	p
+       :css('line-height', '2')
+       :css('alignment', 'right')
+       :wikitext(Text)
+    return  tostring(p)
 end
 function p.LabelByLang(frame)
 	local Item = mw.wikibase.getEntityIdForCurrentPage()
@@ -164,5 +212,5 @@ function p.ItemIcon()
 	IconFileName = Item['claims']['P3'][1].mainsnak.datavalue['value']
 	
 	return FileName
-end
+end ]==]
 return p
