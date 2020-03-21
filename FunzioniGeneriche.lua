@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2020-03-21T16:56:13+01:00
+-- [P2G] Auto upload by PageToGitHub on 2020-03-21T17:21:48+01:00
 -- [P2G] This code from page Modulo:FunzioniGeneriche
 -- Keyword: wikitrek
 local p = {} --p stands for package
@@ -39,14 +39,13 @@ function p.TableFromArray(AllRows)
 		First = true
 		for _, Field in pairs(Row) do
 			if First then
+				First = false
 				Cell = mw.html.create('th')
-				cell
-					:wikitext('H')
 			else
 				Cell = mw.html.create('td')
-				cell
-					:wikitext('D')
 			end
+			Cell
+				:wikitext(Field)
 			Tr:node(Cell)
 		end
 		Table:node(Tr)
@@ -56,14 +55,15 @@ function p.TableFromArray(AllRows)
 		Text = "Modifica i dati nella [[:datatrek:Item:" .. mw.wikibase.getEntityIdForCurrentPage() .. "|pagina della entità]] su ''DataTrek''"
 	else
 		Text = "Impossibile trovare l'entità collegata"
-	end]==]
+	end
 	
 	Table
 	   :css('font-size', 'smaller')
        :css('text-align', 'right')
        :css('margin', '1px')
-       
-    return  tostring(Table)
+       ]==]
+    --return tostring(Table)
+    return Table
 end
 	
 function p.NoWiki(frame)
