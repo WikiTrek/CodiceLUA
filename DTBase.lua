@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2020-03-21T17:50:14+01:00
+-- [P2G] Auto upload by PageToGitHub on 2020-03-21T18:08:08+01:00
 -- [P2G] This code from page Modulo:DTBase
 -- Keyword: wikitrek
 local p = {}
@@ -202,26 +202,29 @@ function p.GenericValue(Property)
 	
 	return Value
 end
-function p.LabelOrLink(Item)
+function p.LabelOrLink(QItem)
 	local Label
 	local WTLink
 	
-	local Item = mw.wikibase.getEntity(Item)
+	local Item = mw.wikibase.getEntity(QItem)
 	if not Item then
 		return "''Elemento non trovato''"
 	end
 	
-	if not Item['claims']['P20'] then
+	if not Item['claims'] or not Item['claims']['P20'] then
 		Label = Item.labels['it'].value
 	else
 		Label = Item['claims']['P20'][1].mainsnak.datavalue['value']
 	end
 	
-	WTLink = Item.sitelinks['wikitrek'].title
+	if false then
+		return Label
+	end
 	
-	if not WTlink then
+	if not mw.wikibase.getSitelink(QItem) then
 		return Label
 	else
+		WTLink = mw.wikibase.getSitelink(QItem)['title']
 		if not Label then
 			Label = WTLink
 		end
