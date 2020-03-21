@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2020-03-20T17:29:21+01:00
+-- [P2G] Auto upload by PageToGitHub on 2020-03-21T17:50:14+01:00
 -- [P2G] This code from page Modulo:DTBase
 -- Keyword: wikitrek
 local p = {}
@@ -211,13 +211,15 @@ function p.LabelOrLink(Item)
 		return "''Elemento non trovato''"
 	end
 	
-	Label = Item['claims']['P20'][1].mainsnak.datavalue['value']
+	if not Item['claims']['P20'] then
+		Label = Item.labels['it'].value
+	else
+		Label = Item['claims']['P20'][1].mainsnak.datavalue['value']
+	end
+	
 	WTLink = Item.sitelinks['wikitrek'].title
 	
 	if not WTlink then
-		if not Label then
-			Label = Item.labels['it'].value
-		end
 		return Label
 	else
 		if not Label then
