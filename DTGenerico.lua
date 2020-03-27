@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2020-03-21T18:19:25+01:00
+-- [P2G] Auto upload by PageToGitHub on 2020-03-27T17:01:12+01:00
 -- [P2G] This code from page Modulo:DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -44,8 +44,23 @@ function p.ListAllP(frame)
 	AllP = mw.wikibase.orderProperties(Item:getProperties())
 	for _, Property in pairs(AllP) do
 		if not ExcludeP[Property] then
-			local Value = Item['claims'][Property][1].mainsnak.datavalue['value']
-			local Header = mw.wikibase.getLabelByLang(Property, 'it') .. '-' .. Property .. ":"
+			local Header = {Property, mw.wikibase.getLabelByLang(Property, 'it') .. '-' .. Property .. ":"}
+			--local Value = Item['claims'][Property][1].mainsnak.datavalue['value']
+			local Values = Item['claims'][Property]
+			local AccValues = {}
+			for _, Value in pairs(Values) do
+				if (type(Value) == "table") then
+					if Value['entity-type'] == 'item' then
+						AccVAlues[#Accvalues + 1] = LabelOrLink(Value['id'])
+					else
+						AccVAlues[#Accvalues + 1] = 'TABLE'
+					end
+				else
+					AccVAlues[#Accvalues + 1] = Value
+				end
+			end
+			AllRows[#AllRows + 1] = {Header, AccValues}
+			--[==[
 			if (type(Value) == "table") then
 				if Value['entity-type'] == 'item' then
 					AllRows[#AllRows + 1] = {Header, LabelOrLink(Value['id'])} 
@@ -55,6 +70,7 @@ function p.ListAllP(frame)
 			else
 				AllRows[#AllRows + 1] = {Header, Value}
 			end
+			]==]
 		end
 	end
 	
