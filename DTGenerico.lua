@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2020-03-27T17:55:30+01:00
+-- [P2G] Auto upload by PageToGitHub on 2020-03-27T17:59:35+01:00
 -- [P2G] This code from page Modulo:DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -54,7 +54,7 @@ function p.ListAllP(frame)
 					if Value['entity-type'] == 'item' then
 						AccValues[#AccValues + 1] = LabelOrLink(Value['id'])
 					elseif SnakValue.mainsnak.datavalue['type'] == 'time' then
-						AccValues[#AccValues + 1] = os.date('%c', Value['time'])
+						AccValues[#AccValues + 1] = frame:expandTemplate{title = 'TimeL', args = {Tipo='ITEstesa', Istante=Value['time']}}
 					else
 						AccValues[#AccValues + 1] = 'TABLE'
 					end
