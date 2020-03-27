@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2020-03-27T17:01:12+01:00
+-- [P2G] Auto upload by PageToGitHub on 2020-03-27T17:55:30+01:00
 -- [P2G] This code from page Modulo:DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -48,15 +48,18 @@ function p.ListAllP(frame)
 			--local Value = Item['claims'][Property][1].mainsnak.datavalue['value']
 			local Values = Item['claims'][Property]
 			local AccValues = {}
-			for _, Value in pairs(Values) do
+			for _, SnakValue in pairs(Values) do
+				local Value = SnakValue.mainsnak.datavalue['value']
 				if (type(Value) == "table") then
 					if Value['entity-type'] == 'item' then
-						AccVAlues[#Accvalues + 1] = LabelOrLink(Value['id'])
+						AccValues[#AccValues + 1] = LabelOrLink(Value['id'])
+					elseif SnakValue.mainsnak.datavalue['type'] == 'time' then
+						AccValues[#AccValues + 1] = os.date('%c', Value['time'])
 					else
-						AccVAlues[#Accvalues + 1] = 'TABLE'
+						AccValues[#AccValues + 1] = 'TABLE'
 					end
 				else
-					AccVAlues[#Accvalues + 1] = Value
+					AccValues[#AccValues + 1] = Value
 				end
 			end
 			AllRows[#AllRows + 1] = {Header, AccValues}
