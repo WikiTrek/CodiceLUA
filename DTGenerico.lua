@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2020-03-27T17:59:35+01:00
+-- [P2G] Auto upload by PageToGitHub on 2020-03-28T17:58:07+01:00
 -- [P2G] This code from page Modulo:DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -44,7 +44,7 @@ function p.ListAllP(frame)
 	AllP = mw.wikibase.orderProperties(Item:getProperties())
 	for _, Property in pairs(AllP) do
 		if not ExcludeP[Property] then
-			local Header = {Property, mw.wikibase.getLabelByLang(Property, 'it') .. '-' .. Property .. ":"}
+			local Header = {Property, mw.wikibase.getLabelByLang(Property, 'it') .. ":"} --'-' .. Property .. ":"}
 			--local Value = Item['claims'][Property][1].mainsnak.datavalue['value']
 			local Values = Item['claims'][Property]
 			local AccValues = {}
