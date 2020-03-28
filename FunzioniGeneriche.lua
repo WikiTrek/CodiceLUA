@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2020-03-21T17:21:48+01:00
+-- [P2G] Auto upload by PageToGitHub on 2020-03-28T16:35:55+01:00
 -- [P2G] This code from page Modulo:FunzioniGeneriche
 -- Keyword: wikitrek
 local p = {} --p stands for package
@@ -41,11 +41,31 @@ function p.TableFromArray(AllRows)
 			if First then
 				First = false
 				Cell = mw.html.create('th')
+				if (type(Field) == "table") then
+					Cell
+						:attr('id', Field[1])
+						:attr('title', Field[1])
+						:wikitext(Field[2])
+				else
+					Cell
+						:wikitext(Field)
+				end
 			else
 				Cell = mw.html.create('td')
+				if #Field > 1 then
+					List = mw.html.create('ul')
+					for _, Item in pairs(Field) do
+						LI = mw.html.create('li')
+						LI:wikitext(Item)
+						List:node(LI)
+					end
+					Cell:node(List)
+				else
+					Cell
+						:wikitext(Field[1])
+				end
 			end
-			Cell
-				:wikitext(Field)
+			
 			Tr:node(Cell)
 		end
 		Table:node(Tr)
