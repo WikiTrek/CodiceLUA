@@ -1,6 +1,6 @@
--- Auto upload by PageToGitHub on 2020-02-08T15:57:17+01:00
--- This code from page Modulo:DTEpisodio
--- This code comes from Modulo:DTEpisodio
+-- [P2G] Auto upload by PageToGitHub on 2020-03-31T16:22:35+02:00
+-- [P2G] This code from page Modulo:DTEpisodio
+-- Keyword: wikitrek
 local p = {}
 function p.GetActors()
 	-- Personaggio (P10)
@@ -222,6 +222,7 @@ end
 function p.Incipit(frame)
 	local SeasonData = p.SeasonInfoRaw()
 	
-	return frame:expandTemplate{ title = 'DataBoxEpisodio' } .. string.char(10) .. "[[" .. mw.title.getCurrentTitle().text .. "]] è un episodio della stagione " .. SeasonData.SeasonNumber .. " di ''[[" .. SeasonData.SeriesName .. "]]''." .. string.char(10)
+	--return frame:expandTemplate{ title = 'DataBoxEpisodio' } .. string.char(10) .. "[[" .. mw.title.getCurrentTitle().text .. "]] è un episodio della stagione " .. SeasonData.SeasonNumber .. " di ''[[" .. SeasonData.SeriesName .. "]]''." .. string.char(10)
+	return "[[" .. mw.title.getCurrentTitle().text .. "]] è un episodio della stagione " .. SeasonData.SeasonNumber .. " di ''[[" .. SeasonData.SeriesName .. "]]''." .. string.char(10)
 end
 return p
