@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2020-03-31T16:22:35+02:00
+-- [P2G] Auto upload by PageToGitHub on 2020-03-31T17:29:44+02:00
 -- [P2G] This code from page Modulo:DTEpisodio
 -- Keyword: wikitrek
 local p = {}
@@ -29,16 +29,12 @@ function p.GetActors()
 		local CharLabel
 		local CharLabelEntity
 		local CharLink
+		local MakeWikiLink
 		if statement['qualifiers']['P10'] then
 			CharQ = statement['qualifiers']['P10'][1].datavalue['value']['id']
 			CharEntity = mw.wikibase.getEntity(CharQ)
 			CharLabelEntity = CharEntity:getLabel()
 			
-			if statement['qualifiers']['P20'] then
-				CharLabel = statement['qualifiers']['P20'][1].datavalue['value']
-			else
-				CharLabel = CharLabelEntity
-			end
 			--[==[
 			CharLink = mw.wikibase.getSitelink(CharQ)
 			if not CharLink then
@@ -46,9 +42,15 @@ function p.GetActors()
 			end]==]
 			
 			CharLink = mw.wikibase.getSitelink(CharQ) or CharLabelEntity
-			
+			MakeWikiLink = true
 		else
-			CharLabel = "''Sconosciuto''"
+			MakeWikiLink = false
+		end
+		
+		if statement['qualifiers']['P20'] then
+			CharLabel = statement['qualifiers']['P20'][1].datavalue['value']
+		else
+			CharLabel = CharLabelEntity
 		end
 				
 		local Prefix
@@ -72,7 +74,11 @@ function p.GetActors()
 			AppearanceType = "''Nessun tipo''"
 		end
 		
-		Result['Character'] = Prefix .. '[[' .. CharLink .. '|' .. CharLabel .. ']]' .. Suffix
+		if MakeWikiLink then
+			Result['Character'] = Prefix .. '[[' .. CharLink .. '|' .. CharLabel .. ']]' .. Suffix
+		else
+			Result['Character'] = Prefix .. CharLabel .. Suffix
+		end
 		Result['Actor'] = '[[' .. actorLabel .. ']]'
 		Result['Type'] = AppearanceType
 		
