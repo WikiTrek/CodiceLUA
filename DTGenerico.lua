@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2020-04-04T16:20:26+02:00
+-- [P2G] Auto upload by PageToGitHub on 2020-04-04T16:47:14+02:00
 -- [P2G] This code from page Modulo:DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -90,7 +90,7 @@ function p.Incipit(frame)
 	--local SeasonData = p.SeasonInfoRaw()
 	
 	--return frame:expandTemplate{ title = 'DataBoxEpisodio' } .. string.char(10) .. "[[" .. mw.title.getCurrentTitle().text .. "]] è un episodio della stagione " .. SeasonData.SeasonNumber .. " di ''[[" .. SeasonData.SeriesName .. "]]''." .. string.char(10)
-	return "'''[[" .. mw.title.getCurrentTitle().text .. "]]''' è un " .. mw.wikibase.getLabelByLang(p.QFromP('P14'), 'it') .. string.char(10)
+	return "'''{{{PageName}}}''' è un " .. mw.wikibase.getLabelByLang(p.QFromP('P14'), 'it') .. string.char(10)
 end
 	
 --[==[
