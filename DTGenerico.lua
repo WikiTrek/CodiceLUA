@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2020-04-04T17:03:59+02:00
+-- [P2G] Auto upload by PageToGitHub on 2020-04-04T17:50:05+02:00
 -- [P2G] This code from page Modulo:DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -12,6 +12,24 @@ function p.QFromP(Property)
 	end
 	
 	return Item['claims'][Property][1].mainsnak.datavalue['value']['id']
+end
+function p.DIVImage(frame)
+	local ImageFileName
+	
+	local Item = mw.wikibase.getEntity()
+	if not Item then
+		Item = mw.wikibase.getEntity('Q1')
+	end
+	
+	local Markup
+	if Item['claims']['P37'] then
+		Markup = "<div class='separatorebox'>'''Immagine'''</div>" ..  "<div class='contenitoreimgbox'>[[File:" .. Item['claims']['P37'][1].mainsnak.datavalue['value'] .. "|100%]]</div>"
+	else
+		Markup = ""
+	end
+	
+	return Markup
+
 end
 function p.Title(frame)
 	-- |FileIcona=dsg.png
