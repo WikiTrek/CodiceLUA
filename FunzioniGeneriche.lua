@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2020-03-28T16:35:55+01:00
+-- [P2G] Auto upload by PageToGitHub on 2020-04-11T17:11:16+02:00
 -- [P2G] This code from page Modulo:FunzioniGeneriche
 -- Keyword: wikitrek
 local p = {} --p stands for package
@@ -7,6 +7,7 @@ function p.EsempioTemplate(frame)
     local SubPageName
     local SubPageTitle
     local Title
+    local Content
     local pre = mw.html.create('pre')
     local DoubleLF = string.char(10) .. string.char(10)
 
@@ -23,10 +24,16 @@ function p.EsempioTemplate(frame)
     local CodeString = 'Il codice'
     local ReturnString = 'restituisce'
 
-    pre
-       :css( 'width', '65%' )
-       :wikitext(mw.text.nowiki(SubPageTitle:getContent()))
-    return  Intro .. DoubleLF .. CodeString .. DoubleLF .. tostring(pre) .. DoubleLF  .. ReturnString .. DoubleLF .. frame:expandTemplate{ title = SubPageTitle }
+	Content = SubPageTitle:getContent()
+	
+	if not Content then
+		return "La pagina <code>[[" .. SubPageTitle.prefixedText .. "]]</code> non esiste: non è possibile estrarre il testo e generare l'esempio"
+	else
+		pre
+			:css( 'width', '65%' )
+			:wikitext(mw.text.nowiki())
+    	return  Intro .. DoubleLF .. CodeString .. DoubleLF .. tostring(pre) .. DoubleLF  .. ReturnString .. DoubleLF .. frame:expandTemplate{ title = SubPageTitle }
+    end
 end
 function p.TableFromArray(AllRows)
 	local Table = mw.html.create('table')
