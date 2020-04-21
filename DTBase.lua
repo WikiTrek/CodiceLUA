@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2020-03-21T18:08:08+01:00
+-- [P2G] Auto upload by PageToGitHub on 2020-04-21T19:07:22+02:00
 -- [P2G] This code from page Modulo:DTBase
 -- Keyword: wikitrek
 local p = {}
@@ -18,8 +18,15 @@ function p.ExtLinks(frame)
 	for _, LinkStatement in pairs(LinksStatements) do
 		local LinkURI = LinkStatement.mainsnak.datavalue['value']
 		local LinkTitle = LinkStatement['qualifiers']['P20'][1].datavalue['value']
-		local LinkID = LinkStatement['qualifiers']['P19'][1].datavalue['value']
-		local LinkWiki = "[" .. LinkURI .. " ''" .. mw.text.nowiki(LinkTitle) .. "''], " .. LinkID
+		local LinkID
+		local LinkWiki
+		
+		LinkID = LinkStatement['qualifiers']['P19'][1].datavalue['value']
+		if not LinkID then
+			LinkWiki = frame:expandTemplate{Title='LinkTrek', args={LinkURI, LinkTitle}}
+		else
+			LinkWiki = "[" .. LinkURI .. " ''" .. mw.text.nowiki(LinkTitle) .. "''], " .. LinkID
+		end
 		
 		if not AllRows then
 			AllRows = "* " .. LinkWiki
@@ -169,7 +176,13 @@ function p.ItemIconCascade()
 	
 	-- TODO
 	-- Studiare come cercare l'icona nella P3 in ordine nella Q se esite, nel "TIPO", se esiste, oppure nella "ISTANZA"
-	IconFileName = Item['claims']['P3'][1].mainsnak.datavalue['value']
+	if Item['claims']['P3'] then
+		IconFileName = Item['claims']['P3'][1].mainsnak.datavalue['value']
+	elseif Item['claims']['P22'] then
+		IconFileName = mw.wikibase.getEntity(Item['claims']['P22'][1].mainsnak.datavalue.value.id)['claims']['P3'][1].mainsnak.datavalue['value']
+	else 
+		IconFileName = mw.wikibase.getEntity(Item['claims']['P14'][1].mainsnak.datavalue.value.id)['claims']['P3'][1].mainsnak.datavalue['value']
+	end
 	
 	return IconFileName
 end
@@ -224,7 +237,7 @@ function p.LabelOrLink(QItem)
 	if not mw.wikibase.getSitelink(QItem) then
 		return Label
 	else
-		WTLink = mw.wikibase.getSitelink(QItem)['title']
+		WTLink = Item.sitelinks['wikitrek'].title
 		if not Label then
 			Label = WTLink
 		end
