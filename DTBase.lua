@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2020-04-21T19:08:40+02:00
+-- [P2G] Auto upload by PageToGitHub on 2020-04-21T19:12:59+02:00
 -- [P2G] This code from page Modulo:DTBase
 -- Keyword: wikitrek
 local p = {}
@@ -23,7 +23,7 @@ function p.ExtLinks(frame)
 		
 		
 		if not LinkStatement['qualifiers']['P19'] then
-			LinkWiki = frame:expandTemplate{Title='LinkTrek', args={LinkURI, LinkTitle}}
+			LinkWiki = frame:expandTemplate{title='LinkTrek', args={LinkURI, LinkTitle}}
 		else
 			LinkID = LinkStatement['qualifiers']['P19'][1].datavalue['value']
 			LinkWiki = "[" .. LinkURI .. " ''" .. mw.text.nowiki(LinkTitle) .. "''], " .. LinkID
