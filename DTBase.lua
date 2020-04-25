@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2020-04-21T19:12:59+02:00
+-- [P2G] Auto upload by PageToGitHub on 2020-04-25T18:11:39+02:00
 -- [P2G] This code from page Modulo:DTBase
 -- Keyword: wikitrek
 local p = {}
@@ -21,7 +21,6 @@ function p.ExtLinks(frame)
 		local LinkID
 		local LinkWiki
 		
-		
 		if not LinkStatement['qualifiers']['P19'] then
 			LinkWiki = frame:expandTemplate{title='LinkTrek', args={LinkURI, LinkTitle}}
 		else
@@ -37,11 +36,11 @@ function p.ExtLinks(frame)
 	end
 	
 	if not AllRows then
-		AllRows = "''Nessun collegamento esterno trovato su DataTrek''"
+		AllRows = "''Nessun collegamento generico [[:datatrek:Item:" .. mw.wikibase.getEntityIdForCurrentPage() .. "|trovato su DataTrek]]''"
 	end
 		
 	--return AllRows .. string.char(10) .. string.char(10) .. "=== Interwiki ===" .. string.char(10) .. "* " .. frame:expandTemplate{title = 'InterlinkMA', args = {Nome=Item:getSitelink("enma")}} .. string.char(10) .. p.SiteLinksInterwiki()
-	return AllRows .. string.char(10) .. string.char(10) .. "=== Interwiki ===" .. string.char(10) .. p.SiteLinksInterwiki()
+	return AllRows .. string.char(10) .. string.char(10) .. "=== Interwiki ===" .. string.char(10) .. p.SiteLinksInterwiki() .. string.char(10) .. "=== Identificativi esterni ===" .. string.char(10) .. p.ExternalID()
 end
 function p.Categories(frame)
 	local Opening = '[[Categoria:'
@@ -101,13 +100,7 @@ function p.SiteLinksInterwiki()
 	}
 	for _, SiteLink in pairs(SiteLinks) do
 		local TitleLabel
-		--[===[
-		if not Titles[SiteLink['site']] then
-			TitleLabel = SiteLink['site']
-		else
-			TitleLabel = Titles[SiteLink['site']]
-		end
-		]===]
+		
 		TitleLabel = Titles[SiteLink['site']] or SiteLink['site']
 		
 		if string.find(string.lower(TitleLabel), 'datatrek') then
@@ -121,6 +114,23 @@ function p.SiteLinksInterwiki()
 	end
 	
 	return table.concat(AllLinks, string.char(10))
+end
+function p.ExternalID()
+	local AllExtID = {}
+	local Item = mw.wikibase.getEntity()
+	local AllP
+	if not Item then
+		Item = mw.wikibase.getEntity('Q1')
+	end
+	
+	AllP = mw.wikibase.orderProperties(Item:getProperties())
+	for _, Property in pairs(AllP) do
+		if Item.claims[Property][1].mainsnak.datatype == 'external-id' then
+			AllExtID[#AllExtID + 1] = "* " .. Item.claims[Property][1].mainsnak.datavalue.value -- [[:" .. SiteLink['site'] .. ":" .. SiteLink['title'] .. "|''" .. SiteLink['title'] .. "'']], " .. TitleLabel
+		end
+	end
+	
+	return table.concat(AllExtID, string.char(10))
 end
 function p.LinkToEntity(frame)
 	-- La URI si otterrebbe con
@@ -175,13 +185,14 @@ function p.ItemIconCascade()
 		Item = mw.wikibase.getEntity('Q1')
 	end
 	
-	-- TODO
-	-- Studiare come cercare l'icona nella P3 in ordine nella Q se esite, nel "TIPO", se esiste, oppure nella "ISTANZA"
 	if Item['claims']['P3'] then
+		-- Item icon has higher priority
 		IconFileName = Item['claims']['P3'][1].mainsnak.datavalue['value']
 	elseif Item['claims']['P22'] then
+		-- Else takes icon from "TIPO"
 		IconFileName = mw.wikibase.getEntity(Item['claims']['P22'][1].mainsnak.datavalue.value.id)['claims']['P3'][1].mainsnak.datavalue['value']
 	else 
+		-- If everything fails, takes icon from "ISTANZA"
 		IconFileName = mw.wikibase.getEntity(Item['claims']['P14'][1].mainsnak.datavalue.value.id)['claims']['P3'][1].mainsnak.datavalue['value']
 	end
 	
