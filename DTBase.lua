@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2020-04-25T18:11:39+02:00
+-- [P2G] Auto upload by PageToGitHub on 2020-04-26T22:04:42+02:00
 -- [P2G] This code from page Modulo:DTBase
 -- Keyword: wikitrek
 local p = {}
@@ -126,11 +126,18 @@ function p.ExternalID()
 	AllP = mw.wikibase.orderProperties(Item:getProperties())
 	for _, Property in pairs(AllP) do
 		if Item.claims[Property][1].mainsnak.datatype == 'external-id' then
-			AllExtID[#AllExtID + 1] = "* " .. Item.claims[Property][1].mainsnak.datavalue.value -- [[:" .. SiteLink['site'] .. ":" .. SiteLink['title'] .. "|''" .. SiteLink['title'] .. "'']], " .. TitleLabel
+			AllExtID[#AllExtID + 1] = "* ["  .. p.ExtIDLink(Property, Item.claims[Property][1].mainsnak.datavalue.value) .. " ''" .. Item.claims[Property][1].mainsnak.datavalue.value .. "''], " .. (mw.wikibase.getLabelByLang(Property, 'it') or mw.wikibase.getLabel(Property)) -- [[:" .. SiteLink['site'] .. ":" .. SiteLink['title'] .. "|''" .. SiteLink['title'] .. "'']], " .. TitleLabel
 		end
 	end
 	
 	return table.concat(AllExtID, string.char(10))
+end
+function p.ExtIDLink(Property, Value)
+	local ExtIDP = 'P5'
+	local URL
+	
+	URL = mw.wikibase.getEntity(Property).claims[ExtIDP][1].mainsnak.datavalue.value
+	return string.gsub(URL, '$1', Value)
 end
 function p.LinkToEntity(frame)
 	-- La URI si otterrebbe con
