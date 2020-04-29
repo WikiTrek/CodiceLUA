@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2020-04-29T18:13:41+02:00
+-- [P2G] Auto upload by PageToGitHub on 2020-04-29T22:59:41+02:00
 -- [P2G] This code from page Modulo:DTBase
 -- Keyword: wikitrek
 local p = {}
@@ -294,16 +294,20 @@ function p.MakeNavTable(Item, Title)
 	if not Item["P7"] then
 		Previous = "no prev"
 	else
-		Previous = Item["P7"][1].datavalue.value
+		Previous = Item["P7"][1].datavalue.value.id
 	end
+	
 	if not Item["P23"] then
-		Next = "no prev"
+		Next = "no next"
 	else
-		Next = Item["P23"][1].datavalue.value
+		Next = Item["P23"][1].datavalue.value.id
 	end
 	
 	Table = "<div class='separatorebox'>'''" .. Title .. "'''</div>"
-	Table = Table .. "{{{!}} class='wikitable' style='width:100%'!< Precedente!Successivo >{{!}}-{{!}} style='text-align:center; width:50%;'' {{!}}{{#invoke:DTEpisodio|LinkPrevious}}{{!}} style='text-align:center;' {{!}}{{#invoke:DTEpisodio|LinkNext}}{{!}}}"
+	Table = Table .. string.char(10) .. "<table class='wikitable' style='width:100%'>"
+	Table = Table .. string.char(10) .. "<tr><th>&lt; Precedente</th><th>Successivo &gt;</th></tr>"
+	Table = Table .. string.char(10) .. "<tr><td style='text-align:center; width:50%;'>" .. Previous .. "</td>"
+	Table = Table .. string.char(10) .. "<tr><td style='text-align:center; width:50%;'>" .. Next .. "</td></tr>"
 	
 	return Table
 end
