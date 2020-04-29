@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2020-04-29T21:45:17+02:00
+-- [P2G] Auto upload by PageToGitHub on 2020-04-29T21:51:01+02:00
 -- [P2G] This code from page Modulo:DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -72,7 +72,7 @@ function p.ListAllP(frame)
 				CollectionTable = string.char(10) .. MakeNavTable(Item.claims[Property][1].qualifiers, Item.claims[Property][1].mainsnak.datavalue.value)
 			elseif (Property == "P7" or Property == "P23") and CollectionTable == '' then
 				--Previous or Next
-				CollectionTable = string.char(10) .. MakeNavTable(Item.claims[Property][1].qualifiers, Item.claims[Property][1].mainsnak.datavalue.value)
+				CollectionTable = string.char(10) .. MakeNavTable(Item.claims, Item.claims[Property][1].mainsnak.datavalue.value)
 			else
 				local Header = {Property, (mw.wikibase.getLabelByLang(Property, 'it') or mw.wikibase.getLabel(Property)) .. ":"} -- or {Property, mw.wikibase.getLabel(Property) .. ":"} --'-' .. Property .. ":"}
 				local Values = Item['claims'][Property]
@@ -102,7 +102,7 @@ function p.ListAllP(frame)
 	
 	-- return table.concat(AllRows, "<br />" .. string.char(10)) .. string.char(10)
 	-- return HTMLTable
-	return tostring(HTMLTable .. CollectionTable)
+	return tostring(HTMLTable) .. CollectionTable
 end
 function p.Incipit(frame)
 	--local SeasonData = p.SeasonInfoRaw()
