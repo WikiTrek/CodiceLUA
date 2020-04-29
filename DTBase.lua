@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2020-04-29T22:59:41+02:00
+-- [P2G] Auto upload by PageToGitHub on 2020-04-29T23:01:15+02:00
 -- [P2G] This code from page Modulo:DTBase
 -- Keyword: wikitrek
 local p = {}
@@ -307,7 +307,8 @@ function p.MakeNavTable(Item, Title)
 	Table = Table .. string.char(10) .. "<table class='wikitable' style='width:100%'>"
 	Table = Table .. string.char(10) .. "<tr><th>&lt; Precedente</th><th>Successivo &gt;</th></tr>"
 	Table = Table .. string.char(10) .. "<tr><td style='text-align:center; width:50%;'>" .. Previous .. "</td>"
-	Table = Table .. string.char(10) .. "<tr><td style='text-align:center; width:50%;'>" .. Next .. "</td></tr>"
+	Table = Table .. string.char(10) .. "<td style='text-align:center; width:50%;'>" .. Next .. "</td></tr>"
+	Table = Table .. string.char(10) .. "</table>"
 	
 	return Table
 end
