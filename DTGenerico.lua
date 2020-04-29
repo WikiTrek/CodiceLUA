@@ -1,9 +1,11 @@
--- [P2G] Auto upload by PageToGitHub on 2020-04-04T17:50:05+02:00
+-- [P2G] Auto upload by PageToGitHub on 2020-04-29T21:45:17+02:00
 -- [P2G] This code from page Modulo:DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
 local LabelOrLink = require('Modulo:DTBase').LabelOrLink
 local GenericValue = require('Modulo:DTBase').GenericValue
+local MakeNavTable = require('Modulo:DTBase').MakeNavTable
+
 local p = {}
 function p.QFromP(Property)
 	local Item = mw.wikibase.getEntity()
@@ -54,6 +56,7 @@ function p.ListAllP(frame)
 	local AllP
 	local AllRows = {}
 	local HTMLTable
+	local CollectionTable = ''
 	local ExcludeP = {P37 = true, P3 = true, P26 = true}
 	local Item = mw.wikibase.getEntity()
 	if not Item then
@@ -61,38 +64,35 @@ function p.ListAllP(frame)
 	end
 	
 	AllP = mw.wikibase.orderProperties(Item:getProperties())
+	AllRows[#AllRows + 1] = {"Titolo italiano", {mw.wikibase.getLabel()}}
 	for _, Property in pairs(AllP) do
-		if not ExcludeP[Property] then
-			local Header = {Property, mw.wikibase.getLabelByLang(Property, 'it') .. ":"} --'-' .. Property .. ":"}
-			--local Value = Item['claims'][Property][1].mainsnak.datavalue['value']
-			local Values = Item['claims'][Property]
-			local AccValues = {}
-			for _, SnakValue in pairs(Values) do
-				local Value = SnakValue.mainsnak.datavalue['value']
-				if (type(Value) == "table") then
-					if Value['entity-type'] == 'item' then
-						AccValues[#AccValues + 1] = LabelOrLink(Value['id'])
-					elseif SnakValue.mainsnak.datavalue['type'] == 'time' then
-						AccValues[#AccValues + 1] = frame:expandTemplate{title = 'TimeL', args = {Tipo='ITEstesa', Istante=Value['time']}}
-					else
-						AccValues[#AccValues + 1] = 'TABLE'
-					end
-				else
-					AccValues[#AccValues + 1] = Value
-				end
-			end
-			AllRows[#AllRows + 1] = {Header, AccValues}
-			--[==[
-			if (type(Value) == "table") then
-				if Value['entity-type'] == 'item' then
-					AllRows[#AllRows + 1] = {Header, LabelOrLink(Value['id'])} 
-				else
-					AllRows[#AllRows + 1] = {Header, 'TABLE'}
-				end
+		if (not ExcludeP[Property]) and Item.claims[Property][1].mainsnak.datatype ~= 'external-id' then
+			if Property == "P46" then
+				-- Collection
+				CollectionTable = string.char(10) .. MakeNavTable(Item.claims[Property][1].qualifiers, Item.claims[Property][1].mainsnak.datavalue.value)
+			elseif (Property == "P7" or Property == "P23") and CollectionTable == '' then
+				--Previous or Next
+				CollectionTable = string.char(10) .. MakeNavTable(Item.claims[Property][1].qualifiers, Item.claims[Property][1].mainsnak.datavalue.value)
 			else
-				AllRows[#AllRows + 1] = {Header, Value}
+				local Header = {Property, (mw.wikibase.getLabelByLang(Property, 'it') or mw.wikibase.getLabel(Property)) .. ":"} -- or {Property, mw.wikibase.getLabel(Property) .. ":"} --'-' .. Property .. ":"}
+				local Values = Item['claims'][Property]
+				local AccValues = {}
+				for _, SnakValue in pairs(Values) do
+					local Value = SnakValue.mainsnak.datavalue['value']
+					if (type(Value) == "table") then
+						if Value['entity-type'] == 'item' then
+							AccValues[#AccValues + 1] = LabelOrLink(Value['id'])
+						elseif SnakValue.mainsnak.datavalue['type'] == 'time' then
+							AccValues[#AccValues + 1] = frame:expandTemplate{title = 'TimeL', args = {Tipo='ITEstesa', Istante=Value['time']}}
+						else
+							AccValues[#AccValues + 1] = 'TABLE'
+						end
+					else
+						AccValues[#AccValues + 1] = Value
+					end
+				end
+				AllRows[#AllRows + 1] = {Header, AccValues}
 			end
-			]==]
 		end
 	end
 	
@@ -102,7 +102,7 @@ function p.ListAllP(frame)
 	
 	-- return table.concat(AllRows, "<br />" .. string.char(10)) .. string.char(10)
 	-- return HTMLTable
-	return tostring(HTMLTable)
+	return tostring(HTMLTable .. CollectionTable)
 end
 function p.Incipit(frame)
 	--local SeasonData = p.SeasonInfoRaw()
