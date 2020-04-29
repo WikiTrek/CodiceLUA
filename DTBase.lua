@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2020-04-26T22:04:42+02:00
+-- [P2G] Auto upload by PageToGitHub on 2020-04-29T18:13:41+02:00
 -- [P2G] This code from page Modulo:DTBase
 -- Keyword: wikitrek
 local p = {}
@@ -262,5 +262,49 @@ function p.LabelOrLink(QItem)
 		end
 		return "[[" .. WTLink .. "|" .. Label .. "]]"
 	end
+end
+--- Three dashes indicate the beginning of a function or field documented
+-- using the LDoc format
+-- @param Item Father of Previous and Next
+-- @param[opt="Navigatore"]
+-- @return Table
+function p.MakeNavTable(Item, Title)
+--[[
+<div class="separatorebox">
+'''Navigatore episodi'''
+</div>
+{{{!}} class="wikitable" style="width:100%"
+<!-- {{!}}+ Navigatore episodi -->
+!< Precedente
+!Successivo >
+{{!}}-
+{{!}} style="text-align:center; width:50%;" {{!}}{{#invoke:DTEpisodio|LinkPrevious}}
+{{!}} style="text-align:center;" {{!}}{{#invoke:DTEpisodio|LinkNext}}
+{{!}}}
+]]
+	local Previous
+	local Next
+	local Table
+	
+	Title = Title or "Navigatore"
+	if not Item then
+		Item = mw.wikibase.getEntity("Q1")
+	end
+	
+	if not Item["P7"] then
+		Previous = "no prev"
+	else
+		Previous = Item["P7"][1].datavalue.value
+	end
+	if not Item["P23"] then
+		Next = "no prev"
+	else
+		Next = Item["P23"][1].datavalue.value
+	end
+	
+	Table = "<div class='separatorebox'>'''" .. Title .. "'''</div>"
+	Table = Table .. "{{{!}} class='wikitable' style='width:100%'!< Precedente!Successivo >{{!}}-{{!}} style='text-align:center; width:50%;'' {{!}}{{#invoke:DTEpisodio|LinkPrevious}}{{!}} style='text-align:center;' {{!}}{{#invoke:DTEpisodio|LinkNext}}{{!}}}"
+	
+	return Table
 end
 return p
