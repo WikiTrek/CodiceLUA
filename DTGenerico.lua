@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2020-05-03T21:38:11+02:00
+-- [P2G] Auto upload by PageToGitHub on 2020-05-03T21:48:29+02:00
 -- [P2G] This code from page Modulo:DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -64,8 +64,8 @@ function p.ListAllP(frame)
 	end
 	
 	AllP = mw.wikibase.orderProperties(Item:getProperties())
-	if (mw.wikibase.getLabelByLang(Item, 'it')) then
-		AllRows[#AllRows + 1] = {"Titolo italiano:", {mw.wikibase.getLabelByLang(Item, 'it')}}
+	if (mw.wikibase.getLabelByLang(mw.wikibase.getEntityIdForCurrentPage, 'it')) then
+		AllRows[#AllRows + 1] = {"Titolo italiano:", {mw.wikibase.getLabelByLang(mw.wikibase.getEntityIdForCurrentPage, 'it')}}
 	end
 	for _, Property in pairs(AllP) do
 		if (not ExcludeP[Property]) and Item.claims[Property][1].mainsnak.datatype ~= 'external-id' then
