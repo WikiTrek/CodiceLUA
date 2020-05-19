@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2020-05-20T00:08:52+02:00
+-- [P2G] Auto upload by PageToGitHub on 2020-05-20T00:16:21+02:00
 -- [P2G] This code from page Modulo:DTBase
 -- Keyword: wikitrek
 local p = {}
@@ -180,7 +180,7 @@ function p.LabelByLang2(frame)
 	local Lang = frame.args['Lingua']
 	local Item = frame.args['Item']
 	if not Lang then
-		Item = 'it'
+		Lang = 'it'
 	end
 	
 	if not Item then
