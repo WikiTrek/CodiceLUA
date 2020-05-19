@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2020-05-19T23:27:24+02:00
+-- [P2G] Auto upload by PageToGitHub on 2020-05-20T00:08:52+02:00
 -- [P2G] This code from page Modulo:DTBase
 -- Keyword: wikitrek
 local p = {}
@@ -170,6 +170,22 @@ end
 function p.LabelByLang(frame)
 	local Item = mw.wikibase.getEntityIdForCurrentPage()
 	local Lang = frame.args['Lingua']
+	if not Item then
+		Item = 'Q1'
+	end
+	
+	return mw.wikibase.getLabelByLang(Item, Lang)
+end
+function p.LabelByLang2(frame)
+	local Lang = frame.args['Lingua']
+	local Item = frame.args['Item']
+	if not Lang then
+		Item = 'it'
+	end
+	
+	if not Item then
+		Item = mw.wikibase.getEntityIdForCurrentPage()
+	end
 	if not Item then
 		Item = 'Q1'
 	end
