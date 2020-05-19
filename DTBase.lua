@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2020-05-03T18:53:28+02:00
+-- [P2G] Auto upload by PageToGitHub on 2020-05-19T23:17:13+02:00
 -- [P2G] This code from page Modulo:DTBase
 -- Keyword: wikitrek
 local p = {}
@@ -139,15 +139,23 @@ function p.ExtIDLink(Property, Value)
 	URL = mw.wikibase.getEntity(Property).claims[ExtIDP][1].mainsnak.datavalue.value
 	return string.gsub(URL, '$1', Value)
 end
-function p.LinkToEntity(frame)
+function p.LinkToEntity(frame, AddSemantic)
 	-- La URI si otterrebbe con
 	-- mw.wikibase.getEntityUrl()
 	-- ma noi usiamo uno InterWiki link
 	local Text
 	local p = mw.html.create('p')
 	
+	if not AddSemantic then
+		AddSemantic = true
+	end
+	
 	if mw.wikibase.getEntity() then
-		Text = "Modifica i dati nella [[:datatrek:Item:" .. mw.wikibase.getEntityIdForCurrentPage() .. "|pagina della entità]] su ''DataTrek''"
+		if AddSemantic then
+			Text = "Modifica i dati nella [[WikiBase ID::datatrek:Item:" .. mw.wikibase.getEntityIdForCurrentPage() .. "|pagina della entità]] su ''DataTrek''"
+		else
+			Text = "Modifica i dati nella [[datatrek:Item:" .. mw.wikibase.getEntityIdForCurrentPage() .. "|pagina della entità]] su ''DataTrek''"
+		end
 	else
 		Text = "Impossibile trovare l'entità collegata"
 	end
