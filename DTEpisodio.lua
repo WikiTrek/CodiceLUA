@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2020-03-31T17:29:44+02:00
+-- [P2G] Auto upload by PageToGitHub on 2020-05-19T23:40:04+02:00
 -- [P2G] This code from page Modulo:DTEpisodio
 -- Keyword: wikitrek
 local p = {}
@@ -86,17 +86,28 @@ function p.GetActors()
 	end
 	return results
 end
-function p.ListFirstAir(frame)
+function p.ListFirstAir(frame, AddSemantic)
 	local CurrItem = mw.wikibase.getEntityIdForCurrentPage()
 	if not CurrItem then
 		CurrItem = 'Q1'
+	end
+	
+	if not AddSemantic then
+		AddSemantic = true
 	end
 	
 	local Results = {}
 	local Statements = mw.wikibase.getAllStatements(CurrItem, 'P2')
 	for _, Statement in pairs(Statements) do
 		local Result
-		Result = '<li>' .. frame:expandTemplate{ title = 'TimeL', args = {Tipo='ITEstesa', Istante=Statement['mainsnak'].datavalue['value'].time} } .. " su ''" .. Statement['qualifiers']['P4'][1].datavalue['value'] .. "'' (" .. Statement['qualifiers']['P34'][1].datavalue['value'] .. ")</li>"
+		local DateLabel
+		if AddSemantic then
+			DateLabel = "[[Data di trasmissione::" .. frame:expandTemplate{ title = 'TimeL', args = {Tipo='ITEstesa', Istante=Statement['mainsnak'].datavalue['value'].time} } .. "]]"
+		else
+			DateLabel = frame:expandTemplate{ title = 'TimeL', args = {Tipo='ITEstesa', Istante=Statement['mainsnak'].datavalue['value'].time} }
+		end
+		
+		Result = '<li>' .. DateLabel .. " su ''" .. Statement['qualifiers']['P4'][1].datavalue['value'] .. "'' (" .. Statement['qualifiers']['P34'][1].datavalue['value'] .. ")</li>"
 		
 		Results[#Results + 1] = Result
 	end
