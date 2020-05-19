@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2020-05-19T23:17:13+02:00
+-- [P2G] Auto upload by PageToGitHub on 2020-05-19T23:27:24+02:00
 -- [P2G] This code from page Modulo:DTBase
 -- Keyword: wikitrek
 local p = {}
@@ -152,7 +152,7 @@ function p.LinkToEntity(frame, AddSemantic)
 	
 	if mw.wikibase.getEntity() then
 		if AddSemantic then
-			Text = "Modifica i dati nella [[WikiBase ID::datatrek:Item:" .. mw.wikibase.getEntityIdForCurrentPage() .. "|pagina della entità]] su ''DataTrek''"
+			Text = "Modifica i dati nella [[DataTrek ID::datatrek:Item:" .. mw.wikibase.getEntityIdForCurrentPage() .. "|pagina della entità]] su ''DataTrek''"
 		else
 			Text = "Modifica i dati nella [[datatrek:Item:" .. mw.wikibase.getEntityIdForCurrentPage() .. "|pagina della entità]] su ''DataTrek''"
 		end
