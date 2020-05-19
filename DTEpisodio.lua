@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2020-05-19T23:40:04+02:00
+-- [P2G] Auto upload by PageToGitHub on 2020-05-19T23:45:21+02:00
 -- [P2G] This code from page Modulo:DTEpisodio
 -- Keyword: wikitrek
 local p = {}
@@ -102,7 +102,7 @@ function p.ListFirstAir(frame, AddSemantic)
 		local Result
 		local DateLabel
 		if AddSemantic then
-			DateLabel = "[[Data di trasmissione::" .. frame:expandTemplate{ title = 'TimeL', args = {Tipo='ITEstesa', Istante=Statement['mainsnak'].datavalue['value'].time} } .. "]]"
+			DateLabel = "[[Data di trasmissione::" .. Statement['mainsnak'].datavalue['value'].time .. "|" .. frame:expandTemplate{ title = 'TimeL', args = {Tipo='ITEstesa', Istante=Statement['mainsnak'].datavalue['value'].time} } .. "]]"
 		else
 			DateLabel = frame:expandTemplate{ title = 'TimeL', args = {Tipo='ITEstesa', Istante=Statement['mainsnak'].datavalue['value'].time} }
 		end
