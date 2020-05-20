@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2020-05-20T23:21:52+02:00
+-- [P2G] Auto upload by PageToGitHub on 2020-05-20T23:25:55+02:00
 -- [P2G] This code from page Modulo:DTSem
 -- Keyword: wikitrek
 local p = {}
@@ -6,13 +6,13 @@ function p.TypeFromDT(frame)
 	local Item
 	local Type
 	
-	Item = mw.wikibase.getEntityIdForCurrentPage()
+	Item = mw.wikibase.getEntity()
 	
 	if not Item then
-		Item = frame.args['Item']
+		Item = mw.wikibase.getEntity(frame.args['Item'])
 	end
 	if not Item then
-		Item = 'Q1'
+		Item = mw.wikibase.getEntity('Q1')
 	end
 	
 	Type = Item['claims']['P49'][1].mainsnak.datavalue.value
