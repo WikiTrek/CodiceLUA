@@ -1,10 +1,10 @@
--- [P2G] Auto upload by PageToGitHub on 2020-05-20T23:48:35+02:00
+-- [P2G] Auto upload by PageToGitHub on 2020-05-20T23:57:58+02:00
 -- [P2G] This code from page Modulo:DTEpisodio
 -- Keyword: wikitrek
 local LabelOrLink = require('Modulo:DTBase').LabelOrLink
 
 local p = {}
-function p.GetActors()
+function p.GetActors(AddSemantic)
 	-- Personaggio (P10)
 	-- Prefisso (P15)
 	-- Interpreti (P21)
@@ -12,6 +12,11 @@ function p.GetActors()
 	if not item then
 		item = 'Q1'
 	end
+	
+	if not AddSemantic then
+		AddSemantic = true
+	end
+	
 	if not item then return ':-(' end
 	local results = {}
 	local statements = mw.wikibase.getAllStatements(item, 'P21')
@@ -81,7 +86,12 @@ function p.GetActors()
 		else
 			Result['Character'] = Prefix .. CharLabel .. Suffix
 		end
-		Result['Actor'] = '[[' .. actorLabel .. ']]'
+		
+		if AddSemantic then
+			Result['Actor'] = '[[Interprete::' .. actorLabel .. ']]'
+		else
+			Result['Actor'] = '[[' .. actorLabel .. ']]'
+		end
 		Result['Type'] = AppearanceType
 		
 		results[#results + 1] = Result
