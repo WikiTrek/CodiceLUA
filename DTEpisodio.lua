@@ -1,6 +1,8 @@
--- [P2G] Auto upload by PageToGitHub on 2020-05-19T23:45:21+02:00
+-- [P2G] Auto upload by PageToGitHub on 2020-05-20T23:48:35+02:00
 -- [P2G] This code from page Modulo:DTEpisodio
 -- Keyword: wikitrek
+local LabelOrLink = require('Modulo:DTBase').LabelOrLink
+
 local p = {}
 function p.GetActors()
 	-- Personaggio (P10)
@@ -148,7 +150,8 @@ function p.LinkFromP(Property)
 		Link = EpisodeTitle
 	else
 		EpisodeTitle = item['claims'][Property][1]['mainsnak'].datavalue['value']
-		Link = '[[' .. EpisodeTitle .. '|' .. EpisodeTitle .. ']]'
+		--Link = '[[' .. EpisodeTitle .. '|' .. EpisodeTitle .. ']]'
+		Link = LabelOrLink(EpisodeTitle['id'])
 	end
 	return Link
 end
