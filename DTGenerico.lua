@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2020-05-03T22:07:10+02:00
+-- [P2G] Auto upload by PageToGitHub on 2020-05-21T00:32:43+02:00
 -- [P2G] This code from page Modulo:DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -64,6 +64,9 @@ function p.ListAllP(frame)
 		Item = mw.wikibase.getEntity('Q1')
 	end
 	
+	if not AddSemantic then
+		AddSemantic = true
+	end
 	
 	AllP = mw.wikibase.orderProperties(Item:getProperties())
 	if (mw.wikibase.getLabelByLang(mw.wikibase.getEntityIdForCurrentPage(), 'it')) then
@@ -87,7 +90,11 @@ function p.ListAllP(frame)
 						if Value['entity-type'] == 'item' then
 							AccValues[#AccValues + 1] = LabelOrLink(Value['id'])
 						elseif SnakValue.mainsnak.datavalue['type'] == 'time' then
-							AccValues[#AccValues + 1] = frame:expandTemplate{title = 'TimeL', args = {Tipo='ITEstesa', Istante=Value['time']}}
+							if AddSemantic then
+								AccValues[#AccValues + 1] = "[[" .. Header .. "::" .. Value['time'] .. "|" .. frame:expandTemplate{title = 'TimeL', args = {Tipo='ITEstesa', Istante=Value['time']}} .. "]]"
+							else
+								AccValues[#AccValues + 1] = frame:expandTemplate{title = 'TimeL', args = {Tipo='ITEstesa', Istante=Value['time']}}
+							end
 						else
 							AccValues[#AccValues + 1] = 'TABLE'
 						end
