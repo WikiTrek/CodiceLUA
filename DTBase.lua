@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2020-05-20T01:28:57+02:00
+-- [P2G] Auto upload by PageToGitHub on 2020-06-10T00:00:33+02:00
 -- [P2G] This code from page Modulo:DTBase
 -- Keyword: wikitrek
 local p = {}
@@ -335,5 +335,17 @@ function p.MakeNavTable(Item, Title)
 	Table = Table .. string.char(10) .. "</table>"
 	
 	return Table
+end
+function p.SiteAllP()
+	local MaxP = 10
+	local AllP = {}
+	
+	for PNumber = 1, MaxP, 1 do
+      if mw.wikibase.entityExists('P' .. PNumber) then
+      	AllP[#AllP + 1] = 'P' .. PNumber
+      end
+    end
+	
+	return table.concat("* " .. AllP, string.char(10))
 end
 return p
