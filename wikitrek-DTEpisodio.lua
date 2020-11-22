@@ -1,10 +1,10 @@
--- [P2G] Auto upload by PageToGitHub on 2020-11-22T23:01:10+01:00
+-- [P2G] Auto upload by PageToGitHub on 2020-11-22T23:28:31+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTEpisodio
 -- Keyword: wikitrek
 local LabelOrLink = require('Modulo:DTBase').LabelOrLink
 
 local p = {}
-function p.GetActors(AddSemantic)
+function p.GetActors(frame, AddSemantic)
 	-- Personaggio (P10)
 	-- Prefisso (P15)
 	-- Interpreti (P21)
@@ -87,10 +87,11 @@ function p.GetActors(AddSemantic)
 		|Emily Coutts=Keyla Detmer
 		|Keyla Detmer=Emily Coutts
 		}}
+		{{#set:|Keyla Detmer=Emily Coutts}}
 		]=]
 		if MakeWikiLink then
 			if AddSemantic then
-				Result['Character'] = Prefix .. '[[Personaggio::' .. CharLink .. '|' .. CharLabel .. ']]' .. Suffix
+				Result['Character'] = Prefix .. '[[Personaggio::' .. CharLink .. '|' .. CharLabel .. ']]' .. Suffix .. frame:callParserFunction('#set:', CharLabel .. '=' .. actorLabel)
 			else
 				Result['Character'] = Prefix .. '[[' .. CharLink .. '|' .. CharLabel .. ']]' .. Suffix
 			end
@@ -99,7 +100,8 @@ function p.GetActors(AddSemantic)
 		end
 		
 		if AddSemantic then
-			Result['Actor'] = '[[Interprete::' .. actorLabel .. ']]' .. '{{#set:|' .. actorLabel .. '=' .. CharLabel ..'}}'
+			--Result['Actor'] = '[[Interprete::' .. actorLabel .. ']]' .. frame:callParserFunction('#set:', actorLabel .. '=' .. CharLabel)
+			Result['Actor'] = '[[Interprete::' .. actorLabel .. ']]'
 		else
 			Result['Actor'] = '[[' .. actorLabel .. ']]'
 		end
@@ -138,7 +140,7 @@ function p.ListFirstAir(frame, AddSemantic)
 	return '<ul>' .. table.concat(Results, string.char(10)) .. '</ul>'
 end
 function p.ListActors(frame)
-	local Actors = p.GetActors()
+	local Actors = p.GetActors(frame, true)
 	local Results = {}
 	local Groups = {}
 	local FinalList = ""
