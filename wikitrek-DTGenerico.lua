@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-01-13T23:40:36+01:00
+-- [P2G] Auto upload by PageToGitHub on 2021-01-13T23:45:18+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -116,18 +116,14 @@ function p.ListAllP(frame)
 	return tostring(HTMLTable) .. CollectionTable
 end
 function p.Incipit(frame)
-	--local SeasonData = p.SeasonInfoRaw()
-	
-	--return frame:expandTemplate{ title = 'DataBoxEpisodio' } .. string.char(10) .. "[[" .. mw.title.getCurrentTitle().text .. "]] è un episodio della stagione " .. SeasonData.SeasonNumber .. " di ''[[" .. SeasonData.SeriesName .. "]]''." .. string.char(10)
-	
-	if not mw.wikibase.getDescription() == "" then
-		return "'''''" .. mw.title.getCurrentTitle().text .. "'''''" .. " è " .. wikibase.getDescription() .. string.char(10)
-	else
-	if not mw.wikibase.getEntity().claims['P20'] then
+	if not mw.wikibase.getDescription() then
+		if not mw.wikibase.getEntity().claims['P20'] then
 		return "'''" .. mw.title.getCurrentTitle().text .. "''' è un " .. mw.wikibase.getLabelByLang(p.QFromP('P14'), 'it') .. string.char(10)
 	else
 		return "'''" .. mw.title.getCurrentTitle().text .. "''' è " .. 	mw.wikibase.getEntity().claims['P20'][1].mainsnak.datavalue['value'] .. string.char(10)
 	end
+	else
+		return "'''''" .. mw.title.getCurrentTitle().text .. "'''''" .. " è " .. mw.wikibase.getDescription() .. string.char(10)
 	end
 end
 	
