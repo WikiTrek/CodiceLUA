@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-01-14T00:10:57+01:00
+-- [P2G] Auto upload by PageToGitHub on 2021-01-17T17:52:06+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -69,8 +69,11 @@ function p.ListAllP(frame)
 	end
 	
 	AllP = mw.wikibase.orderProperties(Item:getProperties())
+	if (mw.wikibase.getLabelByLang(mw.wikibase.getEntityIdForCurrentPage(), 'en')) then
+		AllRows[#AllRows + 1] = {"In originale:", {mw.wikibase.getLabelByLang(mw.wikibase.getEntityIdForCurrentPage(), 'en')}}
+	end
 	if (mw.wikibase.getLabelByLang(mw.wikibase.getEntityIdForCurrentPage(), 'it')) then
-		AllRows[#AllRows + 1] = {"Titolo italiano:", {mw.wikibase.getLabelByLang(mw.wikibase.getEntityIdForCurrentPage(), 'it')}}
+		AllRows[#AllRows + 1] = {"In italiano:", {mw.wikibase.getLabelByLang(mw.wikibase.getEntityIdForCurrentPage(), 'it')}}
 	end
 	for _, Property in pairs(AllP) do
 		if (not ExcludeP[Property]) and Item.claims[Property][1].mainsnak.datatype ~= 'external-id' then
@@ -87,7 +90,9 @@ function p.ListAllP(frame)
 				for _, SnakValue in pairs(Values) do
 					local Value = SnakValue.mainsnak.datavalue['value']
 					if (type(Value) == "table") then
-						if Value['entity-type'] == 'item' then
+						if Property == "P72" then --Assigments
+							AccValues[#AccValues + 1] = "Anno " .. LabelOrLink(Value['id'] .. "occupazione, " .. "grado")
+						elseif Value['entity-type'] == 'item' then
 							AccValues[#AccValues + 1] = LabelOrLink(Value['id'])
 						elseif SnakValue.mainsnak.datavalue['type'] == 'time' then
 							if AddSemantic then
