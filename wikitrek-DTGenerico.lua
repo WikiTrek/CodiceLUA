@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-01-18T16:59:53+01:00
+-- [P2G] Auto upload by PageToGitHub on 2021-01-18T17:21:38+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -91,7 +91,7 @@ function p.ListAllP(frame)
 					local Value = SnakValue.mainsnak.datavalue['value']
 					if (type(Value) == "table") then
 						if Property == "P72" then --Assigments
-							AccValues[#AccValues + 1] = LabelOrLink(SnakValue.qualifiers['P73'][1].datavalue.value['id']) .. " " .. LabelOrLink(Value['id']) .. " occupazione, " .. "grado"
+							AccValues[#AccValues + 1] = LabelOrLink(SnakValue.qualifiers['P73'][1].datavalue.value['id']) .. " " .. LabelOrLink(Value['id']) .. " " .. LabelOrLink(SnakValue.qualifiers['P76'][1].datavalue.value['id']) .. " " .. LabelOrLink(SnakValue.qualifiers['P77'][1].datavalue.value['id'])
 						elseif Value['entity-type'] == 'item' then
 							AccValues[#AccValues + 1] = LabelOrLink(Value['id'])
 						elseif SnakValue.mainsnak.datavalue['type'] == 'time' then
