@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-01-19T15:06:17+01:00
+-- [P2G] Auto upload by PageToGitHub on 2021-01-19T15:07:45+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTBase
 -- Keyword: wikitrek
 local p = {}
@@ -284,7 +284,7 @@ function p.LabelOrLink(QItem, SMWProperty, AddSemantic)
 	local Label
 	local WTLink
 	
-	if (not AddSemantic) and SMWProperty ~= "" then
+	if (not AddSemantic) and (SMWProperty ~= "") then
 		AddSemantic = true
 	else
 		AddSemantic = false
