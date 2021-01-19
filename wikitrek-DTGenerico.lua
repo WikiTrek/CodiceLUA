@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-01-19T15:15:11+01:00
+-- [P2G] Auto upload by PageToGitHub on 2021-01-19T23:31:40+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -92,7 +92,19 @@ function p.ListAllP(frame)
 					local Value = SnakValue.mainsnak.datavalue['value']
 					if (type(Value) == "table") then
 						if Property == "P72" then --CASE Assigments
-							AccValues[#AccValues + 1] = LabelOrLink(SnakValue.qualifiers['P73'][1].datavalue.value['id']) .. " " .. LabelOrLink(Value['id']) .. ", " .. LabelOrLink(SnakValue.qualifiers['P76'][1].datavalue.value['id']) .. ", " .. LabelOrLink(SnakValue.qualifiers['P77'][1].datavalue.value['id'])
+							local Assignment = ""
+							if SnakValue.qualifiers['P73'] then
+								Assignment = LabelOrLink(SnakValue.qualifiers['P73'][1].datavalue.value['id']) .. " "
+							end
+							Assignment = Assignment .. LabelOrLink(Value['id'])
+							if SnakValue.qualifiers['P76'] then
+								Assignment = Assignment .. ", " .. LabelOrLink(SnakValue.qualifiers['P76'][1].datavalue.value['id'])
+							end
+							if SnakValue.qualifiers['P77'] then
+								Assignment = Assignment .. ", " .. LabelOrLink(SnakValue.qualifiers['P77'][1].datavalue.value['id'])
+							end
+							--AccValues[#AccValues + 1] = LabelOrLink(SnakValue.qualifiers['P73'][1].datavalue.value['id']) .. " " .. LabelOrLink(Value['id']) .. ", " .. LabelOrLink(SnakValue.qualifiers['P76'][1].datavalue.value['id']) .. ", " .. LabelOrLink(SnakValue.qualifiers['P77'][1].datavalue.value['id'])
+							AccValues[#AccValues + 1] = Assignment
 						elseif Value['entity-type'] == 'item' then
 							if AddSemantic then
 								AccValues[#AccValues + 1] = LabelOrLink(Value['id'], Header[2])
