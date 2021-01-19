@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-01-19T12:34:00+01:00
+-- [P2G] Auto upload by PageToGitHub on 2021-01-19T15:15:11+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -70,11 +70,11 @@ function p.ListAllP(frame)
 	
 	AllP = mw.wikibase.orderProperties(Item:getProperties())
 	PageTitle =  mw.title.getCurrentTitle()
-	if (mw.wikibase.getLabelByLang(mw.wikibase.getEntityIdForCurrentPage(), 'en')) and (mw.wikibase.getLabelByLang(mw.wikibase.getEntityIdForCurrentPage(), 'en')) ~= PageTitle.text then
-		AllRows[#AllRows + 1] = {"In originale:", {mw.wikibase.getLabelByLang(mw.wikibase.getEntityIdForCurrentPage(), 'en')}}
+	if (mw.wikibase.getLabelByLang(ItemQ, 'en')) and (mw.wikibase.getLabelByLang(ItemQ, 'en')) ~= PageTitle.text then
+		AllRows[#AllRows + 1] = {"In originale:", {mw.wikibase.getLabelByLang(ItemQ, 'en')}}
 	end
-	if (mw.wikibase.getLabelByLang(mw.wikibase.getEntityIdForCurrentPage(), 'it')) and (mw.wikibase.getLabelByLang(mw.wikibase.getEntityIdForCurrentPage(), 'en')) ~= PageTitle.text then
-		AllRows[#AllRows + 1] = {"In italiano:", {mw.wikibase.getLabelByLang(mw.wikibase.getEntityIdForCurrentPage(), 'it')}}
+	if (mw.wikibase.getLabelByLang(ItemQ, 'it')) and (mw.wikibase.getLabelByLang(ItemQ, 'en')) ~= PageTitle.text then
+		AllRows[#AllRows + 1] = {"In italiano:", {mw.wikibase.getLabelByLang(ItemQ, 'it')}}
 	end
 	for _, Property in pairs(AllP) do
 		if (not ExcludeP[Property]) and Item.claims[Property][1].mainsnak.datatype ~= 'external-id' then
@@ -92,9 +92,13 @@ function p.ListAllP(frame)
 					local Value = SnakValue.mainsnak.datavalue['value']
 					if (type(Value) == "table") then
 						if Property == "P72" then --CASE Assigments
-							AccValues[#AccValues + 1] = LabelOrLink(SnakValue.qualifiers['P73'][1].datavalue.value['id']) .. " " .. LabelOrLink(Value['id']) .. " " .. LabelOrLink(SnakValue.qualifiers['P76'][1].datavalue.value['id']) .. " " .. LabelOrLink(SnakValue.qualifiers['P77'][1].datavalue.value['id'])
+							AccValues[#AccValues + 1] = LabelOrLink(SnakValue.qualifiers['P73'][1].datavalue.value['id']) .. " " .. LabelOrLink(Value['id']) .. ", " .. LabelOrLink(SnakValue.qualifiers['P76'][1].datavalue.value['id']) .. ", " .. LabelOrLink(SnakValue.qualifiers['P77'][1].datavalue.value['id'])
 						elseif Value['entity-type'] == 'item' then
-							AccValues[#AccValues + 1] = LabelOrLink(Value['id'])
+							if AddSemantic then
+								AccValues[#AccValues + 1] = LabelOrLink(Value['id'], Header[2])
+							else
+								AccValues[#AccValues + 1] = LabelOrLink(Value['id'])
+							end
 						elseif SnakValue.mainsnak.datavalue['type'] == 'time' then
 							if AddSemantic then
 								AccValues[#AccValues + 1] = "[[" .. Header[2] .. "::" .. Value['time'] .. "|" .. frame:expandTemplate{title = 'TimeL', args = {Tipo='ITEstesa', Istante=Value['time']}} .. "]]"
