@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-01-20T00:17:29+01:00
+-- [P2G] Auto upload by PageToGitHub on 2021-01-20T00:30:42+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -97,7 +97,11 @@ function p.ListAllP(frame)
 								Assignment = LabelOrLink(SnakValue.qualifiers['P73'][1].datavalue.value['id']) .. " "
 							end
 							
-							Assignment = Assignment .. SnakValue.qualifiers['P15'][1].datavalue.value .. " " .. LabelOrLink(Value['id'])
+							if SnakValue.qualifiers['P15'] then
+								Assignment = Assignment .. SnakValue.qualifiers['P15'][1].datavalue.value .. " "
+							end
+							
+							Assignment = Assignment .. LabelOrLink(Value['id'])
 							
 							if SnakValue.qualifiers['P76'] then --Rank
 								Assignment = Assignment .. ", " .. LabelOrLink(SnakValue.qualifiers['P76'][1].datavalue.value['id'])
@@ -108,11 +112,16 @@ function p.ListAllP(frame)
 							--AccValues[#AccValues + 1] = LabelOrLink(SnakValue.qualifiers['P73'][1].datavalue.value['id']) .. " " .. LabelOrLink(Value['id']) .. ", " .. LabelOrLink(SnakValue.qualifiers['P76'][1].datavalue.value['id']) .. ", " .. LabelOrLink(SnakValue.qualifiers['P77'][1].datavalue.value['id'])
 							AccValues[#AccValues + 1] = Assignment
 						elseif Value['entity-type'] == 'item' then
+							local GenericItem
 							if AddSemantic then
-								AccValues[#AccValues + 1] = LabelOrLink(Value['id'], Header[2])
+								GenericItem = LabelOrLink(Value['id'], Header[2])
 							else
-								AccValues[#AccValues + 1] = LabelOrLink(Value['id'])
+								GenericItem = LabelOrLink(Value['id'])
 							end
+							if SnakValue.qualifiers['P15'] then
+								GenericItem = SnakValue.qualifiers['P15'][1].datavalue.value .. " " .. GenericItem
+							end
+							AccValues[#AccValues + 1] = GenericItem
 						elseif SnakValue.mainsnak.datavalue['type'] == 'time' then
 							if AddSemantic then
 								AccValues[#AccValues + 1] = "[[" .. Header[2] .. "::" .. Value['time'] .. "|" .. frame:expandTemplate{title = 'TimeL', args = {Tipo='ITEstesa', Istante=Value['time']}} .. "]]"
