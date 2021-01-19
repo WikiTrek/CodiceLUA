@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-01-18T17:21:38+01:00
+-- [P2G] Auto upload by PageToGitHub on 2021-01-19T12:34:00+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -57,7 +57,7 @@ function p.ListAllP(frame)
 	local AllRows = {}
 	local HTMLTable
 	local CollectionTable = ''
-	local ExcludeP = {P37 = true, P3 = true, P26 = true, P68 = true}
+	local ExcludeP = {P37 = true, P3 = true, P14 = true, P26 = true, P58 = true, P68 = true}
 	local Item = mw.wikibase.getEntity()
 	local ItemQ = mw.wikibase.getEntityIdForCurrentPage()
 	if not Item then
@@ -69,10 +69,11 @@ function p.ListAllP(frame)
 	end
 	
 	AllP = mw.wikibase.orderProperties(Item:getProperties())
-	if (mw.wikibase.getLabelByLang(mw.wikibase.getEntityIdForCurrentPage(), 'en')) then
+	PageTitle =  mw.title.getCurrentTitle()
+	if (mw.wikibase.getLabelByLang(mw.wikibase.getEntityIdForCurrentPage(), 'en')) and (mw.wikibase.getLabelByLang(mw.wikibase.getEntityIdForCurrentPage(), 'en')) ~= PageTitle.text then
 		AllRows[#AllRows + 1] = {"In originale:", {mw.wikibase.getLabelByLang(mw.wikibase.getEntityIdForCurrentPage(), 'en')}}
 	end
-	if (mw.wikibase.getLabelByLang(mw.wikibase.getEntityIdForCurrentPage(), 'it')) then
+	if (mw.wikibase.getLabelByLang(mw.wikibase.getEntityIdForCurrentPage(), 'it')) and (mw.wikibase.getLabelByLang(mw.wikibase.getEntityIdForCurrentPage(), 'en')) ~= PageTitle.text then
 		AllRows[#AllRows + 1] = {"In italiano:", {mw.wikibase.getLabelByLang(mw.wikibase.getEntityIdForCurrentPage(), 'it')}}
 	end
 	for _, Property in pairs(AllP) do
@@ -90,7 +91,7 @@ function p.ListAllP(frame)
 				for _, SnakValue in pairs(Values) do
 					local Value = SnakValue.mainsnak.datavalue['value']
 					if (type(Value) == "table") then
-						if Property == "P72" then --Assigments
+						if Property == "P72" then --CASE Assigments
 							AccValues[#AccValues + 1] = LabelOrLink(SnakValue.qualifiers['P73'][1].datavalue.value['id']) .. " " .. LabelOrLink(Value['id']) .. " " .. LabelOrLink(SnakValue.qualifiers['P76'][1].datavalue.value['id']) .. " " .. LabelOrLink(SnakValue.qualifiers['P77'][1].datavalue.value['id'])
 						elseif Value['entity-type'] == 'item' then
 							AccValues[#AccValues + 1] = LabelOrLink(Value['id'])
