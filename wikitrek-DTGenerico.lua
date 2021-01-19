@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-01-20T00:30:42+01:00
+-- [P2G] Auto upload by PageToGitHub on 2021-01-20T00:31:47+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -118,7 +118,7 @@ function p.ListAllP(frame)
 							else
 								GenericItem = LabelOrLink(Value['id'])
 							end
-							if SnakValue.qualifiers['P15'] then
+							if SnakValue.qualifiers and SnakValue.qualifiers['P15'] then
 								GenericItem = SnakValue.qualifiers['P15'][1].datavalue.value .. " " .. GenericItem
 							end
 							AccValues[#AccValues + 1] = GenericItem
