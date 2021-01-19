@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-01-16T16:37:16+01:00
+-- [P2G] Auto upload by PageToGitHub on 2021-01-19T15:06:17+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTBase
 -- Keyword: wikitrek
 local p = {}
@@ -280,9 +280,15 @@ function p.GenericValue(Property)
 	
 	return Value
 end
-function p.LabelOrLink(QItem)
+function p.LabelOrLink(QItem, SMWProperty, AddSemantic)
 	local Label
 	local WTLink
+	
+	if (not AddSemantic) and SMWProperty ~= "" then
+		AddSemantic = true
+	else
+		AddSemantic = false
+	end
 	
 	local Item = mw.wikibase.getEntity(QItem)
 	if not Item then
@@ -306,7 +312,11 @@ function p.LabelOrLink(QItem)
 		if not Label then
 			Label = WTLink
 		end
-		return "[[" .. WTLink .. "|" .. Label .. "]]"
+		if AddSemantic then
+			return "[[" .. SMWProperty .. "::" .. WTLink .. "|" .. Label .. "]]"
+		else
+			return "[[" .. WTLink .. "|" .. Label .. "]]"
+		end
 	end
 end
 --- Three dashes indicate the beginning of a function or field documented
@@ -370,25 +380,28 @@ function p.SiteAllP()
 	
 	return table.concat("* " .. AllP, string.char(10))
 end
-function ListReferences(frame)
+function p.ListReferences(frame)
 	local AllReferences = {}
-	local Item = mw.wikibase.getEntity()
+	local Item = mw.wikibase.getEntityIdForCurrentPage()
 	if not Item then
-		Item = mw.wikibase.getEntity('Q1')
+		Item = 'Q1'
 	end
 	
-	if Item['claims']['P58'] then
-		local statements = mw.wikibase.getAllStatements(item, 'P58')
-		for _, statement in pairs(statements) do
-			local Reference = mw.wikibase.getSitelink(statement.mainsnak.datavalue.value.id)
+	local Statements = mw.wikibase.getAllStatements(Item, 'P58')
+	if not Statements then
+		return "Nessun riferimento trovato"
+	else
+		for _, Statement in pairs(Statements) do
+			local Reference = mw.wikibase.getSitelink(Statement.mainsnak.datavalue.value.id)
+			if not Reference then
+				Reference = Statement.mainsnak.datavalue.value.id
+			end
 			if frame.args['AddSemantic'] then
 				Reference = "Riferimento::" .. Reference
 			end
-			AllReferences[AllReferences + 1] = "* " .. Reference
+			AllReferences[#AllReferences + 1] = "* [[" .. Reference .. "]]"
 		end
 		return table.concat(AllReferences, string.char(10))
-	else
-		return "Nessun riferimento trovato"
 	end
 	
 end
