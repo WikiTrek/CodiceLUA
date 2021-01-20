@@ -1,6 +1,9 @@
--- [P2G] Auto upload by PageToGitHub on 2021-01-20T01:15:11+01:00
+-- [P2G] Auto upload by PageToGitHub on 2021-01-21T00:03:15+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTFunzioniComuni
 -- Keyword: wikitrek
+
+local LabelOrLink = require('Modulo:DTBase').LabelOrLink
+
 local p = {}
 function p.ImmagineDaFile(Frame)
     local item = mw.wikibase.getEntityIdForCurrentPage()
@@ -80,6 +83,7 @@ function p.PropertiesOnTree(Property, Depth, Aggregate)
 	local CurrentItem = mw.wikibase.getEntity()
 	local InstanceItem = nil
 	local InstanceInstanceItem = nil
+	local ResultsArray = {}
 	--local ItemQ = mw.wikibase.getEntityIdForCurrentPage()
 	if not CurrentItem then
 		CurrentItem = mw.wikibase.getEntity('Q1')
@@ -91,15 +95,32 @@ function p.PropertiesOnTree(Property, Depth, Aggregate)
 	if Depth > 3 then
 		Depth = 3
 	end
-	if not Aggregate then
-		Aggregate = true
-	end
 	
 	if Depth > 1 and CurrentItem['claims']['P14'] then
 		--Set instance of
+		InstanceItem = mw.wikibase.getEntity(CurrentItem['claims']['P14'][1].mainsnak.datavalue.value['id'])
 		if Depth > 2 and InstanceItem['claims']['P14'] then
-		--Set instance of instance
+			--Set instance of instance
+			InstanceInstanceItem = mw.wikibase.getEntity(InstanceItem['claims']['P14'][1].mainsnak.datavalue.value['id'])
 		end
 	end
 	
+	--[=[if CurrentItem.claims[Property] then
+		ResultsArray[#ResultsArray + 1] = LabelOrLink(CurrentItem.claims[Property][1].mainsnak.datavalue.value.id)
+		if not Aggregate then
+			return resultsArray
+		end 
+	end]=]
+	
+	for _, Item in pairs({CurrentItem, InstanceItem, InstanceInstanceItem}) do
+		if Item ~= nil and CurrentItem.claims[Property] then
+			ResultsArray[#ResultsArray + 1] = Item.id .. " - " .. Property
+			--ResultsArray[#ResultsArray + 1] = LabelOrLink(Item.claims[Property][1].mainsnak.datavalue.value.id)
+			if not Aggregate then
+				return resultsArray
+			end
+		end
+	end
+	
+	return resultsArray
 end
