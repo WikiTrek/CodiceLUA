@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-01-21T00:07:05+01:00
+-- [P2G] Auto upload by PageToGitHub on 2021-01-21T00:10:15+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTFunzioniComuni
 -- Keyword: wikitrek
 
@@ -105,12 +105,14 @@ function p.PropertiesOnTree(Property, Depth, Aggregate)
 		end
 	end
 	
+	return Depth
+	
 	--[=[if CurrentItem.claims[Property] then
 		ResultsArray[#ResultsArray + 1] = LabelOrLink(CurrentItem.claims[Property][1].mainsnak.datavalue.value.id)
 		if not Aggregate then
 			return resultsArray
 		end 
-	end]=]
+	end
 	
 	for _, Item in pairs({CurrentItem, InstanceItem, InstanceInstanceItem}) do
 		if Item ~= nil and CurrentItem.claims[Property] then
@@ -122,5 +124,5 @@ function p.PropertiesOnTree(Property, Depth, Aggregate)
 		end
 	end
 	
-	return ResultsArray
+	return ResultsArray]=]
 end
