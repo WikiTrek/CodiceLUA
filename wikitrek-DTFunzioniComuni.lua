@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-01-21T00:10:15+01:00
+-- [P2G] Auto upload by PageToGitHub on 2021-01-21T00:11:58+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTFunzioniComuni
 -- Keyword: wikitrek
 
@@ -126,3 +126,4 @@ function p.PropertiesOnTree(Property, Depth, Aggregate)
 	
 	return ResultsArray]=]
 end
+return p
