@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-01-21T00:35:38+01:00
+-- [P2G] Auto upload by PageToGitHub on 2021-01-21T17:56:06+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTFunzioniComuni
 -- Keyword: wikitrek
 
@@ -98,16 +98,20 @@ function p.PropertiesOnTree(Property, Depth, Aggregate)
 	
 	if Depth > 1 and CurrentItem['claims']['P14'] then
 		--Set instance of
+		--ResultsArray[#ResultsArray + 1] = ">1"
 		InstanceItem = mw.wikibase.getEntity(CurrentItem['claims']['P14'][1].mainsnak.datavalue.value['id'])
 		if Depth > 2 and InstanceItem['claims']['P14'] then
 			--Set instance of instance
+			--ResultsArray[#ResultsArray + 1] = ">2"
 			InstanceInstanceItem = mw.wikibase.getEntity(InstanceItem['claims']['P14'][1].mainsnak.datavalue.value['id'])
 		end
 	end
 	
-	--return Property .. " - " .. Depth .. " - " .. Aggregate
+	--[=[
+	ResultsArray[#ResultsArray + 1] = Property .. " - " .. Depth .. " - " .. tostring(Aggregate)
+	ResultsArray[#ResultsArray + 1] = Property .. " - " .. Depth .. " - " .. tostring(InstanceInstanceItem)
 	
-	--[=[if CurrentItem.claims[Property] then
+	if CurrentItem.claims[Property] then
 		ResultsArray[#ResultsArray + 1] = LabelOrLink(CurrentItem.claims[Property][1].mainsnak.datavalue.value.id)
 		if not Aggregate then
 			return resultsArray
@@ -115,10 +119,14 @@ function p.PropertiesOnTree(Property, Depth, Aggregate)
 	end]=]
 	
 	for _, Item in pairs({CurrentItem, InstanceItem, InstanceInstanceItem}) do
-		ResultsArray[#ResultsArray + 1] = "For - " .. Item.id 
+		--ResultsArray[#ResultsArray + 1] = "For - " .. Item.id 
 		if Item ~= nil and Item.claims[Property] then
-			ResultsArray[#ResultsArray + 1] = Item.id .. " - " .. Property
+			--ResultsArray[#ResultsArray + 1] = Item.id .. " - " .. Property
 			--ResultsArray[#ResultsArray + 1] = LabelOrLink(Item.claims[Property][1].mainsnak.datavalue.value.id)
+			local Values = Item.claims[Property]
+			for _, SnakValue in pairs(Values) do
+				ResultsArray[#ResultsArray + 1] = LabelOrLink(SnakValue.mainsnak.datavalue.value.id)
+			end
 			if not Aggregate then
 				return ResultsArray
 			end
@@ -127,7 +135,10 @@ function p.PropertiesOnTree(Property, Depth, Aggregate)
 	
 	return ResultsArray
 end
-function p.TestTree(frame)
-	return table.concat(p.PropertiesOnTree("P16", 2, true), "</br>")
+function p.SeriesTree(frame)
+	return table.concat(p.PropertiesOnTree("P16", 3, false), "</br>")
+end
+function p.CategoryTree(frame)
+	return table.concat(p.PropertiesOnTree("P68", 2, true), "</br>")
 end
 return p
