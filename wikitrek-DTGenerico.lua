@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-01-23T18:10:52+01:00
+-- [P2G] Auto upload by PageToGitHub on 2021-01-23T18:12:31+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -194,7 +194,7 @@ function p.ListHTData(frame)
 		DIV
 			:addClass('catlinks')
 			:attr('id', 'htdata')
-			:wikitext(DataString .. "<ul>" .. QualiString .. "</ul>" .. string.char(10) .. "Categoria:Pagine originariamente convertite da HT")
+			:wikitext(DataString .. "<ul>" .. QualiString .. "</ul>" .. string.char(10) .. "[[Categoria:Pagine originariamente convertite da HT]]")
 		return tostring(DIV)
 	else
 		return ""
