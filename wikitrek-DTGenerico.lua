@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-01-23T17:23:32+01:00
+-- [P2G] Auto upload by PageToGitHub on 2021-01-23T17:28:13+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -182,8 +182,9 @@ function p.ListHTData(frame)
 	if Item.claims['P79'] then
 		local DIV = mw.html.create('div')
 		local DataString
+		local HTNodes = Item.claims['P79'][1]
 		
-		DataString = "Informazioni importate dal database di '''HyperTrek''' datato " .. Item.claims['P79'].datavalue.value.time
+		DataString = "Informazioni importate dal database di '''HyperTrek''' datato " .. HTNodes.mainsnak.datavalue.value.time
 		
 		DIV
 			:addClass('catlinks')
