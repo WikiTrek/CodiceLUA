@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-01-23T17:40:02+01:00
+-- [P2G] Auto upload by PageToGitHub on 2021-01-23T18:10:52+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -182,19 +182,19 @@ function p.ListHTData(frame)
 	if Item.claims['P79'] then
 		local DIV = mw.html.create('div')
 		local DataString
-		local QualiString
+		local QualiString = ""
 		local HTNodes = Item.claims['P79'][1]
 		
 		DataString = "Informazioni originali lette dal database di '''HyperTrek''' datato " .. HTNodes.mainsnak.datavalue.value.time .. " con i seguenti dettagli: "
 		
 		for _, Qualifier in pairs(HTNodes.qualifiers) do
-			QualiString = QualiString .. "<li>" .. Qualifier.property .. ": </li>" 
+			QualiString = QualiString .. "<li>" .. Qualifier[1].property .. ": </li>" 
 		end
 		
 		DIV
 			:addClass('catlinks')
 			:attr('id', 'htdata')
-			:wikitext(DataString .. "<ul>" .. QualiString .. "</ul>")
+			:wikitext(DataString .. "<ul>" .. QualiString .. "</ul>" .. string.char(10) .. "Categoria:Pagine originariamente convertite da HT")
 		return tostring(DIV)
 	else
 		return ""
