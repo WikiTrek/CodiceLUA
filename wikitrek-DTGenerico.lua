@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-01-23T11:45:47+01:00
+-- [P2G] Auto upload by PageToGitHub on 2021-01-23T17:23:32+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -69,6 +69,7 @@ function p.ListAllP(frame)
 	end
 	
 	AllP = mw.wikibase.orderProperties(Item:getProperties())
+	--Debug: list unsorted and sorted properties
 	--AllRows[#AllRows + 1] = {"getProperties:", Item:getProperties()}
 	--AllRows[#AllRows + 1] = {"AllP:", AllP}
 	
@@ -76,7 +77,7 @@ function p.ListAllP(frame)
 	if (mw.wikibase.getLabelByLang(ItemQ, 'en')) and (mw.wikibase.getLabelByLang(ItemQ, 'en')) ~= PageTitle.text then
 		AllRows[#AllRows + 1] = {"In originale:", {mw.wikibase.getLabelByLang(ItemQ, 'en')}}
 	end
-	if (mw.wikibase.getLabelByLang(ItemQ, 'it')) and (mw.wikibase.getLabelByLang(ItemQ, 'en')) ~= PageTitle.text then
+	if (mw.wikibase.getLabelByLang(ItemQ, 'it')) and (mw.wikibase.getLabelByLang(ItemQ, 'it')) ~= PageTitle.text then
 		AllRows[#AllRows + 1] = {"In italiano:", {mw.wikibase.getLabelByLang(ItemQ, 'it')}}
 	end
 	for _, Property in pairs(AllP) do
@@ -162,7 +163,38 @@ function p.Incipit(frame)
 		return "'''''" .. mw.title.getCurrentTitle().text .. "'''''" .. " è " .. mw.wikibase.getDescription() .. string.char(10)
 	end
 end
+
+--- Function to query for HyperTrek migration data and to construct a proper box
+-- to show them, if present
+-- @param frame Data from MW session
+-- @param AddSemantic Boolean value to instruct about adding SMW prefix
+-- @return DIV with HT migration in it or empty string
+function p.ListHTData(frame)
+	local Item = mw.wikibase.getEntity()
+	if not Item then
+		Item = mw.wikibase.getEntity('Q1')
+	end
 	
+	if AddSemantic == nil then
+		AddSemantic = true
+	end
+	
+	if Item.claims['P79'] then
+		local DIV = mw.html.create('div')
+		local DataString
+		
+		DataString = "Informazioni importate dal database di '''HyperTrek''' datato " .. Item.claims['P79'].datavalue.value.time
+		
+		DIV
+			:addClass('catlinks')
+			:attr('id', 'htdata')
+			:wikitext(DataString)
+		return tostring(DIV)
+	else
+		return ""
+	end
+end
+
 --[==[
 function p.ExtLinks(frame)
 	local AllRows
