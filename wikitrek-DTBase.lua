@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-01-25T23:26:04+01:00
+-- [P2G] Auto upload by PageToGitHub on 2021-01-25T23:41:56+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTBase
 -- Keyword: wikitrek
 local p = {}
@@ -291,8 +291,8 @@ function p.LabelOrLink(QItem, SMWProperty, AddSemantic)
 	end
 	
 	local Item = mw.wikibase.getEntity(QItem)
-	if not Item then
-		return "''Elemento non trovato''"
+	if Item == nil then
+		return QItem
 	end
 	
 	if not Item['claims'] or not Item['claims']['P20'] then
