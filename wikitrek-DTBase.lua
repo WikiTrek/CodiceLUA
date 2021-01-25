@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-01-25T23:25:16+01:00
+-- [P2G] Auto upload by PageToGitHub on 2021-01-25T23:26:04+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTBase
 -- Keyword: wikitrek
 local p = {}
@@ -305,8 +305,8 @@ function p.LabelOrLink(QItem, SMWProperty, AddSemantic)
 		return Label
 	end
 	
-	--if not mw.wikibase.getSitelink(QItem) then
-	if mw.wikibase.getSitelink(QItem) == nil or (not mw.wikibase.getSitelink(QItem)) then
+	if not mw.wikibase.getSitelink(QItem) then
+	--if mw.wikibase.getSitelink(QItem) == nil or (not mw.wikibase.getSitelink(QItem)) then
 		return Label
 	else
 		WTLink = Item.sitelinks['wikitrek'].title
