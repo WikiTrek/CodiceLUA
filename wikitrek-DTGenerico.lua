@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-01-25T22:36:11+01:00
+-- [P2G] Auto upload by PageToGitHub on 2021-01-25T22:46:22+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -27,7 +27,8 @@ function p.DIVImage(frame)
 	if Item['claims']['P37'] then
 		local FileTitle = "File:" .. Item['claims']['P37'][1].mainsnak.datavalue['value']
 		--Markup = "<div class='separatorebox'>'''Immagine'''</div>" ..  "<div class='contenitoreimgbox'>[[File:" .. Item['claims']['P37'][1].mainsnak.datavalue['value'] .. "|100%]]</div>"
-		Markup = "<div class='separatorebox'>'''Immagine'''</div>" ..  "<div class='contenitoreimgbox'>[[" .. FileTitle .. "|alt={{" .. FileTitle .. "}}|{{" .. FileTitle .. "}}" .. "]]</div>"
+		--Markup = "<div class='separatorebox'>'''Immagine'''</div>" ..  "<div class='contenitoreimgbox'>[[" .. FileTitle .. "|alt={{" .. FileTitle .. "}}|{{" .. FileTitle .. "}}" .. "]]</div>"
+		Markup = "<div class='separatorebox'>'''Immagine'''</div>" ..  "<div class='contenitoreimgbox'>[[" .. FileTitle .. "|frame|alt=" .. frame:expandTemplate{title = FileTitle} .. "|" .. frame:expandTemplate{title = FileTitle} .. "]]</div>"
 	else
 		Markup = ""
 	end
