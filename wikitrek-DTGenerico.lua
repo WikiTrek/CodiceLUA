@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-01-23T18:12:31+01:00
+-- [P2G] Auto upload by PageToGitHub on 2021-01-25T22:36:11+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -25,7 +25,9 @@ function p.DIVImage(frame)
 	
 	local Markup
 	if Item['claims']['P37'] then
-		Markup = "<div class='separatorebox'>'''Immagine'''</div>" ..  "<div class='contenitoreimgbox'>[[File:" .. Item['claims']['P37'][1].mainsnak.datavalue['value'] .. "|100%]]</div>"
+		local FileTitle = "File:" .. Item['claims']['P37'][1].mainsnak.datavalue['value']
+		--Markup = "<div class='separatorebox'>'''Immagine'''</div>" ..  "<div class='contenitoreimgbox'>[[File:" .. Item['claims']['P37'][1].mainsnak.datavalue['value'] .. "|100%]]</div>"
+		Markup = "<div class='separatorebox'>'''Immagine'''</div>" ..  "<div class='contenitoreimgbox'>[[" .. FileTitle .. "|alt={{" .. FileTitle .. "}}|{{" .. FileTitle .. "}}" .. "]]</div>"
 	else
 		Markup = ""
 	end
@@ -188,13 +190,13 @@ function p.ListHTData(frame)
 		DataString = "Informazioni originali lette dal database di '''HyperTrek''' datato " .. HTNodes.mainsnak.datavalue.value.time .. " con i seguenti dettagli: "
 		
 		for _, Qualifier in pairs(HTNodes.qualifiers) do
-			QualiString = QualiString .. "<li>" .. Qualifier[1].property .. ": </li>" 
+			QualiString = QualiString .. "<li>'''" .. Qualifier[1].property .. "''': " .. Qualifier[1].datavalue.value .. "</li>" 
 		end
 		
 		DIV
 			:addClass('catlinks')
 			:attr('id', 'htdata')
-			:wikitext(DataString .. "<ul>" .. QualiString .. "</ul>" .. string.char(10) .. "[[Categoria:Pagine originariamente convertite da HT]]")
+			:wikitext(DataString .. "<ul>" .. QualiString .. "</ul>" .. "[[Categoria:Pagine originariamente convertite da HT]]") --.. string.char(10) .. "[[Categoria:Pagine originariamente convertite da HT]]")
 		return tostring(DIV)
 	else
 		return ""
