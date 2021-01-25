@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-01-25T23:28:56+01:00
+-- [P2G] Auto upload by PageToGitHub on 2021-01-25T23:32:38+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTFunzioniComuni
 -- Keyword: wikitrek
 
@@ -144,5 +144,8 @@ function p.CategoryTree(frame)
 end
 function p.IconTree(frame)
 	return table.concat(p.PropertiesOnTree("P3", 3, false), "</br>")
+end
+function p.IconTree(frame)
+	return table.concat(p.PropertiesOnTree("P16", 3, false), "</br>")
 end
 return p
