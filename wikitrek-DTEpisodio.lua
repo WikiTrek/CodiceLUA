@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2020-11-23T00:15:37+01:00
+-- [P2G] Auto upload by PageToGitHub on 2021-01-30T17:12:57+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTEpisodio
 -- Keyword: wikitrek
 local LabelOrLink = require('Modulo:DTBase').LabelOrLink
@@ -240,11 +240,16 @@ function p.SeasonInfoRaw(Entity)
 		Item = Entity
 	end
 
-	Result['SeasonNumber'] = string.format('%u', Item['claims']['P18'][1]['mainsnak'].datavalue['value'].amount)
-	SeriesQ = Item['claims']['P16'][1]['mainsnak'].datavalue['value']['id']
+	Result['SeasonNumber'] = string.format('%u', Item.claims['P18'][1].mainsnak.datavalue.value.amount)
+	if Item.claims['P16'] then
+		SeriesQ = Item.claims['P16'][1].mainsnak.datavalue.value.id
+	else
+		SeriesQ = mw.wikibase.getEntity(Item.claims['P16'][1].mainsnak.datavalue.value.id).claims['P16'][1].mainsnak.datavalue.value.id
+	end
+	
 	Result['SeriesName'] = mw.wikibase.getLabel(SeriesQ)
-	Result['FileName'] = mw.wikibase.getEntity(SeriesQ)['claims']['P3'][1]['mainsnak'].datavalue['value']
-	Result['SeriesAbbr'] = mw.wikibase.getEntity(SeriesQ)['claims']['P24'][1]['mainsnak'].datavalue['value']
+	Result['FileName'] = mw.wikibase.getEntity(SeriesQ)['claims']['P3'][1].mainsnak.datavalue.value
+	Result['SeriesAbbr'] = mw.wikibase.getEntity(SeriesQ)['claims']['P24'][1].mainsnak.datavalue.value
 	
 	return Result
 end
@@ -268,5 +273,18 @@ function p.Incipit(frame)
 	
 	--return frame:expandTemplate{ title = 'DataBoxEpisodio' } .. string.char(10) .. "[[" .. mw.title.getCurrentTitle().text .. "]] è un episodio della stagione " .. SeasonData.SeasonNumber .. " di ''[[" .. SeasonData.SeriesName .. "]]''." .. string.char(10)
 	return "[[" .. mw.title.getCurrentTitle().text .. "]] è un episodio della stagione " .. SeasonData.SeasonNumber .. " di ''[[" .. SeasonData.SeriesName .. "]]''." .. string.char(10)
+end
+function p.IncipitTree(frame)
+	if not mw.wikibase.getDescription() then
+		local SeasonData = p.SeasonInfoRaw()
+		
+		if not mw.wikibase.getEntity().claims['P20'] then
+			return "'''''" .. mw.title.getCurrentTitle().text .. "''''' è un episodio della stagione " .. SeasonData.SeasonNumber .. " di ''[[" .. SeasonData.SeriesName .. "]]''." .. string.char(10)
+		else
+			return "''''" .. mw.title.getCurrentTitle().text .. "'''' è " .. 	mw.wikibase.getEntity().claims['P20'][1].mainsnak.datavalue['value'] .. string.char(10)
+		end
+	else
+		return "'''''" .. mw.title.getCurrentTitle().text .. "'''''" .. " è " .. mw.wikibase.getDescription() .. string.char(10)
+	end
 end
 return p
