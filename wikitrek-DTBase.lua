@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-01-25T23:51:32+01:00
+-- [P2G] Auto upload by PageToGitHub on 2021-02-07T14:30:22+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTBase
 -- Keyword: wikitrek
 local p = {}
@@ -396,11 +396,13 @@ function p.ListReferences(frame)
 			local Reference = mw.wikibase.getSitelink(Statement.mainsnak.datavalue.value.id)
 			if not Reference then
 				Reference = Statement.mainsnak.datavalue.value.id
-			end
-			if frame.args['AddSemantic'] then
+				AllReferences[#AllReferences + 1] = "* [[Speciale:AboutTopic?entityid=" .. Reference .. "]]"
+			else
+				if frame.args['AddSemantic'] then
 				Reference = "Riferimento::" .. Reference
 			end
-			AllReferences[#AllReferences + 1] = "* [[" .. Reference .. "]]"
+			AllReferences[#AllReferences + 1] = "* [[" .. Reference .. "]]"	
+			end
 		end
 		return table.concat(AllReferences, string.char(10))
 	end
