@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-02-20T16:13:12+01:00
+-- [P2G] Auto upload by PageToGitHub on 2021-02-20T16:23:18+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -194,7 +194,7 @@ function p.ListHTData(frame)
 		DataString = "Informazioni originali lette dal database di '''HyperTrek''' datato " .. frame:expandTemplate{title = 'TimeL', args = {Tipo='ITMedia', Istante=HTNodes.mainsnak.datavalue.value.time}} .. " con i seguenti dettagli: "
 		
 		for _, Qualifier in pairs(HTNodes.qualifiers) do
-			QualiString = QualiString .. "<li " .. "title='" .. Qualifier[1].property .. "'>'''" .. Qualifier[1].property .. "''': " .. Qualifier[1].datavalue.value .. "</li>" 
+			QualiString = QualiString .. "<li " .. "title='" .. Qualifier[1].property .. "'>'''" .. mw.wikibase.getLabelByLang(Qualifier[1].property, 'it') .. "''': " .. Qualifier[1].datavalue.value .. "</li>" 
 		end
 		
 		DIV
