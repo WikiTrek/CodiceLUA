@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-02-23T23:25:23+01:00
+-- [P2G] Auto upload by PageToGitHub on 2021-02-23T23:34:03+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTEpisodio
 -- Keyword: wikitrek
 local LabelOrLink = require('Modulo:DTBase').LabelOrLink
@@ -279,7 +279,7 @@ function p.IncipitTree(frame)
 		local SeasonData = p.SeasonInfoRaw()
 		
 		if not mw.wikibase.getEntity().claims['P20'] then
-			return "'''''" .. mw.title.getCurrentTitle().text .. "''''' è un episodio della stagione " .. SeasonData.SeasonNumber .. " di ''[[Serie::" .. SeasonData.SeriesName .. "]]''." .. "{{#set:Stagione=" .. SeasonData.SeasonNumber .. "}}" .. string.char(10)
+			return "'''''" .. mw.title.getCurrentTitle().text .. "''''' è un episodio della stagione " .. SeasonData.SeasonNumber .. " di ''[[Serie::" .. SeasonData.SeriesName .. "]]''." .. frame:callParserFunction{name = "{{#set:Stagione=" .. SeasonData.SeasonNumber} .. string.char(10)
 		else
 			return "''''" .. mw.title.getCurrentTitle().text .. "'''' è " .. 	mw.wikibase.getEntity().claims['P20'][1].mainsnak.datavalue['value'] .. string.char(10)
 		end
