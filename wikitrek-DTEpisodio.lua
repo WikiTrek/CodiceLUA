@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-01-30T17:12:57+01:00
+-- [P2G] Auto upload by PageToGitHub on 2021-02-23T23:25:23+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTEpisodio
 -- Keyword: wikitrek
 local LabelOrLink = require('Modulo:DTBase').LabelOrLink
@@ -244,7 +244,7 @@ function p.SeasonInfoRaw(Entity)
 	if Item.claims['P16'] then
 		SeriesQ = Item.claims['P16'][1].mainsnak.datavalue.value.id
 	else
-		SeriesQ = mw.wikibase.getEntity(Item.claims['P16'][1].mainsnak.datavalue.value.id).claims['P16'][1].mainsnak.datavalue.value.id
+		SeriesQ = mw.wikibase.getEntity(Item.claims['P14'][1].mainsnak.datavalue.value.id).claims['P16'][1].mainsnak.datavalue.value.id
 	end
 	
 	Result['SeriesName'] = mw.wikibase.getLabel(SeriesQ)
@@ -279,7 +279,7 @@ function p.IncipitTree(frame)
 		local SeasonData = p.SeasonInfoRaw()
 		
 		if not mw.wikibase.getEntity().claims['P20'] then
-			return "'''''" .. mw.title.getCurrentTitle().text .. "''''' è un episodio della stagione " .. SeasonData.SeasonNumber .. " di ''[[" .. SeasonData.SeriesName .. "]]''." .. string.char(10)
+			return "'''''" .. mw.title.getCurrentTitle().text .. "''''' è un episodio della stagione " .. SeasonData.SeasonNumber .. " di ''[[Serie::" .. SeasonData.SeriesName .. "]]''." .. "{{#set:Stagione=" .. SeasonData.SeasonNumber .. "}}" .. string.char(10)
 		else
 			return "''''" .. mw.title.getCurrentTitle().text .. "'''' è " .. 	mw.wikibase.getEntity().claims['P20'][1].mainsnak.datavalue['value'] .. string.char(10)
 		end
