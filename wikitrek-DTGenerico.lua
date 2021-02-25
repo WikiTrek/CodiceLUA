@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-02-20T16:23:18+01:00
+-- [P2G] Auto upload by PageToGitHub on 2021-02-25T22:56:42+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -40,6 +40,7 @@ end
 function p.Title(frame)
 	-- |FileIcona=dsg.png
 	local ItemQ
+	local TitleText
 	
 	local Item = mw.wikibase.getEntity()
 	if not Item then
@@ -54,7 +55,10 @@ function p.Title(frame)
 	--return ItemQ
 	--return mw.wikibase.getEntity(ItemQ)['claims']['P3'][1].mainsnak.datavalue['value']
 	
-	return mw.wikibase.getLabelByLang(ItemQ, 'it')
+	TitleText = mw.wikibase.getLabelByLang(ItemQ, 'it')
+	mw.smw.set("Istanza=" .. TitleText)
+
+	return TitleText
 end
 function p.ListAllP(frame)
 	local AllP
