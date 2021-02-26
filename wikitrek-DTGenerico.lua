@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-02-26T16:38:05+01:00
+-- [P2G] Auto upload by PageToGitHub on 2021-02-26T16:40:25+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -141,11 +141,14 @@ function p.ListAllP(frame)
 								AccValues[#AccValues + 1] = frame:expandTemplate{title = 'TimeL', args = {Tipo='ITEstesa', Istante=Value['time']}}
 							end
 						elseif SnakValue.mainsnak.datavalue.type == 'quantity' then
-							AccValues[#AccValues + 1] = string.format('%u', SnakValue.mainsnak.datavalue.value.amount)
+							local StringValue
+							StringValue = string.format('%u', SnakValue.mainsnak.datavalue.value.amount)
 							
 							if AddSemantic then
 								mw.smw.set(Header[2] .. "::" .. StringValue)
 							end
+							
+							AccValues[#AccValues + 1] = StringValue
 						else
 							AccValues[#AccValues + 1] = 'TABLE'
 						end
