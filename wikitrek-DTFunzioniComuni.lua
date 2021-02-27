@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-01-26T00:18:28+01:00
+-- [P2G] Auto upload by PageToGitHub on 2021-02-27T12:16:28+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTFunzioniComuni
 -- Keyword: wikitrek
 
@@ -148,7 +148,16 @@ function p.CategoryTree(frame)
 	return table.concat(p.PropertiesOnTree("P68", 2, true), "</br>")
 end
 function p.IconTree(frame)
-	return table.concat(p.PropertiesOnTree("P3", 3, false), "</br>")
+	local ImageName
+	
+	--return table.concat(p.PropertiesOnTree("P3", 3, false), "</br>")
+	ImageName = p.PropertiesOnTree("P3", 3, false)[1]
+	if ImageName == nil or ImageName == '' then
+		-- Takes icon from SERIES P16
+		ImageName = mw.wikibase.getEntity(Item.claims['P16'][1].mainsnak.datavalue.value.id).claims['P3'][1].mainsnak.datavalue.value
+	end
+	
+	return ImageName
 end
 function p.SeasonTree(frame)
 	return table.concat(p.PropertiesOnTree("P18", 3, false), "</br>")
