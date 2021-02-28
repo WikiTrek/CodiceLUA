@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-02-27T15:19:04+01:00
+-- [P2G] Auto upload by PageToGitHub on 2021-02-28T15:24:59+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -47,15 +47,13 @@ function p.Title(frame)
 		Item = mw.wikibase.getEntity('Q1')
 	end
 	
-	--ItemQ = Item['claims']['P14'][1].mainsnak.datavalue['value']['id']
 	ItemQ = p.QFromP('P14')
-	--SeriesQ = Item['claims']['P16'][1]['mainsnak'].datavalue['value']['id']
-	--FileName = mw.wikibase.getEntity(SeriesQ)['claims']['P3'][1]['mainsnak'].datavalue['value']
-	--IconFileName = Item['claims']['P3'][1].mainsnak.datavalue['value']
-	--return ItemQ
-	--return mw.wikibase.getEntity(ItemQ)['claims']['P3'][1].mainsnak.datavalue['value']
 	
 	TitleText = mw.wikibase.getLabelByLang(ItemQ, 'it')
+	if TitleText == nil then
+		--Return Q item in case of error processing the label to troubleshoot
+		TitleText = ItemQ
+	end
 	mw.smw.set("Istanza=" .. TitleText)
 
 	return TitleText
