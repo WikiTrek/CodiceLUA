@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-03-04T00:39:39+01:00
+-- [P2G] Auto upload by PageToGitHub on 2021-03-04T00:41:47+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTBase
 --- This module represent the package containing basic functions to access data from the WikiBase instance DataTrek
 -- @module p
@@ -455,10 +455,10 @@ function p.ListBackReferences(frame)
             else
                 myResult = myResult .. k .. " | no page title for result set available (you probably specified ''mainlabel=-')"
             end]=]
-            if string.sub(v.fulltext, 1, 7) == "[[File:" then
-				Row = "[[:" .. string.sub(v.fulltext, 3)
+            if string.sub(v.fulltext, 1, 5) == "File:" then
+				Row = "[[:" .. v.fulltext .. "]]" --string.sub(v.fulltext, 3)
 			else
-				Row = v.fulltext
+				Row = "[[" .. v.fulltext "]]"
             end
 			AllBackReferences[#AllBackReferences + 1] = "*" .. Row
         end
