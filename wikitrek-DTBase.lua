@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-03-04T00:00:12+01:00
+-- [P2G] Auto upload by PageToGitHub on 2021-03-04T00:39:39+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTBase
 --- This module represent the package containing basic functions to access data from the WikiBase instance DataTrek
 -- @module p
@@ -416,6 +416,7 @@ end
 -- @frame Info from MW session
 -- @return A bullet list of backlinks
 function p.ListBackReferences(frame)
+	-- See example here https://github.com/SemanticMediaWiki/SemanticScribunto/blob/master/docs/mw.smw.getQueryResult.md
 	local AllBackReferences = {}
 	--[=[
 	local QueryResult = mw.smw.ask('[[Riferimento::' .. mw.title.getCurrentTitle().text .. ']]|?DataTrek ID|format=broadtable')
@@ -440,22 +441,30 @@ function p.ListBackReferences(frame)
 
 	--local QueryResult = mw.smw.getQueryResult('[[Riferimento::' .. mw.title.getCurrentTitle().text .. ']]|?DataTrek ID')
 	--local queryResult = mw.smw.getQueryResult( frame.args )
-	local queryResult = mw.smw.getQueryResult('[[Riferimento::' .. mw.title.getCurrentTitle().text .. ']]|?DataTrek ID')
+	local QueryResult = mw.smw.getQueryResult('[[Riferimento::' .. mw.title.getCurrentTitle().text .. ']]|?DataTrek ID')
 	
-    if queryResult == nil then
-        return "(no values)"
+    if QueryResult == nil then
+        return "''Nessun risultato''"
     end
 
-    if type( queryResult ) == "table" then
-        local myResult = ""
-        for k,v in pairs( queryResult.results ) do
-            if  v.fulltext and v.fullurl then
+    if type(QueryResult) == "table" then
+        local Row = ""
+        for k, v in pairs(QueryResult.results) do
+            --[=[if  v.fulltext and v.fullurl then
                 myResult = myResult .. k .. " | " .. v.fulltext .. " " .. v.fullurl .. " | " .. "<br/>"
             else
                 myResult = myResult .. k .. " | no page title for result set available (you probably specified ''mainlabel=-')"
+            end]=]
+            if string.sub(v.fulltext, 1, 7) == "[[File:" then
+				Row = "[[:" .. string.sub(v.fulltext, 3)
+			else
+				Row = v.fulltext
             end
+			AllBackReferences[#AllBackReferences + 1] = "*" .. Row
         end
-        return myResult
+        	return table.concat(AllBackReferences, string.char(10))
+    else
+    	return "''No table''"
     end
 
     return queryResult
