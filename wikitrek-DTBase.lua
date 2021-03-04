@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-03-04T17:59:58+01:00
+-- [P2G] Auto upload by PageToGitHub on 2021-03-04T18:18:20+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTBase
 --- This module represent the package containing basic functions to access data from the WikiBase instance DataTrek
 -- @module p
@@ -417,6 +417,7 @@ end
 -- @return A bullet list of backlinks
 function p.ListBackReferences(frame)
 	-- See example here https://github.com/SemanticMediaWiki/SemanticScribunto/blob/master/docs/mw.smw.getQueryResult.md
+	-- See also here https://doc.semantic-mediawiki.org/md_content_extensions_SemanticScribunto_docs_mw_8smw_8getQueryResult.html
 	local AllBackReferences = {}
 	--[=[
 	local QueryResult = mw.smw.ask('[[Riferimento::' .. mw.title.getCurrentTitle().text .. ']]|?DataTrek ID|format=broadtable')
@@ -460,7 +461,7 @@ function p.ListBackReferences(frame)
 			else
 				Row = "[[" .. v.fulltext .. "]]"
             end
-            Row = Row .. v.printouts['DataTrek ID'][1]
+            Row = Row .. " - " .. v.printouts['DataTrek ID'][1]
 			AllBackReferences[#AllBackReferences + 1] = "*" .. Row
         end
         	return table.concat(AllBackReferences, string.char(10))
