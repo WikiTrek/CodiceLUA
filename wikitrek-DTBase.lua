@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-03-05T00:32:50+01:00
+-- [P2G] Auto upload by PageToGitHub on 2021-03-05T00:45:43+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTBase
 --- This module represent the package containing basic functions to access data from the WikiBase instance DataTrek
 -- @module p
@@ -397,15 +397,16 @@ function p.ListReferences(frame)
 		return "Nessun riferimento trovato"
 	else
 		for _, Statement in pairs(Statements) do
-			local Reference = mw.wikibase.getSitelink(Statement.mainsnak.datavalue.value.id)
+			local ReferenceItem = Statement.mainsnak.datavalue.value.id
+			local Reference = mw.wikibase.getSitelink(ReferenceItem)
 			if not Reference then
-				Reference = Statement.mainsnak.datavalue.value.id
-				AllReferences[#AllReferences + 1] = "* [[Special:AboutTopic/" .. Reference .. "]]"
+				--Reference = Statement.mainsnak.datavalue.value.id
+				AllReferences[#AllReferences + 1] = "* [[Special:AboutTopic/" .. ReferenceItem .. "]] - " .. ReferenceItem
 			else
 				if frame.args['AddSemantic'] then
-				Reference = "Riferimento::" .. Reference
-			end
-			AllReferences[#AllReferences + 1] = "* [[" .. Reference .. "]]"	
+					Reference = "Riferimento::" .. Reference
+				end
+				AllReferences[#AllReferences + 1] = "* [[" .. Reference .. "]] - " .. ReferenceItem	
 			end
 		end
 		return table.concat(AllReferences, string.char(10))
