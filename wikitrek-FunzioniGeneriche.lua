@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-04-07T00:15:20+02:00
+-- [P2G] Auto upload by PageToGitHub on 2021-04-07T00:22:37+02:00
 -- [P2G] This code from page Modulo:wikitrek-FunzioniGeneriche
 -- Keyword: wikitrek
 local p = {} --p stands for package
@@ -103,6 +103,8 @@ end
 function p.TextColor(frame)
 	local hex = string.sub(frame.args[1], 2)
 	local R, G, B
+	local L
+	
     if hex:len() == 3 then
       --return (tonumber("0x"..hex:sub(1,1))*17)/255, (tonumber("0x"..hex:sub(2,2))*17)/255, (tonumber("0x"..hex:sub(3,3))*17)/255
       R = tonumber("0x"..hex:sub(1,1))*17/255
@@ -114,6 +116,12 @@ function p.TextColor(frame)
     	B = tonumber("0x"..hex:sub(5,6))/255
     end
     
-    return (R * 0.299 + G * 0.587 + B * 0.114) / 256
+    L = (R * 0.299 + G * 0.587 + B * 0.114) --/ 256
+    if L < 0.5 then
+    	return "white"
+    else
+    	return "balck"
+    end
+		
 end
 return p
