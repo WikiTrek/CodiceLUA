@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-04-07T00:23:19+02:00
+-- [P2G] Auto upload by PageToGitHub on 2021-04-07T23:08:32+02:00
 -- [P2G] This code from page Modulo:wikitrek-FunzioniGeneriche
 -- Keyword: wikitrek
 local p = {} --p stands for package
@@ -21,8 +21,8 @@ function p.EsempioTemplate(frame)
     SubPageTitle = mw.title.makeTitle(Title.namespace, Title.text .. '/' .. SubPageName)
 
     local Intro = 'Questo esempio è automaticamente generato tramite script LUA a partire dal codice di esempio presente in <code>[[' .. SubPageTitle.prefixedText .. ']]</code>'
-    local CodeString = 'Il codice'
-    local ReturnString = 'restituisce'
+    local CodeString = '=== Il codice ==='
+    local ReturnString = '=== restituisce ==='
 
 	Content = SubPageTitle:getContent()
 	
