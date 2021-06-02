@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-06-02T17:51:57+02:00
+-- [P2G] Auto upload by PageToGitHub on 2021-06-02T17:53:13+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTSem
 -- Keyword: wikitrek
 local p = {}
@@ -40,7 +40,7 @@ function p.DescrFromDT(frame)
 	
 	local Labels = Item.labels
 	for _, Label in pairs(Labels) do
-		Value = "** " .. Label.value .. "@" .. Label.language
+		Value = "** " .. "[[Has property description::" .. Label.value .. "@" .. Label.language .. "|" .. Label.value .. "]]"
 		if not AllLabels then
 			AllLabels = Value
 		else
