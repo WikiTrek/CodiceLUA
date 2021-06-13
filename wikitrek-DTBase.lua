@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-06-13T15:29:36+02:00
+-- [P2G] Auto upload by PageToGitHub on 2021-06-13T15:34:48+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTBase
 --- This module represent the package containing basic functions to access data from the WikiBase instance DataTrek
 -- @module p
@@ -482,7 +482,7 @@ end
 -- @PName Info from MW session
 -- @SMWPrefix 
 -- @return A bullet list of backlinks
-function p.PropertyList(PName, SMWPrefix)
+function p.PropertyList(frame)
 	--{{#invoke:DTBase|PropertyList|P59|Scritto da}}
 	local AllReferences = {}
 	local Item = mw.wikibase.getEntityIdForCurrentPage()
@@ -490,7 +490,7 @@ function p.PropertyList(PName, SMWPrefix)
 		Item = 'Q1'
 	end
 	
-	local Statements = mw.wikibase.getAllStatements(Item, "P59")
+	local Statements = mw.wikibase.getAllStatements(Item, frame.args["Property"])
 	if not Statements then
 		return "Nessun riferimento trovato"
 	elseif table.getn(Statements) == 1 then
