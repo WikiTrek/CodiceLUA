@@ -1,10 +1,12 @@
--- [P2G] Auto upload by PageToGitHub on 2021-06-13T15:34:48+02:00
+-- [P2G] Auto upload by PageToGitHub on 2021-06-13T15:46:59+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTBase
 --- This module represent the package containing basic functions to access data from the WikiBase instance DataTrek
 -- @module p
 -- @author Luca Mauri [[Utente:Lucamauri]]
 -- Add other authors below
 -- Keyword: wikitrek
+local LabelOrLink = require('Modulo:DTBase').LabelOrLink
+
 local p = {}
 function p.Epilogo(frame)
 	local DoubleReturn = string.char(10) .. string.char(10)
@@ -498,7 +500,7 @@ function p.PropertyList(frame)
 	else
 		for _, Statement in pairs(Statements) do
 			--local ReferenceItem = Statement.mainsnak.datavalue.value.id
-			AllReferences[#AllReferences + 1] = "<li>" .. Statement.mainsnak.datavalue.value.id .. "</li>"
+			AllReferences[#AllReferences + 1] = "<li>" ..  Statement.mainsnak.datavalue.value.id .. " " .. LabelOrLink(Statement.mainsnak.datavalue.value.id) .. "</li>"
 		end
 		return "<ul>" .. table.concat(AllReferences, string.char(10)) .. "</ul>"
 	end
