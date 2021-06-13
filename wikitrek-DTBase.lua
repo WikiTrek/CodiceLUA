@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-06-12T15:56:26+02:00
+-- [P2G] Auto upload by PageToGitHub on 2021-06-13T15:27:48+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTBase
 --- This module represent the package containing basic functions to access data from the WikiBase instance DataTrek
 -- @module p
@@ -477,5 +477,30 @@ function p.ListBackReferences(frame)
 
     return queryResult
 end
-
+--- Writes a gneric UL list from property, adding SMW link if specified
+-- 
+-- @PName Info from MW session
+-- @SMWPrefix 
+-- @return A bullet list of backlinks
+function PropertyList(PName, SMWPrefix)
+	--{{#invoke:DTBase|PropertyList|P59|Scritto da}}
+	local AllReferences = {}
+	local Item = mw.wikibase.getEntityIdForCurrentPage()
+	if not Item then
+		Item = 'Q1'
+	end
+	
+	local Statements = mw.wikibase.getAllStatements(Item, PName)
+	if not Statements then
+		return "Nessun riferimento trovato"
+	elseif table.getn(Statements) == 1 then
+		return Statements[1].mainsnak.datavalue.value.id
+	else
+		for _, Statement in pairs(Statements) do
+			--local ReferenceItem = Statement.mainsnak.datavalue.value.id
+			AllReferences[#AllReferences + 1] = "<li>" .. Statement.mainsnak.datavalue.value.id .. "</li>"
+		end
+		return "<ul>" .. table.concat(AllReferences, string.char(10)) .. "</ul>"
+	end
+end
 return p
