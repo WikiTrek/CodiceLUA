@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-06-13T15:27:48+02:00
+-- [P2G] Auto upload by PageToGitHub on 2021-06-13T15:28:52+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTBase
 --- This module represent the package containing basic functions to access data from the WikiBase instance DataTrek
 -- @module p
@@ -482,7 +482,7 @@ end
 -- @PName Info from MW session
 -- @SMWPrefix 
 -- @return A bullet list of backlinks
-function PropertyList(PName, SMWPrefix)
+function p.PropertyList(PName, SMWPrefix)
 	--{{#invoke:DTBase|PropertyList|P59|Scritto da}}
 	local AllReferences = {}
 	local Item = mw.wikibase.getEntityIdForCurrentPage()
