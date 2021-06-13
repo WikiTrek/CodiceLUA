@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-06-13T16:02:24+02:00
+-- [P2G] Auto upload by PageToGitHub on 2021-06-13T16:19:59+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTBase
 --- This module represent the package containing basic functions to access data from the WikiBase instance DataTrek
 -- @module p
@@ -320,7 +320,7 @@ function p.LabelOrLink(QItem, SMWProperty, AddSemantic)
 		if not Label then
 			Label = WTLink
 		end
-		if string.find(WTLink, "Categoria:", 1, true) ~= nil  then
+		if string.find(WTLink, "Categoria:", 1, true) ~= nil then
 			return "[[" .. WTLink .. "]]"
 		elseif AddSemantic then
 			return "[[" .. SMWProperty .. "::" .. WTLink .. "|" .. Label .. "]]"
@@ -482,8 +482,8 @@ function p.ListBackReferences(frame)
 end
 --- Writes a gneric UL list from property, adding SMW link if specified
 -- 
--- @PName Info from MW session
--- @SMWPrefix 
+-- @param PName Info from MW session
+-- @param SMWPrefix 
 -- @return A bullet list of backlinks
 function p.PropertyList(frame)
 	--{{#invoke:DTBase|PropertyList|P59|Scritto da}}
@@ -497,11 +497,11 @@ function p.PropertyList(frame)
 	if not Statements then
 		return "Nessun riferimento trovato"
 	elseif table.getn(Statements) == 1 then
-		return Statements[1].mainsnak.datavalue.value.id
+		return p.LabelOrLink(Statements[1].mainsnak.datavalue.value.id, frame.args["SMWPrefix"], true)
 	else
 		for _, Statement in pairs(Statements) do
 			--local ReferenceItem = Statement.mainsnak.datavalue.value.id
-			AllReferences[#AllReferences + 1] = "<li>" ..  Statement.mainsnak.datavalue.value.id .. " " .. p.LabelOrLink(Statement.mainsnak.datavalue.value.id) .. "</li>"
+			AllReferences[#AllReferences + 1] = "<li>" .. p.LabelOrLink(Statement.mainsnak.datavalue.value.id, frame.args["SMWPrefix"], true) .. "</li>"
 		end
 		return "<ul>" .. table.concat(AllReferences, string.char(10)) .. "</ul>"
 	end
