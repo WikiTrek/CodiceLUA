@@ -1,12 +1,10 @@
--- [P2G] Auto upload by PageToGitHub on 2021-06-13T15:46:59+02:00
+-- [P2G] Auto upload by PageToGitHub on 2021-06-13T15:56:31+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTBase
 --- This module represent the package containing basic functions to access data from the WikiBase instance DataTrek
 -- @module p
 -- @author Luca Mauri [[Utente:Lucamauri]]
 -- Add other authors below
 -- Keyword: wikitrek
-local LabelOrLink = require('Modulo:DTBase').LabelOrLink
-
 local p = {}
 function p.Epilogo(frame)
 	local DoubleReturn = string.char(10) .. string.char(10)
