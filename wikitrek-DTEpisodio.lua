@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-02-26T16:36:13+01:00
+-- [P2G] Auto upload by PageToGitHub on 2021-08-12T17:24:19+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTEpisodio
 -- Keyword: wikitrek
 local LabelOrLink = require('Modulo:DTBase').LabelOrLink
@@ -48,7 +48,8 @@ function p.GetActors(frame, AddSemantic)
 				CharLink = CharLabelEntity
 			end]==]
 			
-			CharLink = mw.wikibase.getSitelink(CharQ) or CharLabelEntity
+			--CharLink = mw.wikibase.getSitelink(CharQ) or CharLabelEntity
+			CharLink = mw.wikibase.getSitelink(CharQ) or "Special:AboutTopic/" .. CharQ
 			MakeWikiLink = true
 		else
 			MakeWikiLink = false
