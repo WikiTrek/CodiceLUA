@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-08-13T12:39:00+02:00
+-- [P2G] Auto upload by PageToGitHub on 2021-08-13T13:58:27+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTEpisodio
 -- Keyword: wikitrek
 local LabelOrLink = require('Modulo:DTBase').LabelOrLink
@@ -91,6 +91,7 @@ function p.GetActors(frame, AddSemantic)
 		}}
 		{{#set:|Keyla Detmer=Emily Coutts}}
 		]=]
+		--Character
 		if MakeWikiLink then
 			if AddSemantic then
 				--Result['Character'] = Prefix .. '[[Personaggio::' .. CharLink .. '|' .. CharLabel .. ']]' .. Suffix .. frame:callParserFunction('#set:', CharLabel .. '=' .. actorLabel)
@@ -102,6 +103,7 @@ function p.GetActors(frame, AddSemantic)
 			Result['Character'] = Prefix .. CharLabel .. Suffix
 		end
 		
+		--Actor
 		if AddSemantic then
 			--Result['Actor'] = '[[Interprete::' .. actorLabel .. ']]' .. frame:callParserFunction('#set:', actorLabel .. '=' .. CharLabel)
 			Result['Actor'] = '[[' .. actorLink .. '|' .. actorLabel .. ']]' .. frame:callParserFunction('#set:', actorLabel .. '=' .. CharLabel) .. frame:callParserFunction('#set:', 'Interprete=' .. actorLabel)
