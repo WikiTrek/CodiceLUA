@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-08-12T17:24:19+02:00
+-- [P2G] Auto upload by PageToGitHub on 2021-08-13T12:39:00+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTEpisodio
 -- Keyword: wikitrek
 local LabelOrLink = require('Modulo:DTBase').LabelOrLink
@@ -30,6 +30,7 @@ function p.GetActors(frame, AddSemantic)
 		-- Se tutti gli attori avessero SiteLink
 		-- mw.wikibase.getSitelink(actorQ)
 		local actorLabel = mw.wikibase.getLabel(actorQ)
+		local actorLink = mw.wikibase.getSitelink(actorQ) or "Special:AboutTopic/" .. actorQ
 		
 		local CharQ
 		local CharEntity
@@ -93,7 +94,7 @@ function p.GetActors(frame, AddSemantic)
 		if MakeWikiLink then
 			if AddSemantic then
 				--Result['Character'] = Prefix .. '[[Personaggio::' .. CharLink .. '|' .. CharLabel .. ']]' .. Suffix .. frame:callParserFunction('#set:', CharLabel .. '=' .. actorLabel)
-				Result['Character'] = Prefix .. '[[Personaggio::' .. CharLink .. '|' .. CharLabel .. ']]' .. Suffix
+				Result['Character'] = Prefix .. '[[' .. CharLink .. '|' .. CharLabel .. ']]' .. Suffix  .. frame:callParserFunction('#set:', 'Personaggio=' .. CharLabel)
 			else
 				Result['Character'] = Prefix .. '[[' .. CharLink .. '|' .. CharLabel .. ']]' .. Suffix
 			end
@@ -102,10 +103,10 @@ function p.GetActors(frame, AddSemantic)
 		end
 		
 		if AddSemantic then
-			Result['Actor'] = '[[Interprete::' .. actorLabel .. ']]' .. frame:callParserFunction('#set:', actorLabel .. '=' .. CharLabel)
-			--Result['Actor'] = '[[Interprete::' .. actorLabel .. ']]'
+			--Result['Actor'] = '[[Interprete::' .. actorLabel .. ']]' .. frame:callParserFunction('#set:', actorLabel .. '=' .. CharLabel)
+			Result['Actor'] = '[[' .. actorLink .. '|' .. actorLabel .. ']]' .. frame:callParserFunction('#set:', actorLabel .. '=' .. CharLabel) .. frame:callParserFunction('#set:', 'Interprete=' .. actorLabel)
 		else
-			Result['Actor'] = '[[' .. actorLabel .. ']]'
+			Result['Actor'] = '[[' .. actorLink .. '|' .. actorLabel .. ']]'
 		end
 		Result['Type'] = AppearanceType
 		
