@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-08-16T18:03:57+02:00
+-- [P2G] Auto upload by PageToGitHub on 2021-08-16T18:05:44+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -65,7 +65,7 @@ function p.ListAllP(frame)
 	local AllRows = {}
 	local HTMLTable
 	local CollectionTable = ''
-	local ExcludeP = {P3 = true, P14 = true, P26 = true, P30 = true, P37 = true, P58 = true, P68 = true, P52 = true, P79 = true, P90 = true}
+	local ExcludeP = {P3 = true, P14 = false, P26 = true, P30 = true, P37 = true, P58 = true, P68 = true, P52 = true, P79 = true, P90 = true}
 	local Item = mw.wikibase.getEntity()
 	local ItemQ = mw.wikibase.getEntityIdForCurrentPage()
 	if not Item then
