@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-08-16T18:26:58+02:00
+-- [P2G] Auto upload by PageToGitHub on 2021-08-16T18:28:40+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -90,7 +90,6 @@ function p.ListAllP(frame)
 	end
 	for _, Property in pairs(AllP) do
 		if (not ExcludeP[Property]) and Item.claims[Property][1].mainsnak.datatype ~= 'external-id' then
-			local AccValues = {}
 			if Property == "P46" then
 				-- Collection
 				CollectionTable = string.char(10) .. MakeNavTable(Item.claims[Property][1].qualifiers, Item.claims[Property][1].mainsnak.datavalue.value)
@@ -99,15 +98,12 @@ function p.ListAllP(frame)
 				CollectionTable = string.char(10) .. MakeNavTable(Item.claims, Item.claims[Property][1].mainsnak.datavalue.value)
 			elseif Property == "P14" then
 				--Instance
-				AllRows[#AllRows + 1] = {{"P40", "Affiliazione:"}, {"AffiliationTree"}}
-				AccValues[#AccValues + 1] = "AffiliationTree"
-				AccValues[#AccValues + 1] = AffiliationTree(frame)
-				AccValues[#AccValues + 1] = "OperatorTree"
-				AccValues[#AccValues + 1] = OperatorTree(frame)
+				AllRows[#AllRows + 1] = {{"P40", "Affiliazione:"}, {AffiliationTree(frame)}}
+				AllRows[#AllRows + 1] = {{"P41", "Operatore:"}, {OperatorTree(frame)}}
 			else
 				local Header = {Property, (mw.wikibase.getLabelByLang(Property, 'it') or mw.wikibase.getLabel(Property)) .. ":"} -- or {Property, mw.wikibase.getLabel(Property) .. ":"} --'-' .. Property .. ":"}
 				local Values = Item['claims'][Property]
-				--local AccValues = {}
+				local AccValues = {}
 				for _, SnakValue in pairs(Values) do
 					local Value = SnakValue.mainsnak.datavalue['value']
 					if (type(Value) == "table") then
