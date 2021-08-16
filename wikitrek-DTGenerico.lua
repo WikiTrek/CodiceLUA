@@ -1,12 +1,12 @@
--- [P2G] Auto upload by PageToGitHub on 2021-08-16T17:58:34+02:00
+-- [P2G] Auto upload by PageToGitHub on 2021-08-16T17:59:37+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
 local LabelOrLink = require('Modulo:DTBase').LabelOrLink
 local GenericValue = require('Modulo:DTBase').GenericValue
 local MakeNavTable = require('Modulo:DTBase').MakeNavTable
-local AffiliationTree = require('Modulo:FunzioniComuni').AffiliationTree
-local OperatorTree = require('Modulo:FunzioniComuni').OperatorTree
+local AffiliationTree = require('Modulo:DTFunzioniComuni').AffiliationTree
+local OperatorTree = require('Modulo:DTFunzioniComuni').OperatorTree
 
 local p = {}
 function p.QFromP(Property)
