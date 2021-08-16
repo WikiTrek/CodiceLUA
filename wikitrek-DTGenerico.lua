@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-08-16T18:07:37+02:00
+-- [P2G] Auto upload by PageToGitHub on 2021-08-16T18:22:59+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -99,7 +99,10 @@ function p.ListAllP(frame)
 				CollectionTable = string.char(10) .. MakeNavTable(Item.claims, Item.claims[Property][1].mainsnak.datavalue.value)
 			elseif Property == "P14" then
 				--Instance
+				AllRows[#AllRows + 1] = {{"P40", "Affiliazione:"}, "AffiliationTree"}
+				AccValues[#AccValues + 1] = "AffiliationTree"
 				AccValues[#AccValues + 1] = AffiliationTree(frame)
+				AccValues[#AccValues + 1] = "OperatorTree"
 				AccValues[#AccValues + 1] = OperatorTree(frame)
 			else
 				local Header = {Property, (mw.wikibase.getLabelByLang(Property, 'it') or mw.wikibase.getLabel(Property)) .. ":"} -- or {Property, mw.wikibase.getLabel(Property) .. ":"} --'-' .. Property .. ":"}
