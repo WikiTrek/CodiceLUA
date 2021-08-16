@@ -1,10 +1,12 @@
--- [P2G] Auto upload by PageToGitHub on 2021-02-28T15:24:59+01:00
+-- [P2G] Auto upload by PageToGitHub on 2021-08-16T17:58:34+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
 local LabelOrLink = require('Modulo:DTBase').LabelOrLink
 local GenericValue = require('Modulo:DTBase').GenericValue
 local MakeNavTable = require('Modulo:DTBase').MakeNavTable
+local AffiliationTree = require('Modulo:FunzioniComuni').AffiliationTree
+local OperatorTree = require('Modulo:FunzioniComuni').OperatorTree
 
 local p = {}
 function p.QFromP(Property)
@@ -121,6 +123,9 @@ function p.ListAllP(frame)
 							end
 							--AccValues[#AccValues + 1] = LabelOrLink(SnakValue.qualifiers['P73'][1].datavalue.value['id']) .. " " .. LabelOrLink(Value['id']) .. ", " .. LabelOrLink(SnakValue.qualifiers['P76'][1].datavalue.value['id']) .. ", " .. LabelOrLink(SnakValue.qualifiers['P77'][1].datavalue.value['id'])
 							AccValues[#AccValues + 1] = Assignment
+						elseif Property == "P14" then --CASE Instance
+							AccValues[#AccValues + 1] = AffiliationTree(frame)
+							AccValues[#AccValues + 1] = OperatorTree(frame)
 						elseif Value['entity-type'] == 'item' then
 							local GenericItem
 							if AddSemantic then
