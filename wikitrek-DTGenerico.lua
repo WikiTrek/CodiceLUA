@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-08-17T16:42:07+02:00
+-- [P2G] Auto upload by PageToGitHub on 2021-08-17T16:43:01+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -100,10 +100,9 @@ function p.ListAllP(frame)
 				--Instance
 				AllRows[#AllRows + 1] = {{"P40", "Affiliazione:"}, {AffiliationTree(frame)}}
 				AllRows[#AllRows + 1] = {{"P41", "Operatore:"}, {OperatorTree(frame)}}
-				mw.smw.set("Operatore=Flotta Stellare")
 				if AddSemantic then
-					mw.smw.set("Affiliazione::" .. AffiliationTree(frame))
-					mw.smw.set("Operatore::" .. OperatorTree(frame))
+					mw.smw.set("Affiliazione=" .. AffiliationTree(frame))
+					mw.smw.set("Operatore=" .. OperatorTree(frame))
 				end
 			else
 				local Header = {Property, (mw.wikibase.getLabelByLang(Property, 'it') or mw.wikibase.getLabel(Property)) .. ":"} -- or {Property, mw.wikibase.getLabel(Property) .. ":"} --'-' .. Property .. ":"}
@@ -154,7 +153,8 @@ function p.ListAllP(frame)
 							StringValue = string.format('%u', SnakValue.mainsnak.datavalue.value.amount)
 							
 							if AddSemantic then
-								mw.smw.set(Header[2] .. "::" .. StringValue)
+								--mw.smw.set(Header[2] .. "::" .. StringValue)
+								mw.smw.set(Header[2] .. "=" .. StringValue)
 							end
 							
 							AccValues[#AccValues + 1] = StringValue
