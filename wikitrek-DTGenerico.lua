@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-08-17T14:58:10+02:00
+-- [P2G] Auto upload by PageToGitHub on 2021-08-17T15:29:08+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -72,7 +72,7 @@ function p.ListAllP(frame)
 		Item = mw.wikibase.getEntity('Q1')
 	end
 	
-	if not AddSemantic then
+	if AddSemantic == nil then
 		AddSemantic = true
 	end
 	
