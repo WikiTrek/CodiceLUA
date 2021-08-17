@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-08-17T16:35:20+02:00
+-- [P2G] Auto upload by PageToGitHub on 2021-08-17T16:42:07+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -100,7 +100,7 @@ function p.ListAllP(frame)
 				--Instance
 				AllRows[#AllRows + 1] = {{"P40", "Affiliazione:"}, {AffiliationTree(frame)}}
 				AllRows[#AllRows + 1] = {{"P41", "Operatore:"}, {OperatorTree(frame)}}
-				mw.smw.set("Operatore::" .. "Flotta Stellare")
+				mw.smw.set("Operatore=Flotta Stellare")
 				if AddSemantic then
 					mw.smw.set("Affiliazione::" .. AffiliationTree(frame))
 					mw.smw.set("Operatore::" .. OperatorTree(frame))
