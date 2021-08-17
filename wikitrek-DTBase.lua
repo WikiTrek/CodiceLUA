@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-06-13T16:19:59+02:00
+-- [P2G] Auto upload by PageToGitHub on 2021-08-17T14:54:30+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTBase
 --- This module represent the package containing basic functions to access data from the WikiBase instance DataTrek
 -- @module p
@@ -47,7 +47,7 @@ function p.ExtLinks(frame)
 	return AllRows .. string.char(10) .. string.char(10) .. "=== Interwiki ===" .. string.char(10) .. p.SiteLinksInterwiki() .. string.char(10) .. "=== Identificativi esterni ===" .. string.char(10) .. p.ExternalID()
 end
 function p.Categories(frame)
-	local Opening = '[[Categoria:'
+	local Opening = '[[Category:'
 	local CategoryP = 'P30'
 	local AbbrP = 'P24'
 	local SeriesP = 'P16'
@@ -288,7 +288,7 @@ function p.LabelOrLink(QItem, SMWProperty, AddSemantic)
 	local Label
 	local WTLink
 	
-	if (not AddSemantic) and SMWProperty and (SMWProperty ~= "") then
+	if AddSemantic and SMWProperty and (SMWProperty ~= "") then
 		AddSemantic = true
 	else
 		AddSemantic = false
