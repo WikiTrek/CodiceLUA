@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-08-17T15:11:56+02:00
+-- [P2G] Auto upload by PageToGitHub on 2021-08-17T15:13:19+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTBase
 --- This module represent the package containing basic functions to access data from the WikiBase instance DataTrek
 -- @module p
@@ -309,7 +309,7 @@ function p.LabelOrLink(QItem, SMWProperty, AddSemantic)
 		return Label
 	end
 	
-	if not mw.wikibase.getSitelink(QItem) and string.find(WTLink, "Categoria:", 1, true) == nil then
+	if not mw.wikibase.getSitelink(QItem) and string.find(Label, "Categoria:", 1, true) == nil then
 		--if mw.wikibase.getSitelink(QItem) == nil or (not mw.wikibase.getSitelink(QItem)) then
 		--return Label
 		
