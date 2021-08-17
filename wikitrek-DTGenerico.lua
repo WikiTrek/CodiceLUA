@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-08-16T18:28:40+02:00
+-- [P2G] Auto upload by PageToGitHub on 2021-08-17T14:58:10+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -100,6 +100,10 @@ function p.ListAllP(frame)
 				--Instance
 				AllRows[#AllRows + 1] = {{"P40", "Affiliazione:"}, {AffiliationTree(frame)}}
 				AllRows[#AllRows + 1] = {{"P41", "Operatore:"}, {OperatorTree(frame)}}
+				if AddSemantic then
+					mw.smw.set("Affiliazione::" .. AffiliationTree(frame))
+					mw.smw.set("Operatore::" .. OperatorTree(frame))
+				end
 			else
 				local Header = {Property, (mw.wikibase.getLabelByLang(Property, 'it') or mw.wikibase.getLabel(Property)) .. ":"} -- or {Property, mw.wikibase.getLabel(Property) .. ":"} --'-' .. Property .. ":"}
 				local Values = Item['claims'][Property]
@@ -208,8 +212,9 @@ function p.ListHTData(frame)
 		local HTNodes = Item.claims['P79'][1]
 		
 		ImageString = "[[File:Menu.png|left|middle|30px|HyperTrek logo]]"
-		DataString = "Informazioni originali lette dal database di '''HyperTrek''' datato " .. frame:expandTemplate{title = 'TimeL', args = {Tipo='ITMedia', Istante=HTNodes.mainsnak.datavalue.value.time}} .. " con i seguenti dettagli: "
-		
+		--DataString = "Informazioni originali lette dal database di '''HyperTrek''' datato " .. frame:expandTemplate{title = 'TimeL', args = {Tipo='ITMedia', Istante=HTNodes.mainsnak.datavalue.value.time}} .. " con i seguenti dettagli: "
+		DataString = "Informazioni originali lette dal database di <h2 class='hiddenheaderbold'>HyperTrek</h2> datato " .. frame:expandTemplate{title = 'TimeL', args = {Tipo='ITMedia', Istante=HTNodes.mainsnak.datavalue.value.time}} .. " con i seguenti dettagli: "
+		 
 		for _, Qualifier in pairs(HTNodes.qualifiers) do
 			QualiString = QualiString .. "<li " .. "title='" .. Qualifier[1].property .. "'>'''" .. mw.wikibase.getLabelByLang(Qualifier[1].property, 'it') .. "''': " .. Qualifier[1].datavalue.value .. "</li>" 
 		end
