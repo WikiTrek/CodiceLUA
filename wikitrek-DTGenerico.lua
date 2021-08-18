@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-08-17T17:23:09+02:00
+-- [P2G] Auto upload by PageToGitHub on 2021-08-18T16:59:37+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -67,6 +67,7 @@ function p.ListAllP(frame)
 	local HTMLTable
 	local CollectionTable = ''
 	local ExcludeP = {P3 = true, P14 = false, P26 = true, P30 = true, P37 = true, P58 = true, P68 = true, P52 = true, P79 = true, P90 = true}
+	local POnTree = {}
 	local Item = mw.wikibase.getEntity()
 	local ItemQ = mw.wikibase.getEntityIdForCurrentPage()
 	if not Item then
@@ -99,6 +100,15 @@ function p.ListAllP(frame)
 				CollectionTable = string.char(10) .. MakeNavTable(Item.claims, Item.claims[Property][1].mainsnak.datavalue.value)
 			elseif Property == "P14" then
 				--Instance
+				POnTree = {{"P88", 3, false}}
+				for _, Prop in pairs(POnTree) do
+					local PropValue = table.concat(PropertiesOnTree(Prop[1], Prop[2], Prop[3]))
+					AllRows[#AllRows + 1] = {{Prop[1], "Classe navale:"}, PropValue}
+					if AddSemantic then
+						mw.smw.set("Classe navale=" .. PropValue)
+					end
+				end
+				
 				AllRows[#AllRows + 1] = {{"P40", "Affiliazione:"}, {AffiliationTree(frame)}}
 				AllRows[#AllRows + 1] = {{"P41", "Operatore:"}, {OperatorTree(frame)}}
 				AllRows[#AllRows + 1] = {{"P88", "Classe navale:"}, {table.concat(PropertiesOnTree("P88", 3, false))}}
