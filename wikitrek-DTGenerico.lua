@@ -1,12 +1,12 @@
--- [P2G] Auto upload by PageToGitHub on 2021-08-18T17:03:52+02:00
+-- [P2G] Auto upload by PageToGitHub on 2021-08-19T11:35:11+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
 local LabelOrLink = require('Modulo:DTBase').LabelOrLink
 local GenericValue = require('Modulo:DTBase').GenericValue
 local MakeNavTable = require('Modulo:DTBase').MakeNavTable
-local AffiliationTree = require('Modulo:DTFunzioniComuni').AffiliationTree
-local OperatorTree = require('Modulo:DTFunzioniComuni').OperatorTree
+--local AffiliationTree = require('Modulo:DTFunzioniComuni').AffiliationTree
+--local OperatorTree = require('Modulo:DTFunzioniComuni').OperatorTree
 local PropertiesOnTree = require('Modulo:DTFunzioniComuni').PropertiesOnTree
 
 local p = {}
@@ -100,12 +100,13 @@ function p.ListAllP(frame)
 				CollectionTable = string.char(10) .. MakeNavTable(Item.claims, Item.claims[Property][1].mainsnak.datavalue.value)
 			elseif Property == "P14" then
 				--Instance
-				POnTree = {{"P88", 3, false}}
+				POnTree = {{"P40", 3, false}, {"P41", 3, false}}
 				for _, Prop in pairs(POnTree) do
 					local PropValue = table.concat(PropertiesOnTree(Prop[1], Prop[2], Prop[3]))
-					AllRows[#AllRows + 1] = {{Prop[1], "Classe navale:"}, {PropValue}}
+					local PropName = mw.wikibase.getLabelByLang(Property, 'it') or mw.wikibase.getLabel(Property)
+					AllRows[#AllRows + 1] = {{Prop[1], PropName .. "PropName:"}, {PropValue}}
 					if AddSemantic then
-						mw.smw.set("Classe navale=" .. PropValue)
+						mw.smw.set(PropName .. "PropNameSMW=" .. PropValue)
 					end
 				end
 				
