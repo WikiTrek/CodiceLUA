@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-08-19T11:36:06+02:00
+-- [P2G] Auto upload by PageToGitHub on 2021-08-19T11:37:09+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -103,7 +103,7 @@ function p.ListAllP(frame)
 				POnTree = {{"P40", 3, false}, {"P41", 3, false}}
 				for _, Prop in pairs(POnTree) do
 					local PropValue = table.concat(PropertiesOnTree(Prop[1], Prop[2], Prop[3]))
-					local PropName = mw.wikibase.getLabelByLang(Property, 'it') or mw.wikibase.getLabel(Property)
+					local PropName = mw.wikibase.getLabelByLang(Prop, 'it') or mw.wikibase.getLabel(Prop)
 					AllRows[#AllRows + 1] = {{Prop[1], PropName .. "PropName:"}, {PropValue}}
 					if AddSemantic then
 						mw.smw.set(PropName .. "PropNameSMW=" .. PropValue)
