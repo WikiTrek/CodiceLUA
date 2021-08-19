@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-08-19T11:37:50+02:00
+-- [P2G] Auto upload by PageToGitHub on 2021-08-19T11:39:33+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -100,13 +100,13 @@ function p.ListAllP(frame)
 				CollectionTable = string.char(10) .. MakeNavTable(Item.claims, Item.claims[Property][1].mainsnak.datavalue.value)
 			elseif Property == "P14" then
 				--Instance
-				POnTree = {{"P40", 3, false}, {"P41", 3, false}}
+				POnTree = {{"P40", 3, false}, {"P41", 3, false}, {"P88", 3, false}}
 				for _, Prop in pairs(POnTree) do
 					local PropValue = table.concat(PropertiesOnTree(Prop[1], Prop[2], Prop[3]))
 					local PropName = mw.wikibase.getLabelByLang(Prop[1], 'it') or mw.wikibase.getLabel(Prop[1])
-					AllRows[#AllRows + 1] = {{Prop[1], PropName .. "PropName:"}, {PropValue}}
+					AllRows[#AllRows + 1] = {{Prop[1], PropName .. ":"}, {PropValue}}
 					if AddSemantic then
-						mw.smw.set(PropName .. "PropNameSMW=" .. PropValue)
+						mw.smw.set(PropName .. "=" .. PropValue)
 					end
 				end
 				
