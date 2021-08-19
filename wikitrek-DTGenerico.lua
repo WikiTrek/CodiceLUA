@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-08-19T11:35:11+02:00
+-- [P2G] Auto upload by PageToGitHub on 2021-08-19T11:36:06+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -110,13 +110,13 @@ function p.ListAllP(frame)
 					end
 				end
 				
-				AllRows[#AllRows + 1] = {{"P40", "Affiliazione:"}, {AffiliationTree(frame)}}
+				--[==[AllRows[#AllRows + 1] = {{"P40", "Affiliazione:"}, {AffiliationTree(frame)}}
 				AllRows[#AllRows + 1] = {{"P41", "Operatore:"}, {OperatorTree(frame)}}
 				AllRows[#AllRows + 1] = {{"P88", "Classe navale:"}, {table.concat(PropertiesOnTree("P88", 3, false))}}
 				if AddSemantic then
 					mw.smw.set("Affiliazione=" .. AffiliationTree(frame))
 					mw.smw.set("Operatore=" .. OperatorTree(frame))
-				end
+				end]==]
 			else
 				local Header = {Property, (mw.wikibase.getLabelByLang(Property, 'it') or mw.wikibase.getLabel(Property)) .. ":"} -- or {Property, mw.wikibase.getLabel(Property) .. ":"} --'-' .. Property .. ":"}
 				local Values = Item['claims'][Property]
