@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-08-20T12:19:58+02:00
+-- [P2G] Auto upload by PageToGitHub on 2021-08-20T17:13:52+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -232,7 +232,14 @@ function p.ListHTData(frame)
 		DataString = "Informazioni originali lette dal database di <h2 class='hiddenheaderbold'>HyperTrek</h2> datato " .. frame:expandTemplate{title = 'TimeL', args = {Tipo='ITMedia', Istante=HTNodes.mainsnak.datavalue.value.time}} .. " con i seguenti dettagli: "
 		 
 		for _, Qualifier in pairs(HTNodes.qualifiers) do
-			QualiString = QualiString .. "<li " .. "title='" .. Qualifier[1].property .. "'>'''" .. mw.wikibase.getLabelByLang(Qualifier[1].property, 'it') .. "''': " .. Qualifier[1].datavalue.value .. "</li>" 
+			local QualiProp = Qualifier[1].property
+			local QualiName = mw.wikibase.getLabelByLang(QualiProp, 'it')
+			local QualiValue = Qualifier[1].datavalue.value
+			--QualiString = QualiString .. "<li " .. "title='" .. Qualifier[1].property .. "'>'''" .. mw.wikibase.getLabelByLang(Qualifier[1].property, 'it') .. "''': " .. Qualifier[1].datavalue.value .. "</li>"
+			QualiString = QualiString .. "<li " .. "title='" .. QualiProp .. "'>'''" .. QualiName .. "''': " .. QualiValue .. "</li>"
+			if AddSemantic then
+				mw.smw.set(QualiName .. "=" .. QualiValue)
+			end
 		end
 		
 		DIV
