@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-08-16T17:55:09+02:00
+-- [P2G] Auto upload by PageToGitHub on 2021-08-26T10:57:47+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTFunzioniComuni
 -- Keyword: wikitrek
 
@@ -78,8 +78,9 @@ end
 -- @param Property The property whose values are returned
 -- @param Depth How far to go on the tree: 1 - item only, 2 - item and Instance, 3 - item, Instance and Instance of Instance
 -- @param Aggregate Wether to aggregate results or return the first found
+-- @param SkipItem Don't return value for current item, Instance and Instance of Instance only
 -- @return Table withs strings or wikilinks
-function p.PropertiesOnTree(Property, Depth, Aggregate)
+function p.PropertiesOnTree(Property, Depth, Aggregate, SkipItem)
 	local CurrentItem = mw.wikibase.getEntity()
 	local InstanceItem = nil
 	local InstanceInstanceItem = nil
@@ -94,6 +95,9 @@ function p.PropertiesOnTree(Property, Depth, Aggregate)
 	end
 	if Depth > 3 then
 		Depth = 3
+	end
+	if SkipItem == nil then
+		SkipItem = false
 	end
 	
 	if Depth > 1 and CurrentItem['claims']['P14'] then
@@ -118,7 +122,15 @@ function p.PropertiesOnTree(Property, Depth, Aggregate)
 		end 
 	end]=]
 	
-	for _, Item in pairs({CurrentItem, InstanceItem, InstanceInstanceItem}) do
+	local QList = {}
+	if SkipItem then
+		QList = {InstanceItem, InstanceInstanceItem}
+	else
+		QList = {CurrentItem, InstanceItem, InstanceInstanceItem}
+	end
+	
+	--for _, Item in pairs({CurrentItem, InstanceItem, InstanceInstanceItem}) do
+	for _, Item in pairs(QList) do
 		--ResultsArray[#ResultsArray + 1] = "For - " .. Item.id 
 		if Item ~= nil and Item.claims[Property] then
 			--ResultsArray[#ResultsArray + 1] = Item.id .. " - " .. Property
