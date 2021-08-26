@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-08-20T17:13:52+02:00
+-- [P2G] Auto upload by PageToGitHub on 2021-08-26T10:59:25+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -102,7 +102,7 @@ function p.ListAllP(frame)
 				--Instance
 				POnTree = {{"P40", 3, false}, {"P41", 3, false}, {"P88", 3, false}}
 				for _, Prop in pairs(POnTree) do
-					local PropValue = table.concat(PropertiesOnTree(Prop[1], Prop[2], Prop[3]))
+					local PropValue = table.concat(PropertiesOnTree(Prop[1], Prop[2], Prop[3], false))
 					if (PropValue ~= nil) and (PropValue ~= "") then
 						local PropName = mw.wikibase.getLabelByLang(Prop[1], 'it') or mw.wikibase.getLabel(Prop[1])
 						AllRows[#AllRows + 1] = {{Prop[1], PropName .. ":"}, {PropValue}}
@@ -201,8 +201,39 @@ function p.Incipit(frame)
 		return "'''" .. mw.title.getCurrentTitle().text .. "''' è " .. 	mw.wikibase.getEntity().claims['P20'][1].mainsnak.datavalue['value'] .. string.char(10)
 	end
 	else
-		return "'''''" .. mw.title.getCurrentTitle().text .. "'''''" .. " è " .. mw.wikibase.getDescription() .. string.char(10)
+		--return "'''''" .. mw.title.getCurrentTitle().text .. "'''''" .. " è " .. mw.wikibase.getDescription() .. string.char(10)
+		return "'''''" .. mw.title.getCurrentTitle().text .. "'''''" .. " è " .. p.DescrWithTemplate(frame) .. string.char(10)
 	end
+end
+
+--- Function to query for HyperTrek migration data and to construct a proper box
+-- to show them, if present
+-- @param frame Data from MW session
+-- @return Description with expanded template
+function p.DescrWithTemplate(frame)
+	local RawDescription = mw.wikibase.getDescription()
+	local Pattern = "{{.*}}"
+	
+	--[==[
+	local FinalString = ">"
+	for w in string.gfind(RawDescription, Pattern) do
+		w = string.gsub(string.gsub(w, "}", ""), "{", "")
+      FinalString = FinalString .. w
+    end
+	return FinalString .. "<"
+	]==]
+	
+	--return string.gsub(RawDescription, Pattern, function (Name) frame:expandTemplate{title = string.gsub(string.gsub(Name, "}", ""), "{", "")} end)
+	return string.gsub(RawDescription, Pattern, function (Name) return frame:expandTemplate{title = string.gsub(string.gsub(Name, "}", ""), "{", "")} end)
+	--[=[if string.find(RawDescription, '{{') then
+		return string.gsub(RawDescription, Pattern, "TEMPLATE")
+	else
+		return RawDescription
+	end]=]
+end
+
+function ExpTemplHelper(match, frame)
+	return frame:expandTemplate{title = match}
 end
 
 --- Function to query for HyperTrek migration data and to construct a proper box
