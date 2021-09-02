@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-09-02T17:09:17+02:00
+-- [P2G] Auto upload by PageToGitHub on 2021-09-02T17:17:23+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -128,14 +128,15 @@ function p.ListAllP(frame)
 					if (type(Value) == "table") then
 						if Property == "P72" then --CASE Assigments
 							local Assignment = ""
-							if SnakValue[1].qualifiers['P73'] ~= nil then --Year
+							if SnakValue.qualifiers ~= nil then
+							if SnakValue.qualifiers['P73'] ~= nil then --Year
 								Assignment = LabelOrLink(SnakValue.qualifiers['P73'][1].datavalue.value['id']) .. " "
 							end
 							
 							if SnakValue.qualifiers['P15'] ~= nil then
 								Assignment = Assignment .. SnakValue.qualifiers['P15'][1].datavalue.value .. " "
 							end
-							
+							end
 							Assignment = Assignment .. LabelOrLink(Value['id'])
 							
 							if SnakValue.qualifiers['P76'] then --Rank
