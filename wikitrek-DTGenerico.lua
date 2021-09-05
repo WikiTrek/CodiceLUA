@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-09-02T17:18:30+02:00
+-- [P2G] Auto upload by PageToGitHub on 2021-09-05T18:26:45+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -153,7 +153,7 @@ function p.ListAllP(frame)
 						elseif Value['entity-type'] == 'item' then
 							local GenericItem
 							if AddSemantic then
-								GenericItem = LabelOrLink(Value['id'], Header[2])
+								GenericItem = LabelOrLink(Value['id'], Header[2], AddSemantic)
 							else
 								GenericItem = LabelOrLink(Value['id'])
 							end
