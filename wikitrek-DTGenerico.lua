@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-09-06T16:58:32+02:00
+-- [P2G] Auto upload by PageToGitHub on 2021-09-11T10:43:00+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -210,10 +210,10 @@ function p.Incipit(frame)
 	end
 end
 
---- Function to query for HyperTrek migration data and to construct a proper box
--- to show them, if present
+--- Function to expand template contained within description,
+-- if present
 -- @param frame Data from MW session
--- @return Description with expanded template
+-- @return String Text containing expanded template
 function p.DescrWithTemplate(frame)
 	local RawDescription = mw.wikibase.getDescription()
 	local Pattern = "{{.*}}"
@@ -280,7 +280,7 @@ function p.ListHTData(frame)
 		DIV
 			:attr('id', 'htdata')
 			:addClass('htcontainer')
-			:wikitext(ImageString .. DataString .. "<ul>" .. QualiString .. "</ul>" .. "[[Categoria:Pagine originariamente convertite da HT]]") --.. string.char(10) .. "[[Categoria:Pagine originariamente convertite da HT]]")
+			:wikitext(ImageString .. DataString .. "<ul>" .. QualiString .. "</ul>" .. "[[Categoria:Pagine originariamente convertite da HT]]" .. "[[Categoria:Nuovo box HT]]") --.. string.char(10) .. "[[Categoria:Pagine originariamente convertite da HT]]")
 		return tostring(DIV)
 	else
 		return ""
