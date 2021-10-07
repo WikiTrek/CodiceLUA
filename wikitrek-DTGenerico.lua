@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-10-07T22:22:13+02:00
+-- [P2G] Auto upload by PageToGitHub on 2021-10-07T22:25:00+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -106,7 +106,7 @@ function p.ListAllP(frame)
 				CollectionTable = string.char(10) .. MakeNavTable(Item.claims[Property][1].qualifiers, Item.claims[Property][1].mainsnak.datavalue.value)
 			elseif (Property == "P7" or Property == "P23") and CollectionTable == '' then
 				--Previous or Next
-				CollectionTable = string.char(10) .. Item.claims[Property][1].mainsnak.datavalue.value --.. MakeNavTable(Item.claims, Item.claims[Property][1].mainsnak.datavalue.value)
+				CollectionTable = string.char(10) .. Property -- Item.claims[Property][1].mainsnak.datavalue.value --.. MakeNavTable(Item.claims, Item.claims[Property][1].mainsnak.datavalue.value)
 			elseif Property == "P14" then
 				--Instance
 				POnTree = {{"P40", 3, false}, {"P41", 3, false}, {"P88", 3, false}}
