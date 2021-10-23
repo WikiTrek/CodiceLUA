@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-10-07T22:48:12+02:00
+-- [P2G] Auto upload by PageToGitHub on 2021-10-23T15:52:10+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTBase
 --- This module represent the package containing basic functions to access data from the WikiBase instance DataTrek
 -- @module p
@@ -117,7 +117,9 @@ function p.SiteLinksInterwiki()
 		enwiki = 'Wikipedia (inglese)',
 		itwiki = 'Wikipedia (inglese)',
 		dema = 'Memory Alpha (tedesco)',
-		demb = 'Memory Beta (tedesco)'
+		demb = 'Memory Beta (tedesco)',
+		fanlore = 'Fanlore',
+		trekipedia = 'Trekipedia'
 	}
 	
 	for _, SiteLink in pairs(SiteLinks) do
