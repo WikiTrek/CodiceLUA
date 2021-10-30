@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-10-30T16:10:32+02:00
+-- [P2G] Auto upload by PageToGitHub on 2021-10-30T16:21:57+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTSpecific
 --- This module represent the package containing specific functions to access data from the WikiBase instance DataTrek
 -- @module p
@@ -60,7 +60,7 @@ function p.ListAppearances(frame)
 	--local queryResult = mw.smw.getQueryResult( frame.args )
 	--local QueryResult = mw.smw.getQueryResult('[[Interprete::' .. mw.title.getCurrentTitle().text .. ']]|?DataTrek ID')
 	local Actor = mw.title.getCurrentTitle().text
-	local QueryResult = mw.smw.getQueryResult('[[Riferimento::' .. Actor .. ']]|?' .. Actor)
+	local QueryResult = mw.smw.getQueryResult('[[Interprete::' .. Actor .. ']]|?' .. Actor)
 	
 	if QueryResult == nil then
         return "''Nessun risultato''"
@@ -85,10 +85,11 @@ function p.ListAppearances(frame)
             end
             ]=]
             
-            Row = k .. " -  " .. v
+            Row = k .. " -  " .. v.fulltext
 			AllAppearances[#AllAppearances + 1] = "*" .. Row
         end
-        	return table.concat(AllAppearances, string.char(10))
+            return '<pre>' .. dump(QueryResult) .. '</pre>'
+        	--return "'''Concat:'''" .. table.concat(AllAppearances, string.char(10))
     else
     	return "''No table''"
     end
