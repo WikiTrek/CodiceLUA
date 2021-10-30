@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-10-28T22:37:40+02:00
+-- [P2G] Auto upload by PageToGitHub on 2021-10-30T16:10:32+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTSpecific
 --- This module represent the package containing specific functions to access data from the WikiBase instance DataTrek
 -- @module p
@@ -34,7 +34,7 @@ function p.ListAppearances(frame)
 	
 	-- See example here https://github.com/SemanticMediaWiki/SemanticScribunto/blob/master/docs/mw.smw.getQueryResult.md
 	-- See also here https://doc.semantic-mediawiki.org/md_content_extensions_SemanticScribunto_docs_mw_8smw_8getQueryResult.html
-	local AllBackReferences = {}
+	local AllAppearances = {}
 	--[=[
 	local QueryResult = mw.smw.ask('[[Riferimento::' .. mw.title.getCurrentTitle().text .. ']]|?DataTrek ID|format=broadtable')
 	
@@ -59,7 +59,8 @@ function p.ListAppearances(frame)
 	--local QueryResult = mw.smw.getQueryResult('[[Riferimento::' .. mw.title.getCurrentTitle().text .. ']]|?DataTrek ID')
 	--local queryResult = mw.smw.getQueryResult( frame.args )
 	--local QueryResult = mw.smw.getQueryResult('[[Interprete::' .. mw.title.getCurrentTitle().text .. ']]|?DataTrek ID')
-	local QueryResult = mw.smw.getQueryResult('[[Riferimento::' .. mw.title.getCurrentTitle().text .. ']]|?' .. mw.title.getCurrentTitle().text)
+	local Actor = mw.title.getCurrentTitle().text
+	local QueryResult = mw.smw.getQueryResult('[[Riferimento::' .. Actor .. ']]|?' .. Actor)
 	
 	if QueryResult == nil then
         return "''Nessun risultato''"
@@ -73,6 +74,7 @@ function p.ListAppearances(frame)
             else
                 myResult = myResult .. k .. " | no page title for result set available (you probably specified ''mainlabel=-')"
             end]=]
+            --[=[
             if string.sub(v.fulltext, 1, 5) == "File:" then
 				Row = "[[:" .. v.fulltext .. "]]" --string.sub(v.fulltext, 3)
 			else
@@ -81,10 +83,12 @@ function p.ListAppearances(frame)
             if v.printouts['DataTrek ID'][1] ~= nil then
             	Row = Row .. " - " .. v.printouts['DataTrek ID'][1]
             end
+            ]=]
             
-			AllBackReferences[#AllBackReferences + 1] = "*" .. Row
+            Row = k .. " -  " .. v
+			AllAppearances[#AllAppearances + 1] = "*" .. Row
         end
-        	return table.concat(AllBackReferences, string.char(10))
+        	return table.concat(AllAppearances, string.char(10))
     else
     	return "''No table''"
     end
