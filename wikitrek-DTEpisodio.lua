@@ -1,7 +1,8 @@
--- [P2G] Auto upload by PageToGitHub on 2021-08-13T13:58:27+02:00
+-- [P2G] Auto upload by PageToGitHub on 2021-10-31T22:21:55+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTEpisodio
 -- Keyword: wikitrek
 local LabelOrLink = require('Modulo:DTBase').LabelOrLink
+local DescrWithTemplate = require('Modulo:DTGenerico').DescrWithTemplate
 
 local p = {}
 function p.GetActors(frame, AddSemantic)
@@ -291,7 +292,8 @@ function p.IncipitTree(frame)
 			return "''''" .. mw.title.getCurrentTitle().text .. "'''' è " .. 	mw.wikibase.getEntity().claims['P20'][1].mainsnak.datavalue['value'] .. string.char(10)
 		end
 	else
-		return "'''''" .. mw.title.getCurrentTitle().text .. "'''''" .. " è " .. mw.wikibase.getDescription() .. string.char(10)
+		--return "'''''" .. mw.title.getCurrentTitle().text .. "'''''" .. " è " .. mw.wikibase.getDescription() .. string.char(10)
+		return "'''''" .. mw.title.getCurrentTitle().text .. "'''''" .. " è " .. p.DescrWithTemplate(frame) .. string.char(10)
 	end
 end
 return p
