@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-11-01T11:02:04+01:00
+-- [P2G] Auto upload by PageToGitHub on 2021-11-07T16:05:30+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTSpecific
 --- This module represent the package containing specific functions to access data from the WikiBase instance DataTrek
 -- @module p
@@ -66,7 +66,7 @@ function p.ListAppearances(frame)
 	--local queryResult = mw.smw.getQueryResult( frame.args )
 	--local QueryResult = mw.smw.getQueryResult('[[Interprete::' .. mw.title.getCurrentTitle().text .. ']]|?DataTrek ID')
 	local Actor = mw.title.getCurrentTitle().text
-	local QueryResult = mw.smw.getQueryResult('[[Interprete::' .. Actor .. ']]|?' .. Actor)
+	local QueryResult = mw.smw.getQueryResult('[[Interprete::' .. Actor .. ']]|?' .. Actor .. '|sort=Numero di produzione|order=asc')
 	
 	if QueryResult == nil then
         return "''Nessun risultato''"
@@ -104,7 +104,7 @@ function p.ListAppearances(frame)
             if CurrChar == nil or CurrChar == "" or CurrChar ~= v.printouts[Actor][1].fulltext then
             	if Episodes ~= nil and CurrChar ~= nil then
             		-- episodes list contains data to print out, print it
-            		Row = CurrChar .. ": " .. table.concat(Episodes, ", ")
+            		Row = "[[" .. CurrChar .. "]]: [[" .. table.concat(Episodes, "]], [[") .. "]]"
             		Episodes = {}
             	end
         		
@@ -127,7 +127,7 @@ function p.ListAppearances(frame)
         end
         	if Episodes ~= nil then
         		-- episodes list contains data to print out, print it
-            	Row = CurrChar .. ": " .. table.concat(Episodes, ", ")
+            	Row = "[[" .. CurrChar .. "]]: [[" .. table.concat(Episodes, "]], [[") .. "]]"
             	Episodes = {}
         	end
         	AllAppearances[#AllAppearances + 1] = "*" .. Row
