@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-10-23T15:52:10+02:00
+-- [P2G] Auto upload by PageToGitHub on 2021-11-11T00:08:41+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTBase
 --- This module represent the package containing basic functions to access data from the WikiBase instance DataTrek
 -- @module p
@@ -286,7 +286,7 @@ function p.GenericValue(Property)
 	
 	return Value
 end
-function p.LabelOrLink(QItem, SMWProperty, AddSemantic)
+function p.LabelOrLink(QItem, SMWProperty, AddSemantic, ForcedLabel)
 	local Label
 	local WTLink
 	
@@ -301,7 +301,9 @@ function p.LabelOrLink(QItem, SMWProperty, AddSemantic)
 		return "'''Error'''"
 	end
 	
-	if not Item['claims'] or not Item['claims']['P20'] then
+	if ForcedLabel ~= "" and ForcedLabel ~= nil then
+		Label = ForcedLabel
+	elseif not Item['claims'] or not Item['claims']['P20'] then
 		Label = Item.labels['it'].value
 	else
 		Label = Item['claims']['P20'][1].mainsnak.datavalue['value']
