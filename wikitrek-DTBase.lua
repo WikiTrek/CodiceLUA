@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-11-11T00:08:41+01:00
+-- [P2G] Auto upload by PageToGitHub on 2021-11-11T00:52:57+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTBase
 --- This module represent the package containing basic functions to access data from the WikiBase instance DataTrek
 -- @module p
@@ -456,7 +456,7 @@ function p.ListBackReferences(frame)
 
 	--local QueryResult = mw.smw.getQueryResult('[[Riferimento::' .. mw.title.getCurrentTitle().text .. ']]|?DataTrek ID')
 	--local queryResult = mw.smw.getQueryResult( frame.args )
-	local QueryResult = mw.smw.getQueryResult('[[Riferimento::' .. mw.title.getCurrentTitle().text .. ']]|?DataTrek ID')
+	local QueryResult = mw.smw.getQueryResult('[[Riferimento::' .. mw.title.getCurrentTitle().text .. ']]|?DataTrek ID|?Istanza')
 	
     if QueryResult == nil then
         return "''Nessun risultato''"
@@ -476,7 +476,7 @@ function p.ListBackReferences(frame)
 				Row = "[[" .. v.fulltext .. "]]"
             end
             if v.printouts['DataTrek ID'][1] ~= nil then
-            	Row = Row .. " - " .. v.printouts['DataTrek ID'][1]
+            	Row = Row .. " - " .. v.printouts['DataTrek ID'][1] .. v.printouts['Istanza'][1]
             end
             
 			AllBackReferences[#AllBackReferences + 1] = "*" .. Row
