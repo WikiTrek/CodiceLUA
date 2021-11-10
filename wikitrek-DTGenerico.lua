@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-11-10T00:07:47+01:00
+-- [P2G] Auto upload by PageToGitHub on 2021-11-10T23:57:12+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -173,19 +173,37 @@ function p.ListAllP(frame)
 						elseif SnakValue.mainsnak.datavalue['type'] == 'time' then
 							-- "+2367-00-00T00:00:00Z"
 							local Instant = Value['time']
-							local OutputFormat = "ITEstesa"
+							local OutputFormat = "ITMedia"
+							local YearLink = ""
+							local PrintDate
 							
-							if string.sub(Instant, 6, 7) == "00" or string.sub(Instant, 9, 10) == "00" then
+							if string.sub(Instant, 7, 8) == "00" or string.sub(Instant, 10, 11) == "00" then
 								Instant = Instant:sub(1, 5) .. "-01-01"
 								OutputFormat = "SoloAnno"
 							end
 							
+							if SnakValue.qualifiers ~= nil then
+								if SnakValue.qualifiers['P73'] ~= nil then
+									--P73 - Timeline
+									YearLink = LabelOrLink(SnakValue.qualifiers['P73'][1].datavalue.value['id'])
+								elseif SnakValue.qualifiers['P74'] ~= nil then
+									--P74 - Event
+									YearLink = LabelOrLink(SnakValue.qualifiers['P74'][1].datavalue.value['id'])
+								end
+							end
+							
+							PrintDate = frame:expandTemplate{title = 'TimeL', args = {Tipo=OutputFormat, Istante=Instant}}
+							AccValues[#AccValues + 1] = PrintDate
+							
 							if AddSemantic then
 								--AccValues[#AccValues + 1] = "[[" .. Header[2] .. "::" .. Value['time'] .. "|" .. frame:expandTemplate{title = 'TimeL', args = {Tipo='ITEstesa', Istante=Value['time']}} .. "]]"
-								AccValues[#AccValues + 1] = "[[" .. Header[2] .. "::" .. instant .. "|" .. frame:expandTemplate{title = 'TimeL', args = {Tipo=OutputFormat, Istante=Instant}} .. "]]"
+								--AccValues[#AccValues + 1] = "[[" .. Header[2] .. "::" .. Instant .. "|" .. frame:expandTemplate{title = 'TimeL', args = {Tipo=OutputFormat, Istante=Instant}} .. "]]"
+								--AccValues[#AccValues + 1] = "[[" .. Header[2] .. "::" .. Instant .. "|" .. PrintDate .. "]]"
+								mw.smw.set(Header[2] .. "=" .. Instant)
 							else
 								--AccValues[#AccValues + 1] = frame:expandTemplate{title = 'TimeL', args = {Tipo='ITEstesa', Istante=Value['time']}}
-								AccValues[#AccValues + 1] = frame:expandTemplate{title = 'TimeL', args = {Tipo=OutputFormat, Istante=Instant}}
+								--AccValues[#AccValues + 1] = frame:expandTemplate{title = 'TimeL', args = {Tipo=OutputFormat, Istante=Instant}}
+								--AccValues[#AccValues + 1] = PrintDate
 							end
 						elseif SnakValue.mainsnak.datavalue.type == 'quantity' then
 							local StringValue
