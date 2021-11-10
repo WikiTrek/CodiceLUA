@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-11-11T00:11:19+01:00
+-- [P2G] Auto upload by PageToGitHub on 2021-11-11T00:44:08+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -188,6 +188,7 @@ function p.ListAllP(frame)
 								if SnakValue.qualifiers['P73'] ~= nil then
 									--P73 - Timeline
 									YearLink = LabelOrLink(SnakValue.qualifiers['P73'][1].datavalue.value['id'], nil, nil, PrintDate)
+									--mw.smw.set("Anno della timeline=" .. Instant)
 								elseif SnakValue.qualifiers['P74'] ~= nil then
 									--P74 - Event
 									YearLink = LabelOrLink(SnakValue.qualifiers['P74'][1].datavalue.value['id'], nil, nil, PrintDate)
@@ -205,7 +206,7 @@ function p.ListAllP(frame)
 								--AccValues[#AccValues + 1] = "[[" .. Header[2] .. "::" .. Instant .. "|" .. frame:expandTemplate{title = 'TimeL', args = {Tipo=OutputFormat, Istante=Instant}} .. "]]"
 								--AccValues[#AccValues + 1] = "[[" .. Header[2] .. "::" .. Instant .. "|" .. PrintDate .. "]]"
 								mw.smw.set(Header[2] .. "=" .. Instant)
-							else
+							--else
 								--AccValues[#AccValues + 1] = frame:expandTemplate{title = 'TimeL', args = {Tipo='ITEstesa', Istante=Value['time']}}
 								--AccValues[#AccValues + 1] = frame:expandTemplate{title = 'TimeL', args = {Tipo=OutputFormat, Istante=Instant}}
 								--AccValues[#AccValues + 1] = PrintDate
