@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-11-11T00:52:57+01:00
+-- [P2G] Auto upload by PageToGitHub on 2021-11-11T01:06:02+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTBase
 --- This module represent the package containing basic functions to access data from the WikiBase instance DataTrek
 -- @module p
@@ -414,12 +414,12 @@ function p.ListReferences(frame)
 			local Reference = mw.wikibase.getSitelink(ReferenceItem)
 			if not Reference then
 				--Reference = Statement.mainsnak.datavalue.value.id
-				AllReferences[#AllReferences + 1] = "* [[Special:AboutTopic/" .. ReferenceItem .. "]] - " .. ReferenceItem
+				AllReferences[#AllReferences + 1] = "* [[Special:AboutTopic/" .. ReferenceItem .. "]] - " .. ReferenceItem .. " - " .. mw.wikibase.getLabelByLang(mw.wikibase.getEntity(ReferenceItem).claims[P14][1].mainsnak.datavalue['value'], "it")
 			else
 				if frame.args['AddSemantic'] then
 					Reference = "Riferimento::" .. Reference
 				end
-				AllReferences[#AllReferences + 1] = "* [[" .. Reference .. "]] - " .. ReferenceItem	
+				AllReferences[#AllReferences + 1] = "* [[" .. Reference .. "]] - " .. ReferenceItem .. " - " .. mw.wikibase.getLabelByLang(mw.wikibase.getEntity(ReferenceItem).claims[P14][1].mainsnak.datavalue['value'], "it")
 			end
 		end
 		return table.concat(AllReferences, string.char(10))
@@ -476,7 +476,7 @@ function p.ListBackReferences(frame)
 				Row = "[[" .. v.fulltext .. "]]"
             end
             if v.printouts['DataTrek ID'][1] ~= nil then
-            	Row = Row .. " - " .. v.printouts['DataTrek ID'][1] .. v.printouts['Istanza'][1]
+            	Row = Row .. " - " .. v.printouts['DataTrek ID'][1] .. " - " .. v.printouts['Istanza'][1]
             end
             
 			AllBackReferences[#AllBackReferences + 1] = "*" .. Row
