@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-11-07T16:05:30+01:00
+-- [P2G] Auto upload by PageToGitHub on 2021-11-15T23:10:07+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTSpecific
 --- This module represent the package containing specific functions to access data from the WikiBase instance DataTrek
 -- @module p
@@ -78,7 +78,14 @@ function p.ListAppearances(frame)
         for k, v in pairs(QueryResult.results) do
         	-- v.fulltext						represents EPISODE
         	-- v.printouts[Actor][1].fulltext	represents CHARACTER
-        	
+        	--[=[
+        	if #v.printouts[Actor] == 1 then
+        		AllAppearances[#AllAppearances + 1] = "* TEST - " .. v.printouts[Actor][1].fulltext
+        	else
+        		AllAppearances[#AllAppearances + 1] = "* TEST - " .. v.printouts[Actor][1].fulltext .. v.printouts[Actor][2].fulltext
+        	end
+    		]=]
+    	
             --[=[if  v.fulltext and v.fullurl then
                 myResult = myResult .. k .. " | " .. v.fulltext .. " " .. v.fullurl .. " | " .. "<br/>"
             else
@@ -108,7 +115,12 @@ function p.ListAppearances(frame)
             		Episodes = {}
             	end
         		
-        		CurrChar = v.printouts[Actor][1].fulltext
+        		if v.printouts[Actor][1] == nil then
+        			CurrChar = "''Senza pagina''"
+        		else
+        			CurrChar = v.printouts[Actor][1].fulltext
+        		end
+    			
             end
     		Episodes[#Episodes + 1] = v.fulltext
             
