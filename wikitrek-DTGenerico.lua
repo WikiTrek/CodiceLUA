@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-11-11T00:44:08+01:00
+-- [P2G] Auto upload by PageToGitHub on 2021-11-15T22:56:39+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -37,8 +37,19 @@ function p.DIVImage(frame)
 	-- </gallery>
 	
 	if Item['claims']['P37'] then
-		local FileTitle = "File:" .. Item['claims']['P37'][1].mainsnak.datavalue['value']
-		local FileCaption = frame:expandTemplate{title = FileTitle}
+		local FileTitle
+		local FileCaption
+		local FileName = Item['claims']['P37'][1].mainsnak.datavalue['value']
+		File = mw.title.new( Filename, "File" )
+		
+		--local FileTitle = "File:" .. Item['claims']['P37'][1].mainsnak.datavalue['value']
+		if File.exists then
+			FileTitle = "File:" .. FileName
+			FileCaption = frame:expandTemplate{title = FileTitle}
+		else
+			FileCaption = "Immagine da Commons"
+		end
+		
 		--Markup = "<div class='separatorebox'>'''Immagine'''</div>" ..  "<div class='contenitoreimgbox'>[[File:" .. Item['claims']['P37'][1].mainsnak.datavalue['value'] .. "|100%]]</div>"
 		--Markup = "<div class='separatorebox'>'''Immagine'''</div>" ..  "<div class='contenitoreimgbox'>[[" .. FileTitle .. "|alt={{" .. FileTitle .. "}}|{{" .. FileTitle .. "}}" .. "]]</div>"
 		Markup = "<div class='separatorebox'>'''Immagine'''</div>" ..  "<div class='contenitoreimgbox'>[[" .. FileTitle .. "|alt=" .. FileCaption .. "|" .. FileCaption .. "]]<br /><span style='font-size: smaller;'>" .. FileCaption .. "</span></div>"
