@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-04-07T23:08:32+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-01-03T16:53:43+01:00
 -- [P2G] This code from page Modulo:wikitrek-FunzioniGeneriche
 -- Keyword: wikitrek
 local p = {} --p stands for package
@@ -34,6 +34,18 @@ function p.EsempioTemplate(frame)
 			:wikitext(mw.text.nowiki(Content))
     	return  Intro .. DoubleLF .. CodeString .. DoubleLF .. tostring(pre) .. DoubleLF  .. ReturnString .. DoubleLF .. frame:expandTemplate{ title = SubPageTitle }
     end
+end
+function p.EsempioBreve(frame)
+	--<code><nowiki>{{DTItem|Q11}}</nowiki></code> → {{DTItem|Q11}}
+	local ExampleText
+	
+	if frame.args[1] == nil then
+        Return "Error"
+    else
+        ExampleText=frame.args[1]
+    end
+
+	return "<code><nowiki>" .. mw.text.nowiki(ExampleText) .. "</nowiki></code> → " .. frame:expandTemplate{ title = ExampleText }
 end
 function p.TableFromArray(AllRows)
 	local Table = mw.html.create('table')
