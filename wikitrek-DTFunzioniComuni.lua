@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-01-08T16:49:02+01:00
+-- [P2G] Auto upload by PageToGitHub on 2022-01-08T16:50:35+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTFunzioniComuni
 -- Keyword: wikitrek
 
@@ -170,8 +170,6 @@ function p.UpperCategoryTree(frame)
 		-- TDOO generate 09 for numeric labels
 		local FirstLetter = string.upper(string.sub(wikibase.getLabel(), 1, 1))
 		AZCategory = "[[Category:" .. AZInstancesMember[CurrentItem.claims['P14']] .. " - " .. FirstLetter .. "]]"
-	else
-		AZCategory = "[[Category:NIL]]"
 	end
 	
 	return (table.concat(p.PropertiesOnTree("P69", 1, true))) .. AZCategory
