@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-01-08T16:50:35+01:00
+-- [P2G] Auto upload by PageToGitHub on 2022-01-08T16:50:50+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTFunzioniComuni
 -- Keyword: wikitrek
 
@@ -161,18 +161,7 @@ function p.CategoryTree(frame)
 	return table.concat(p.PropertiesOnTree("P68", 2, true))
 end
 function p.UpperCategoryTree(frame)
-	local AZInstancesMember = {Q23 = "Personaggi", Q18 = "Specie", Q95 = "Pianeti", Q19 = "Cast"}
-	local CurrentItem = mw.wikibase.getEntity()
-	local AZCategory = ''
-	
-	if AZInstancesMember[CurrentItem.claims['P14']] ~= nil then
-		-- Generate auto A-Z Category
-		-- TDOO generate 09 for numeric labels
-		local FirstLetter = string.upper(string.sub(wikibase.getLabel(), 1, 1))
-		AZCategory = "[[Category:" .. AZInstancesMember[CurrentItem.claims['P14']] .. " - " .. FirstLetter .. "]]"
-	end
-	
-	return (table.concat(p.PropertiesOnTree("P69", 1, true))) .. AZCategory
+	return table.concat(p.PropertiesOnTree("P69", 1, true))
 end
 function p.IconTree(frame)
 	local ImageName
