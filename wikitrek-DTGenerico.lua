@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-11-15T22:56:39+01:00
+-- [P2G] Auto upload by PageToGitHub on 2022-01-09T21:59:44+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -40,11 +40,11 @@ function p.DIVImage(frame)
 		local FileTitle
 		local FileCaption
 		local FileName = Item['claims']['P37'][1].mainsnak.datavalue['value']
-		File = mw.title.new( Filename, "File" )
+		File = mw.title.new( FileName, "File" )
 		
 		--local FileTitle = "File:" .. Item['claims']['P37'][1].mainsnak.datavalue['value']
+		FileTitle = "File:" .. FileName
 		if File.exists then
-			FileTitle = "File:" .. FileName
 			FileCaption = frame:expandTemplate{title = FileTitle}
 		else
 			FileCaption = "Immagine da Commons"
@@ -86,7 +86,7 @@ function p.ListAllP(frame)
 	local AllRows = {}
 	local HTMLTable
 	local CollectionTable = ''
-	local ExcludeP = {P3 = true, P14 = false, P26 = true, P30 = true, P37 = true, P58 = true, P68 = true, P52 = true, P79 = true, P90 = true}
+	local ExcludeP = {P3 = true, P14 = false, P21 = true; P26 = true, P30 = true, P37 = true, P58 = true, P68 = true, P52 = true, P79 = true, P90 = true}
 	local POnTree = {}
 	local Item = mw.wikibase.getEntity()
 	local ItemQ = mw.wikibase.getEntityIdForCurrentPage()
