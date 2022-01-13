@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-01-09T21:59:44+01:00
+-- [P2G] Auto upload by PageToGitHub on 2022-01-13T10:49:37+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -149,24 +149,33 @@ function p.ListAllP(frame)
 						if Property == "P72" then --CASE Assigments
 							local Assignment = ""
 							if SnakValue.qualifiers ~= nil then
-							if SnakValue.qualifiers['P73'] ~= nil then --Year
-								Assignment = LabelOrLink(SnakValue.qualifiers['P73'][1].datavalue.value['id']) .. " "
+								-- Timeline year
+								if SnakValue.qualifiers['P73'] ~= nil then
+									Assignment = LabelOrLink(SnakValue.qualifiers['P73'][1].datavalue.value['id']) .. " "
+								end
+							
+								-- Prefix
+								if SnakValue.qualifiers['P15'] ~= nil then
+									Assignment = Assignment .. SnakValue.qualifiers['P15'][1].datavalue.value .. " "
+								end
 							end
 							
-							if SnakValue.qualifiers['P15'] ~= nil then
-								Assignment = Assignment .. SnakValue.qualifiers['P15'][1].datavalue.value .. " "
+							if AddSemantic then
+								Assignment = Assignment .. LabelOrLink(Value['id'], true, "Assegnazione")
+							else
+								Assignment = Assignment .. LabelOrLink(Value['id'])
 							end
-							end
-							
-							Assignment = Assignment .. LabelOrLink(Value['id'])
 							
 							if SnakValue.qualifiers ~= nil then
-							if SnakValue.qualifiers['P76'] then --Rank
-								Assignment = Assignment .. ", " .. LabelOrLink(SnakValue.qualifiers['P76'][1].datavalue.value['id'])
-							end
-							if SnakValue.qualifiers['P77'] then --Occupation
-								Assignment = Assignment .. ", " .. LabelOrLink(SnakValue.qualifiers['P77'][1].datavalue.value['id'])
-							end
+								-- Rank
+								if SnakValue.qualifiers['P76'] then
+									Assignment = Assignment .. ", " .. LabelOrLink(SnakValue.qualifiers['P76'][1].datavalue.value['id'])
+								end
+								
+								--Occupation
+								if SnakValue.qualifiers['P77'] then
+									Assignment = Assignment .. ", " .. LabelOrLink(SnakValue.qualifiers['P77'][1].datavalue.value['id'])
+								end
 							end
 							--AccValues[#AccValues + 1] = LabelOrLink(SnakValue.qualifiers['P73'][1].datavalue.value['id']) .. " " .. LabelOrLink(Value['id']) .. ", " .. LabelOrLink(SnakValue.qualifiers['P76'][1].datavalue.value['id']) .. ", " .. LabelOrLink(SnakValue.qualifiers['P77'][1].datavalue.value['id'])
 							AccValues[#AccValues + 1] = Assignment
