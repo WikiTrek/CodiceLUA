@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-01-08T17:05:03+01:00
+-- [P2G] Auto upload by PageToGitHub on 2022-01-18T00:04:49+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTFunzioniComuni
 -- Keyword: wikitrek
 
@@ -163,9 +163,13 @@ function p.CategoryTree(frame)
 	local AZCategory = ''
 	
 	if AZInstancesMember[CurrentQ] ~= nil then
-		-- Generate auto A-Z Category
-		-- TDOO generate 09 for numeric labels
-		local FirstLetter = string.upper(string.sub(mw.wikibase.getLabel(), 1, 1))
+		local FirstLetter
+		FirstLetter = string.upper(string.sub(mw.wikibase.getLabel(), 1, 1))
+		
+		if string.find(FirstLetter, "%d") ~= nil then
+			FirstLetter = "0-9"
+		end
+		
 		AZCategory = "[[Category:" .. AZInstancesMember[CurrentQ] .. " - " .. FirstLetter .. "]]"
 		return (table.concat(p.PropertiesOnTree("P68", 1, true))) .. AZCategory
 	else
