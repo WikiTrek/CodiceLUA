@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-11-11T01:20:19+01:00
+-- [P2G] Auto upload by PageToGitHub on 2022-01-17T22:38:58+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTBase
 --- This module represent the package containing basic functions to access data from the WikiBase instance DataTrek
 -- @module p
@@ -379,7 +379,7 @@ function p.MakeNavTable(Item, Title)
 	
 	Table = "<div class='separatorebox'>'''" .. Title .. "'''</div>"
 	Table = Table .. string.char(10) .. "<table class='wikitable' style='width:100%'>"
-	Table = Table .. string.char(10) .. "<tr><th>&lt; Precedente</th><th>Successivo &gt;</th></tr>"
+	Table = Table .. string.char(10) .. "<tr><th id='P7' title='P7'>&lt; Precedente</th><th id='P23' title='P23'>Successivo &gt;</th></tr>"
 	Table = Table .. string.char(10) .. "<tr><td style='text-align:center; width:50%;'>" .. Previous .. "</td>"
 	Table = Table .. string.char(10) .. "<td style='text-align:center; width:50%;'>" .. Next .. "</td></tr>"
 	Table = Table .. string.char(10) .. "</table>"
@@ -476,7 +476,7 @@ function p.ListBackReferences(frame)
 				Row = "[[" .. v.fulltext .. "]]"
             end
             if v.printouts['DataTrek ID'][1] ~= nil then
-            	Row = Row .. " - " .. v.printouts['DataTrek ID'][1] .. " - " .. v.printouts['Istanza'][1]
+            	Row = Row .. " - " .. v.printouts['DataTrek ID'][1] .. " - " .. v.printouts['Istanza'][1].fulltext
             end
             
 			AllBackReferences[#AllBackReferences + 1] = "*" .. Row
