@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-01-13T10:49:37+01:00
+-- [P2G] Auto upload by PageToGitHub on 2022-01-17T22:33:29+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -86,7 +86,7 @@ function p.ListAllP(frame)
 	local AllRows = {}
 	local HTMLTable
 	local CollectionTable = ''
-	local ExcludeP = {P3 = true, P14 = false, P21 = true; P26 = true, P30 = true, P37 = true, P58 = true, P68 = true, P52 = true, P79 = true, P90 = true}
+	local ExcludeP = {P3 = true, P7 = true, P14 = false, P21 = true, P23 = true, P26 = true, P30 = true, P37 = true, P58 = true, P68 = true, P52 = true, P79 = true, P90 = true}
 	local POnTree = {}
 	local Item = mw.wikibase.getEntity()
 	local ItemQ = mw.wikibase.getEntityIdForCurrentPage()
@@ -161,7 +161,7 @@ function p.ListAllP(frame)
 							end
 							
 							if AddSemantic then
-								Assignment = Assignment .. LabelOrLink(Value['id'], true, "Assegnazione")
+								Assignment = Assignment .. LabelOrLink(Value['id'], "Assegnazione", true)
 							else
 								Assignment = Assignment .. LabelOrLink(Value['id'])
 							end
@@ -260,6 +260,26 @@ function p.ListAllP(frame)
 	-- return table.concat(AllRows, "<br />" .. string.char(10)) .. string.char(10)
 	-- return HTMLTable
 	return tostring(HTMLTable) .. CollectionTable
+end
+function p.ProcessNavigators(frame)
+	local CollectionTable
+	local Item = mw.wikibase.getEntity()
+	local ItemQ = mw.wikibase.getEntityIdForCurrentPage()
+	if not Item then
+		Item = mw.wikibase.getEntity('Q1')
+	end
+	
+	if Item.claims['P7'] or Item.claims['P23'] then
+		--Previous or Next
+		CollectionTable = MakeNavTable(Item.claims, nil)
+	end
+	
+	if Item.claims['P46'] then
+		-- Arc
+		CollectionTable = CollectionTable .. string.char(10) .. MakeNavTable(Item.claims[Property][1].qualifiers, Item.claims[Property][1].mainsnak.datavalue.value)
+	end
+	
+	return CollectionTable
 end
 function p.Incipit(frame)
 	if not mw.wikibase.getDescription() then
