@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-01-18T09:14:33+01:00
+-- [P2G] Auto upload by PageToGitHub on 2022-01-18T09:15:21+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTBase
 --- This module represent the package containing basic functions to access data from the WikiBase instance DataTrek
 -- @module p
@@ -368,7 +368,7 @@ function p.MakeNavTable(Item, Title)
 	if not Item["P7"] then
 		Previous = "''nessuno''"
 	elseif Item["P7"][1].mainsnak == nil then
-		p.LabelOrLink(Item["P7"][1].datavalue.value.id)
+		Previous = p.LabelOrLink(Item["P7"][1].datavalue.value.id)
 	else
 		Previous = p.LabelOrLink(Item["P7"][1].mainsnak.datavalue.value.id)
 	end
