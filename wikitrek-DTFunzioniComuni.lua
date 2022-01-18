@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-01-18T00:04:49+01:00
+-- [P2G] Auto upload by PageToGitHub on 2022-01-18T10:53:29+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTFunzioniComuni
 -- Keyword: wikitrek
 
@@ -189,7 +189,9 @@ function p.IconTree(frame)
 		
 		CurrentItem = mw.wikibase.getEntity()
 		-- Takes icon from SERIES P16
-		ImageName = mw.wikibase.getEntity(CurrentItem.claims['P16'][1].mainsnak.datavalue.value.id).claims['P3'][1].mainsnak.datavalue.value
+		if CurrentItem.claims['P16'] ~= nil then
+			ImageName = mw.wikibase.getEntity(CurrentItem.claims['P16'][1].mainsnak.datavalue.value.id).claims['P3'][1].mainsnak.datavalue.value
+		end
 	end
 	
 	return ImageName
