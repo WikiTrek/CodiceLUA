@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-01-25T00:06:27+01:00
+-- [P2G] Auto upload by PageToGitHub on 2022-01-25T00:20:43+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -236,7 +236,6 @@ function p.ListAllP(frame)
 							StringValue = string.format('%u', SnakValue.mainsnak.datavalue.value.amount)
 							
 							if AddSemantic then
-								--mw.smw.set(Header[2] .. "::" .. StringValue)
 								mw.smw.set(Header[2] .. "=" .. StringValue)
 							end
 							
@@ -246,6 +245,9 @@ function p.ListAllP(frame)
 						end
 					else
 						AccValues[#AccValues + 1] = Value
+						if AddSemantic then
+							mw.smw.set(Header[2] .. "=" .. Value)
+						end
 					end
 				end
 				AllRows[#AllRows + 1] = {Header, AccValues}
