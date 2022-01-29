@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-01-29T17:39:26+01:00
+-- [P2G] Auto upload by PageToGitHub on 2022-01-29T17:41:53+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTEpisodio
 -- Keyword: wikitrek
 local LabelOrLink = require('Modulo:DTBase').LabelOrLink
@@ -108,7 +108,7 @@ function p.GetActors(frame, AddSemantic)
 		if AddSemantic then
 			--Result['Actor'] = '[[Interprete::' .. actorLabel .. ']]' .. frame:callParserFunction('#set:', actorLabel .. '=' .. CharLabel)
 			--Result['Actor'] = '[[' .. actorLink .. '|' .. actorLabel .. ']]' .. frame:callParserFunction('#set:', actorLabel .. '=' .. CharLabel) .. frame:callParserFunction('#set:', 'Interprete=' .. actorLabel)
-			Result['Actor'] = '[[' .. actorLink .. '|' .. actorLabel .. ']]' .. frame:callParserFunction('#set:', actorLabel .. '=' .. actorLink) .. frame:callParserFunction('#set:', 'Interprete=' .. actorLink)
+			Result['Actor'] = '[[' .. actorLink .. '|' .. actorLabel .. ']]' .. frame:callParserFunction('#set:', actorLabel .. '=' .. CharLink) .. frame:callParserFunction('#set:', 'Interprete=' .. actorLabel)
 		else
 			Result['Actor'] = '[[' .. actorLink .. '|' .. actorLabel .. ']]'
 		end
