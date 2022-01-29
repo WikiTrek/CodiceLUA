@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-10-31T22:21:55+01:00
+-- [P2G] Auto upload by PageToGitHub on 2022-01-29T17:37:17+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTEpisodio
 -- Keyword: wikitrek
 local LabelOrLink = require('Modulo:DTBase').LabelOrLink
@@ -14,7 +14,7 @@ function p.GetActors(frame, AddSemantic)
 		item = 'Q1'
 	end
 	
-	if not AddSemantic then
+	if AddSemantic == nil then
 		AddSemantic = true
 	end
 	
@@ -96,7 +96,7 @@ function p.GetActors(frame, AddSemantic)
 		if MakeWikiLink then
 			if AddSemantic then
 				--Result['Character'] = Prefix .. '[[Personaggio::' .. CharLink .. '|' .. CharLabel .. ']]' .. Suffix .. frame:callParserFunction('#set:', CharLabel .. '=' .. actorLabel)
-				Result['Character'] = Prefix .. '[[' .. CharLink .. '|' .. CharLabel .. ']]' .. Suffix  .. frame:callParserFunction('#set:', 'Personaggio=' .. CharLabel)
+				Result['Character'] = Prefix .. '[[' .. CharLink .. '|' .. CharLabel .. ']]' .. Suffix  .. frame:callParserFunction('#set:', 'Personaggio=' .. CharLink) --CharLabel)
 			else
 				Result['Character'] = Prefix .. '[[' .. CharLink .. '|' .. CharLabel .. ']]' .. Suffix
 			end
@@ -120,7 +120,7 @@ end
 function p.ListFirstAir(frame, AddSemantic)
 	local CurrItem = mw.wikibase.getEntityIdForCurrentPage()
 	if not CurrItem then
-		CurrItem = 'Q1'
+		return nil
 	end
 	
 	if not AddSemantic then
@@ -129,6 +129,11 @@ function p.ListFirstAir(frame, AddSemantic)
 	
 	local Results = {}
 	local Statements = mw.wikibase.getAllStatements(CurrItem, 'P2')
+	
+	if #Statements == 0 then
+		return nil
+	end
+	
 	for _, Statement in pairs(Statements) do
 		local Result
 		local DateLabel
@@ -293,7 +298,7 @@ function p.IncipitTree(frame)
 		end
 	else
 		--return "'''''" .. mw.title.getCurrentTitle().text .. "'''''" .. " è " .. mw.wikibase.getDescription() .. string.char(10)
-		return "'''''" .. mw.title.getCurrentTitle().text .. "'''''" .. " è " .. p.DescrWithTemplate(frame) .. string.char(10)
+		return "'''''" .. mw.title.getCurrentTitle().text .. "'''''" .. " è " .. DescrWithTemplate(frame) .. string.char(10)
 	end
 end
 return p
