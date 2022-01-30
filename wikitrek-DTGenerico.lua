@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-01-30T22:33:15+01:00
+-- [P2G] Auto upload by PageToGitHub on 2022-01-30T22:36:35+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -183,11 +183,17 @@ function p.ListAllP(frame)
 						elseif Value['entity-type'] == 'item' then
 							-- Process a generic Item
 							local GenericItem
-							if AddSemantic then
+							--[=[if AddSemantic then
 								GenericItem = LabelOrLink(Value['id'], Header[2], AddSemantic)
 							else
 								GenericItem = LabelOrLink(Value['id'])
 							end
+							]=]
+							GenericItem = LabelOrLink(Value['id'])
+							if AddSemantic then
+								mw.smw.set(Header[2] .. "=" .. Value['id'])
+							end
+							
 							if SnakValue.qualifiers and SnakValue.qualifiers['P15'] then
 								GenericItem = SnakValue.qualifiers['P15'][1].datavalue.value .. " " .. GenericItem
 							end
