@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-01-18T09:17:27+01:00
+-- [P2G] Auto upload by PageToGitHub on 2022-01-30T22:44:17+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTBase
 --- This module represent the package containing basic functions to access data from the WikiBase instance DataTrek
 -- @module p
@@ -115,7 +115,7 @@ function p.SiteLinksInterwiki()
 		sto = 'Star Trek Online wiki',
 		wikidata = 'Pagina della entità su Wikidata',
 		enwiki = 'Wikipedia (inglese)',
-		itwiki = 'Wikipedia (inglese)',
+		itwiki = 'Wikipedia (italiano)',
 		dema = 'Memory Alpha (tedesco)',
 		demb = 'Memory Beta (tedesco)',
 		fanlore = 'Fanlore',
@@ -318,6 +318,9 @@ function p.LabelOrLink(QItem, SMWProperty, AddSemantic, ForcedLabel)
 		--return Label
 		
 		--https://wikitrek.org/wiki/Speciale:AboutTopic/Q64
+		if AddSemantic then
+			mw.smw.set(SMWProperty .. "=" .. Label)
+		end
 		return "[[Special:AboutTopic/" .. QItem .. "|" .. Label .. "]]"
 	else
 		if Item.sitelinks == nil then
