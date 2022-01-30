@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-01-30T22:38:32+01:00
+-- [P2G] Auto upload by PageToGitHub on 2022-01-30T22:50:15+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -188,12 +188,7 @@ function p.ListAllP(frame)
 							else
 								GenericItem = LabelOrLink(Value['id'])
 							end
-							--[=[
-							GenericItem = LabelOrLink(Value['id'])
-							if AddSemantic then
-								mw.smw.set(Header[2] .. "=" .. Value['id'])
-							end
-							]=]
+							
 							if SnakValue.qualifiers and SnakValue.qualifiers['P15'] then
 								GenericItem = SnakValue.qualifiers['P15'][1].datavalue.value .. " " .. GenericItem
 							end
@@ -233,7 +228,7 @@ function p.ListAllP(frame)
 								--AccValues[#AccValues + 1] = "[[" .. Header[2] .. "::" .. Value['time'] .. "|" .. frame:expandTemplate{title = 'TimeL', args = {Tipo='ITEstesa', Istante=Value['time']}} .. "]]"
 								--AccValues[#AccValues + 1] = "[[" .. Header[2] .. "::" .. Instant .. "|" .. frame:expandTemplate{title = 'TimeL', args = {Tipo=OutputFormat, Istante=Instant}} .. "]]"
 								--AccValues[#AccValues + 1] = "[[" .. Header[2] .. "::" .. Instant .. "|" .. PrintDate .. "]]"
-								mw.smw.set(Header[2] .. "=" .. Instant)
+								mw.smw.set(Header[2] .. "=" .. PrintDate)
 							--else
 								--AccValues[#AccValues + 1] = frame:expandTemplate{title = 'TimeL', args = {Tipo='ITEstesa', Istante=Value['time']}}
 								--AccValues[#AccValues + 1] = frame:expandTemplate{title = 'TimeL', args = {Tipo=OutputFormat, Istante=Instant}}
