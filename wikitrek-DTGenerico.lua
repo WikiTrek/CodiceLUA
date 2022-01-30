@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-01-25T00:20:43+01:00
+-- [P2G] Auto upload by PageToGitHub on 2022-01-30T22:27:12+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -140,6 +140,7 @@ function p.ListAllP(frame)
 					mw.smw.set("Operatore=" .. OperatorTree(frame))
 				end]==]
 			else
+				-- Unspecified Property
 				local Header = {Property, (mw.wikibase.getLabelByLang(Property, 'it') or mw.wikibase.getLabel(Property))} -- .. ":"} -- or {Property, mw.wikibase.getLabel(Property) .. ":"} --'-' .. Property .. ":"}
 				local Values = Item['claims'][Property]
 				local AccValues = {}
@@ -189,7 +190,7 @@ function p.ListAllP(frame)
 							if SnakValue.qualifiers and SnakValue.qualifiers['P15'] then
 								GenericItem = SnakValue.qualifiers['P15'][1].datavalue.value .. " " .. GenericItem
 							end
-							AccValues[#AccValues + 1] = GenericItem
+							AccValues[#AccValues + 1] = GenericItem .. "ITEM"
 						elseif SnakValue.mainsnak.datavalue['type'] == 'time' then
 							-- "+2367-00-00T00:00:00Z"
 							local Instant = Value['time']
@@ -241,9 +242,10 @@ function p.ListAllP(frame)
 							
 							AccValues[#AccValues + 1] = StringValue
 						else
-							AccValues[#AccValues + 1] = 'TABLE'
+							AccValues[#AccValues + 1] = 'Unspecified TABLE'
 						end
 					else
+						-- String items
 						AccValues[#AccValues + 1] = Value
 						if AddSemantic then
 							mw.smw.set(Header[2] .. "=" .. Value)
