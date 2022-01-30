@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-01-30T21:37:48+01:00
+-- [P2G] Auto upload by PageToGitHub on 2022-01-30T21:41:26+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTEpisodio
 -- Keyword: wikitrek
 local LabelOrLink = require('Modulo:DTBase').LabelOrLink
@@ -95,8 +95,7 @@ function p.GetActors(frame, AddSemantic)
 		--Character
 		if MakeWikiLink then
 			if AddSemantic then
-				--Result['Character'] = Prefix .. '[[Personaggio::' .. CharLink .. '|' .. CharLabel .. ']]' .. Suffix .. frame:callParserFunction('#set:', CharLabel .. '=' .. actorLabel)
-				if string.sub(CharLink, 1, 9) == "Special:" then
+				if string.sub(CharLink, 1, 8) == "Special:" then
 					Result['Character'] = Prefix .. '[[' .. CharLink .. '|' .. CharLabel .. ']]' .. Suffix  .. frame:callParserFunction('#set:', 'Personaggio=' .. CharLabel)
 				else
 					Result['Character'] = Prefix .. '[[' .. CharLink .. '|' .. CharLabel .. ']]' .. Suffix  .. frame:callParserFunction('#set:', 'Personaggio=' .. CharLink)
@@ -111,8 +110,11 @@ function p.GetActors(frame, AddSemantic)
 		--Actor
 		if AddSemantic then
 			--Result['Actor'] = '[[Interprete::' .. actorLabel .. ']]' .. frame:callParserFunction('#set:', actorLabel .. '=' .. CharLabel)
-			--Result['Actor'] = '[[' .. actorLink .. '|' .. actorLabel .. ']]' .. frame:callParserFunction('#set:', actorLabel .. '=' .. CharLabel) .. frame:callParserFunction('#set:', 'Interprete=' .. actorLabel)
-			Result['Actor'] = '[[' .. actorLink .. '|' .. actorLabel .. ']]' .. frame:callParserFunction('#set:', actorLabel .. '=' .. CharLink) .. frame:callParserFunction('#set:', 'Interprete=' .. actorLabel)
+			if string.sub(CharLink, 1, 8) == "Special:" then
+				Result['Actor'] = '[[' .. actorLink .. '|' .. actorLabel .. ']]' .. frame:callParserFunction('#set:', actorLabel .. '=' .. CharLabel) .. frame:callParserFunction('#set:', 'Interprete=' .. actorLabel)
+			else
+				Result['Actor'] = '[[' .. actorLink .. '|' .. actorLabel .. ']]' .. frame:callParserFunction('#set:', actorLabel .. '=' .. CharLink) .. frame:callParserFunction('#set:', 'Interprete=' .. actorLabel)
+			end
 		else
 			Result['Actor'] = '[[' .. actorLink .. '|' .. actorLabel .. ']]'
 		end
