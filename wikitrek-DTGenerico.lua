@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-01-30T22:27:12+01:00
+-- [P2G] Auto upload by PageToGitHub on 2022-01-30T22:31:53+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -181,6 +181,7 @@ function p.ListAllP(frame)
 							--AccValues[#AccValues + 1] = LabelOrLink(SnakValue.qualifiers['P73'][1].datavalue.value['id']) .. " " .. LabelOrLink(Value['id']) .. ", " .. LabelOrLink(SnakValue.qualifiers['P76'][1].datavalue.value['id']) .. ", " .. LabelOrLink(SnakValue.qualifiers['P77'][1].datavalue.value['id'])
 							AccValues[#AccValues + 1] = Assignment
 						elseif Value['entity-type'] == 'item' then
+							-- Process a generic Item
 							local GenericItem
 							if AddSemantic then
 								GenericItem = LabelOrLink(Value['id'], Header[2], AddSemantic)
@@ -190,7 +191,7 @@ function p.ListAllP(frame)
 							if SnakValue.qualifiers and SnakValue.qualifiers['P15'] then
 								GenericItem = SnakValue.qualifiers['P15'][1].datavalue.value .. " " .. GenericItem
 							end
-							AccValues[#AccValues + 1] = GenericItem .. "ITEM"
+							AccValues[#AccValues + 1] = GenericItem .. "|" .. Header[2] .. "|" .. AddSemantic
 						elseif SnakValue.mainsnak.datavalue['type'] == 'time' then
 							-- "+2367-00-00T00:00:00Z"
 							local Instant = Value['time']
