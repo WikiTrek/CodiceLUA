@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-01-30T22:50:15+01:00
+-- [P2G] Auto upload by PageToGitHub on 2022-01-30T22:53:21+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -192,7 +192,7 @@ function p.ListAllP(frame)
 							if SnakValue.qualifiers and SnakValue.qualifiers['P15'] then
 								GenericItem = SnakValue.qualifiers['P15'][1].datavalue.value .. " " .. GenericItem
 							end
-							AccValues[#AccValues + 1] = GenericItem .. "|" .. Header[2] .. "|" .. tostring(AddSemantic)
+							AccValues[#AccValues + 1] = GenericItem --.. "|" .. Header[2] .. "|" .. tostring(AddSemantic)
 						elseif SnakValue.mainsnak.datavalue['type'] == 'time' then
 							-- "+2367-00-00T00:00:00Z"
 							local Instant = Value['time']
@@ -228,7 +228,7 @@ function p.ListAllP(frame)
 								--AccValues[#AccValues + 1] = "[[" .. Header[2] .. "::" .. Value['time'] .. "|" .. frame:expandTemplate{title = 'TimeL', args = {Tipo='ITEstesa', Istante=Value['time']}} .. "]]"
 								--AccValues[#AccValues + 1] = "[[" .. Header[2] .. "::" .. Instant .. "|" .. frame:expandTemplate{title = 'TimeL', args = {Tipo=OutputFormat, Istante=Instant}} .. "]]"
 								--AccValues[#AccValues + 1] = "[[" .. Header[2] .. "::" .. Instant .. "|" .. PrintDate .. "]]"
-								mw.smw.set(Header[2] .. "=" .. PrintDate)
+								mw.smw.set(Header[2] .. "=" .. Instant)
 							--else
 								--AccValues[#AccValues + 1] = frame:expandTemplate{title = 'TimeL', args = {Tipo='ITEstesa', Istante=Value['time']}}
 								--AccValues[#AccValues + 1] = frame:expandTemplate{title = 'TimeL', args = {Tipo=OutputFormat, Istante=Instant}}
@@ -236,7 +236,7 @@ function p.ListAllP(frame)
 							end
 						elseif SnakValue.mainsnak.datavalue.type == 'quantity' then
 							local StringValue
-							StringValue = string.format('%u', SnakValue.mainsnak.datavalue.value.amount)
+							StringValue = string.format('%%', SnakValue.mainsnak.datavalue.value.amount)
 							
 							if AddSemantic then
 								mw.smw.set(Header[2] .. "=" .. StringValue)
