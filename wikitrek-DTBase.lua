@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-01-30T22:44:17+01:00
+-- [P2G] Auto upload by PageToGitHub on 2022-01-31T22:50:02+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTBase
 --- This module represent the package containing basic functions to access data from the WikiBase instance DataTrek
 -- @module p
@@ -386,6 +386,7 @@ function p.MakeNavTable(Item, Title)
 	
 	Table = "<div class='separatorebox'>'''" .. Title .. "'''</div>"
 	Table = Table .. string.char(10) .. "<table class='wikitable' style='width:100%'>"
+	Table = Table .. string.char(10) .. "<caption>" .. Title .. "</caption>"
 	Table = Table .. string.char(10) .. "<tr><th id='P7' title='P7'>&lt; Precedente</th><th id='P23' title='P23'>Successivo &gt;</th></tr>"
 	Table = Table .. string.char(10) .. "<tr><td style='text-align:center; width:50%;'>" .. Previous .. "</td>"
 	Table = Table .. string.char(10) .. "<td style='text-align:center; width:50%;'>" .. Next .. "</td></tr>"
