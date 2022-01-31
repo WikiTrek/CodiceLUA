@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-01-31T22:50:02+01:00
+-- [P2G] Auto upload by PageToGitHub on 2022-01-31T23:02:13+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTBase
 --- This module represent the package containing basic functions to access data from the WikiBase instance DataTrek
 -- @module p
@@ -363,7 +363,7 @@ function p.MakeNavTable(Item, Title)
 	local Next
 	local Table
 	
-	Title = Title or "Navigatore"
+	--Title = Title or "Navigatore"
 	if not Item then
 		Item = mw.wikibase.getEntity("Q1")
 	end
@@ -384,9 +384,12 @@ function p.MakeNavTable(Item, Title)
 		Next = p.LabelOrLink(Item["P23"][1].mainsnak.datavalue.value.id)
 	end
 	
-	Table = "<div class='separatorebox'>'''" .. Title .. "'''</div>"
-	Table = Table .. string.char(10) .. "<table class='wikitable' style='width:100%'>"
-	Table = Table .. string.char(10) .. "<caption>" .. Title .. "</caption>"
+	--Table = "<div class='separatorebox'>'''" .. Title .. "'''</div>"
+	--Table = Table .. string.char(10) .. "<table class='wikitable' style='width:100%'>"
+	Table = "<table class='wikitable' style='width:100%'>"
+	if Title ~= nil then
+		Table = Table .. string.char(10) .. "<caption>" .. Title .. "</caption>"
+	end
 	Table = Table .. string.char(10) .. "<tr><th id='P7' title='P7'>&lt; Precedente</th><th id='P23' title='P23'>Successivo &gt;</th></tr>"
 	Table = Table .. string.char(10) .. "<tr><td style='text-align:center; width:50%;'>" .. Previous .. "</td>"
 	Table = Table .. string.char(10) .. "<td style='text-align:center; width:50%;'>" .. Next .. "</td></tr>"
