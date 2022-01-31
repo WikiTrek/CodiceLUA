@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-01-30T23:20:37+01:00
+-- [P2G] Auto upload by PageToGitHub on 2022-01-31T21:48:47+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -86,10 +86,12 @@ function p.ListAllP(frame)
 	local AllRows = {}
 	local HTMLTable
 	local CollectionTable = ''
-	local ExcludeP = {P3 = true, P7 = true, P14 = false, P21 = true, P23 = true, P26 = true, P30 = true, P37 = true,  P46 = true, P58 = true, P68 = true, P52 = true, P79 = true, P90 = true}
+	local ExcludeP = {}
 	local POnTree = {}
 	local Item = mw.wikibase.getEntity()
 	local ItemQ = mw.wikibase.getEntityIdForCurrentPage()
+	local IsEpisode = false
+	
 	if not Item then
 		Item = mw.wikibase.getEntity('Q1')
 	end
@@ -97,6 +99,12 @@ function p.ListAllP(frame)
 	if AddSemantic == nil then
 		AddSemantic = true
 	end
+	
+	if frame.args['IsEpisode'] ~= nil then
+		IsEpisode = frame.args['IsEpisode']
+	end
+	
+	ExcludeP = {P3 = true, P7 = true, P14 = false, P21 = IsEpisode, P23 = true, P26 = true, P30 = true, P37 = true,  P46 = true, P58 = true, P68 = true, P52 = true, P79 = true, P90 = true}
 	
 	AllP = mw.wikibase.orderProperties(Item:getProperties())
 	--Debug: list unsorted and sorted properties
