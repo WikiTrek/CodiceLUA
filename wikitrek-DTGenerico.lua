@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-01-31T23:02:17+01:00
+-- [P2G] Auto upload by PageToGitHub on 2022-01-31T23:04:24+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -300,7 +300,7 @@ function p.ProcessNavigators(frame)
 	
 	if Item.claims['P46'] then
 		-- Arc
-		CollectionTable = CollectionTable .. string.char(10) .. MakeNavTable(Item.claims["P46"][1].qualifiers, Item.claims["P46"][1].mainsnak.datavalue.value)
+		CollectionTable = CollectionTable .. string.char(10) .. MakeNavTable(Item.claims["P46"][1].qualifiers, "Arco: " .. Item.claims["P46"][1].mainsnak.datavalue.value)
 	end
 	
 	if CollectionTable ~= nil then
