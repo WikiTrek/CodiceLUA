@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-01-31T23:04:24+01:00
+-- [P2G] Auto upload by PageToGitHub on 2022-02-08T23:06:47+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -91,6 +91,7 @@ function p.ListAllP(frame)
 	local Item = mw.wikibase.getEntity()
 	local ItemQ = mw.wikibase.getEntityIdForCurrentPage()
 	local IsEpisode = false
+	local OperatorName
 	
 	if not Item then
 		Item = mw.wikibase.getEntity('Q1')
@@ -133,7 +134,11 @@ function p.ListAllP(frame)
 					local PropValue = table.concat(PropertiesOnTree(Prop[1], Prop[2], Prop[3], true))
 					if (PropValue ~= nil) and (PropValue ~= "") then
 						local PropName = mw.wikibase.getLabelByLang(Prop[1], 'it') or mw.wikibase.getLabel(Prop[1])
-						AllRows[#AllRows + 1] = {{Prop[1], PropName .. ":"}, {PropValue}}
+						--AllRows[#AllRows + 1] = {{Prop[1], PropName .. ":"}, {PropValue}}
+						AllRows[#AllRows + 1] = {{Prop[1], PropName}, {PropValue}}
+						if Prop[1] == "P41" then
+							OperatorName = PropValue
+						end
 						if AddSemantic then
 							mw.smw.set(PropName .. "=" .. PropValue)
 						end
@@ -200,6 +205,12 @@ function p.ListAllP(frame)
 							if SnakValue.qualifiers and SnakValue.qualifiers['P15'] then
 								GenericItem = SnakValue.qualifiers['P15'][1].datavalue.value .. " " .. GenericItem
 							end
+							
+							--Naval class
+							if Property == "P88" then
+								GenericItem = GenericItem .. "[[Category:" .. OperatorName .. "Prova]]"
+							end
+				
 							AccValues[#AccValues + 1] = GenericItem --.. "|" .. Header[2] .. "|" .. tostring(AddSemantic)
 						elseif SnakValue.mainsnak.datavalue['type'] == 'time' then
 							-- "+2367-00-00T00:00:00Z"
