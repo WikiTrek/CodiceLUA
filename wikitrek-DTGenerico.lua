@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-02-08T23:06:47+01:00
+-- [P2G] Auto upload by PageToGitHub on 2022-02-08T23:23:27+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -136,9 +136,9 @@ function p.ListAllP(frame)
 						local PropName = mw.wikibase.getLabelByLang(Prop[1], 'it') or mw.wikibase.getLabel(Prop[1])
 						--AllRows[#AllRows + 1] = {{Prop[1], PropName .. ":"}, {PropValue}}
 						AllRows[#AllRows + 1] = {{Prop[1], PropName}, {PropValue}}
-						if Prop[1] == "P41" then
-							OperatorName = PropValue
-						end
+						--[==[if Prop[1] == "P41" then
+							OperatorName = mw.wikibase.getEntity(Value['id']).labels['it'].value .. "]]"
+						end]==]
 						if AddSemantic then
 							mw.smw.set(PropName .. "=" .. PropValue)
 						end
@@ -208,7 +208,7 @@ function p.ListAllP(frame)
 							
 							--Naval class
 							if Property == "P88" then
-								GenericItem = GenericItem .. "[[Category:" .. OperatorName .. "Prova]]"
+								GenericItem = GenericItem .. "[[Category:" .. mw.wikibase.getEntity(Value['id']).labels['it'].value .. "]]"
 							end
 				
 							AccValues[#AccValues + 1] = GenericItem --.. "|" .. Header[2] .. "|" .. tostring(AddSemantic)
