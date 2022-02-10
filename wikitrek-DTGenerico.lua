@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-02-10T22:23:42+01:00
+-- [P2G] Auto upload by PageToGitHub on 2022-02-10T22:28:30+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -214,7 +214,7 @@ function p.ListAllP(frame)
 							--P141 - Related Category
 							--Category needs to be linked, not added to the page
 							if Property == "P141" then
-								string.gsub(GenericItem, "[[", "[[:")
+								string.gsub(GenericItem, "%[%[", "[[:")
 							end
 				
 							AccValues[#AccValues + 1] = GenericItem --.. "|" .. Header[2] .. "|" .. tostring(AddSemantic)
