@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-02-10T22:41:59+01:00
+-- [P2G] Auto upload by PageToGitHub on 2022-02-13T22:23:47+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -392,7 +392,6 @@ function p.ListHTData(frame)
 		local HTNodes = Item.claims['P79'][1]
 		
 		ImageString = "[[File:Menu.png|left|middle|30px|HyperTrek logo]]"
-		--DataString = "Informazioni originali lette dal database di '''HyperTrek''' datato " .. frame:expandTemplate{title = 'TimeL', args = {Tipo='ITMedia', Istante=HTNodes.mainsnak.datavalue.value.time}} .. " con i seguenti dettagli: "
 		DataString = "Informazioni originali lette dal database di <h2 class='hiddenheaderbold'>HyperTrek</h2> datato " .. frame:expandTemplate{title = 'TimeL', args = {Tipo='ITMedia', Istante=HTNodes.mainsnak.datavalue.value.time}} .. " con i seguenti dettagli: "
 		 
 		for _, Qualifier in pairs(HTNodes.qualifiers) do
@@ -400,6 +399,11 @@ function p.ListHTData(frame)
 			local QualiName = mw.wikibase.getLabelByLang(QualiProp, 'it')
 			local QualiValue = Qualifier[1].datavalue.value
 			--QualiString = QualiString .. "<li " .. "title='" .. Qualifier[1].property .. "'>'''" .. mw.wikibase.getLabelByLang(Qualifier[1].property, 'it') .. "''': " .. Qualifier[1].datavalue.value .. "</li>"
+			if QualiProp == "P84" then
+				--Istante di importazione
+				QualiValue = frame:expandTemplate{title = 'TimeL', args = {Tipo='ITMedia', Istante=QualiValue}}
+			end
+			
 			QualiString = QualiString .. "<li " .. "title='" .. QualiProp .. "'>'''" .. QualiName .. "''': " .. QualiValue .. "</li>"
 			if AddSemantic then
 				mw.smw.set(QualiName .. "=" .. QualiValue)
