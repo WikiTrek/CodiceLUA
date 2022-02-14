@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-02-14T22:05:16+01:00
+-- [P2G] Auto upload by PageToGitHub on 2022-02-14T22:06:49+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -124,8 +124,8 @@ function p.ListAllP(frame)
 		else
 			ITLabel = "In italiano"
 		end
-		ITValue = {mw.wikibase.getLabelByLang(ItemQ, 'it')}
-		AllRows[#AllRows + 1] = {ITLabel .. ":", ITValue}
+		ITValue = mw.wikibase.getLabelByLang(ItemQ, 'it')
+		AllRows[#AllRows + 1] = {ITLabel .. ":", {ITValue}}
 		if AddSemantic then
 			mw.smw.set(ITLabel .. "=" .. ITValue)
 		end
