@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-02-13T22:23:47+01:00
+-- [P2G] Auto upload by PageToGitHub on 2022-02-14T22:00:27+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -117,7 +117,13 @@ function p.ListAllP(frame)
 		AllRows[#AllRows + 1] = {"In originale:", {mw.wikibase.getLabelByLang(ItemQ, 'en')}}
 	end
 	if (mw.wikibase.getLabelByLang(ItemQ, 'it')) and (mw.wikibase.getLabelByLang(ItemQ, 'it')) ~= PageTitle.text then
-		AllRows[#AllRows + 1] = {"In italiano:", {mw.wikibase.getLabelByLang(ItemQ, 'it')}}
+		local ITLabel
+		if IsEpisode or IsBook or IsFilm then
+			ITLabel = "Titolo italiano"
+		else
+			ITLabel = "In italiano"
+		end
+		AllRows[#AllRows + 1] = {ITLabel .. ":", {mw.wikibase.getLabelByLang(ItemQ, 'it')}}
 	end
 	for _, Property in pairs(AllP) do
 		if (not ExcludeP[Property]) and Item.claims[Property][1].mainsnak.datatype ~= 'external-id' then
@@ -401,7 +407,7 @@ function p.ListHTData(frame)
 			--QualiString = QualiString .. "<li " .. "title='" .. Qualifier[1].property .. "'>'''" .. mw.wikibase.getLabelByLang(Qualifier[1].property, 'it') .. "''': " .. Qualifier[1].datavalue.value .. "</li>"
 			if QualiProp == "P84" then
 				--Istante di importazione
-				QualiValue = frame:expandTemplate{title = 'TimeL', args = {Tipo='ITMedia', Istante=QualiValue}}
+				QualiValue = frame:expandTemplate{title = 'TimeL', args = {Tipo='ITEstesa', Istante=QualiValue}}
 			end
 			
 			QualiString = QualiString .. "<li " .. "title='" .. QualiProp .. "'>'''" .. QualiName .. "''': " .. QualiValue .. "</li>"
