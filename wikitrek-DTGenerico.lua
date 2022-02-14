@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-02-14T22:00:27+01:00
+-- [P2G] Auto upload by PageToGitHub on 2022-02-14T22:05:16+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -118,12 +118,17 @@ function p.ListAllP(frame)
 	end
 	if (mw.wikibase.getLabelByLang(ItemQ, 'it')) and (mw.wikibase.getLabelByLang(ItemQ, 'it')) ~= PageTitle.text then
 		local ITLabel
+		local ITValue
 		if IsEpisode or IsBook or IsFilm then
 			ITLabel = "Titolo italiano"
 		else
 			ITLabel = "In italiano"
 		end
-		AllRows[#AllRows + 1] = {ITLabel .. ":", {mw.wikibase.getLabelByLang(ItemQ, 'it')}}
+		ITValue = {mw.wikibase.getLabelByLang(ItemQ, 'it')}
+		AllRows[#AllRows + 1] = {ITLabel .. ":", ITValue}
+		if AddSemantic then
+			mw.smw.set(ITLabel .. "=" .. ITValue)
+		end
 	end
 	for _, Property in pairs(AllP) do
 		if (not ExcludeP[Property]) and Item.claims[Property][1].mainsnak.datatype ~= 'external-id' then
