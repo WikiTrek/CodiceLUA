@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-02-14T22:55:55+01:00
+-- [P2G] Auto upload by PageToGitHub on 2022-02-21T21:42:36+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -277,6 +277,11 @@ function p.ListAllP(frame)
 							
 							if AddSemantic then
 								mw.smw.set(Header[2] .. "=" .. StringValue)
+							end
+							
+							if SnakValue.mainsnak.datavalue.value.unit ~= nil then
+								local Unit = SnakValue.mainsnak.datavalue.value.unit
+								StringValue = StringValue .. LabelOrLink(string.sub(Unit, string.find(Unit, "Q")))
 							end
 							
 							AccValues[#AccValues + 1] = StringValue
