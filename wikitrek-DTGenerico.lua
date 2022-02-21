@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-02-21T22:22:14+01:00
+-- [P2G] Auto upload by PageToGitHub on 2022-02-21T22:37:23+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -254,13 +254,13 @@ function p.ListAllP(frame)
 									--P74 - Event
 									YearLink = LabelOrLink(SnakValue.qualifiers['P74'][1].datavalue.value['id'], nil, nil, PrintDate)
 								end
-								QualiString = ProcessQualifiers
+								QualiString = " " .. "(" .. p.ProcessQualifiers(SnakValue) .. ")"
 							end
 							
 							if YearLink == "" then
-								AccValues[#AccValues + 1] = PrintDate
+								AccValues[#AccValues + 1] = PrintDate .. QualiString
 							else
-								AccValues[#AccValues + 1] = YearLink
+								AccValues[#AccValues + 1] = YearLink .. QualiString
 							end
 							
 							if AddSemantic then
@@ -395,13 +395,14 @@ function p.ProcessQualifiers(SnakValue)
 	local QualiValue = {}
 	
 	for _, Qualifier in pairs(SnakValue.qualifiers) do
+		
 		if Qualifier[1].property == "P4" then
 			--Broadcaster
 			QualiValue[#QualiValue + 1] = Qualifier[1].datavalue.value
 		end
 	end
 	
-	return table.concat(AllCategories, string.char(10))
+	return table.concat(QualiValue, ", ") --string.char(10))
 	
 	--[=[
 	if SnakValue.qualifiers['P73'] ~= nil then
