@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-02-21T22:37:23+01:00
+-- [P2G] Auto upload by PageToGitHub on 2022-02-22T23:16:59+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -357,7 +357,17 @@ function p.Incipit(frame)
 		return "'''''" .. mw.title.getCurrentTitle().text .. "'''''" .. " è " .. p.DescrWithTemplate(frame) .. string.char(10)
 	end
 end
-
+--- Function to expand template contained within description,
+-- if present
+-- @param frame Data from MW session
+-- @return String Text containing URL to SkyMap
+function p.SkyMapLink(RA, D)
+	-- Example
+	-- http://my.sky-map.org/v2?ra=0.709946185638474&de=41.22867547300068&zoom=5&show_grid=1&show_constellation_lines=1&show_constellation_boundaries=1&show_const_names=0&show_galaxies=1&show_box=1&box_ra=0.71166664&box_de=41.266666&box_width=682.6667008&box_height=682.6667008&box_var_size=1
+	-- https://secure.sky-map.org/v2
+	
+	return "https://secure.sky-map.org/v2?ra=" .. RA .. "&de=" .. D
+end
 --- Function to expand template contained within description,
 -- if present
 -- @param frame Data from MW session
