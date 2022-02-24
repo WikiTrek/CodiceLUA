@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-01-31T23:02:13+01:00
+-- [P2G] Auto upload by PageToGitHub on 2022-02-24T21:33:42+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTBase
 --- This module represent the package containing basic functions to access data from the WikiBase instance DataTrek
 -- @module p
@@ -430,7 +430,7 @@ function p.ListReferences(frame)
 				if frame.args['AddSemantic'] then
 					Reference = "Riferimento::" .. Reference
 				end
-				AllReferences[#AllReferences + 1] = "* [[" .. Reference .. "]] - " .. ReferenceItem .. " - " .. mw.wikibase.getLabelByLang(mw.wikibase.getEntity(ReferenceItem).claims['P14'][1].mainsnak.datavalue.value.id, "it") -- mw.wikibase.getLabelByLang(mw.wikibase.getEntity(ReferenceItem)[P14][1].mainsnak.datavalue['value'], "it")
+				AllReferences[#AllReferences + 1] = "* [[" .. Reference .. "]] (" .. mw.wikibase.getLabelByLang(mw.wikibase.getEntity(ReferenceItem).claims['P14'][1].mainsnak.datavalue.value.id, "it") .. ")"
 			end
 		end
 		return table.concat(AllReferences, string.char(10))
