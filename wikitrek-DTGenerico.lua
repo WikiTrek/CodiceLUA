@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-02-22T23:16:59+01:00
+-- [P2G] Auto upload by PageToGitHub on 2022-02-24T21:41:21+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -236,7 +236,7 @@ function p.ListAllP(frame)
 							local OutputFormat = "ITMedia"
 							local YearLink = ""
 							local PrintDate
-							local QualiString
+							local QualiString = ""
 							
 							if string.sub(Instant, 7, 8) == "00" or string.sub(Instant, 10, 11) == "00" then
 								Instant = Instant:sub(1, 5) .. "-01-01"
