@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-02-24T21:41:21+01:00
+-- [P2G] Auto upload by PageToGitHub on 2022-02-26T17:19:11+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -461,10 +461,11 @@ function p.ListHTData(frame)
 				QualiValue = frame:expandTemplate{title = 'TimeL', args = {Tipo='ITEstesa', Istante=QualiValue}}
 			end
 			
-			QualiString = QualiString .. "<li " .. "title='" .. QualiProp .. "'>'''" .. QualiName .. "''': " .. QualiValue .. "</li>"
 			if AddSemantic then
 				mw.smw.set(QualiName .. "=" .. QualiValue)
 			end
+			--QualiString = QualiString .. "<li " .. "title='" .. QualiProp .. "'>'''" .. QualiName .. "''': " .. QualiValue .. "</li>"
+			QualiString = QualiString .. "<li " .. "title='" .. QualiProp .. "'>'''" .. string.gsub(QualiName, "HyperTrek", "HT") .. "''': " .. QualiValue .. "</li>"
 		end
 		
 		DIV
