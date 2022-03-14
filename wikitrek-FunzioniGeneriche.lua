@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-03-15T00:00:39+01:00
+-- [P2G] Auto upload by PageToGitHub on 2022-03-15T00:03:06+01:00
 -- [P2G] This code from page Modulo:wikitrek-FunzioniGeneriche
 -- Keyword: wikitrek
 local p = {} --p stands for package
@@ -156,8 +156,8 @@ function p.TestArray(frame)
 		end
 	end
 	
-	for _, Group in pairs(FinalArray) do
-		FinalString = FinalString .. "* " .. table.concat(Group, ",") .. string.char(10)
+	for ID, Group in pairs(FinalArray) do
+		FinalString = FinalString .. "* " .. ID .. ": " .. table.concat(Group, ", ") .. string.char(10)
 	end
 	
 	--return FinalArray["A"][1]
