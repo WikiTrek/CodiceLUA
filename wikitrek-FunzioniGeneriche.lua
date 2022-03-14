@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-01-03T16:53:43+01:00
+-- [P2G] Auto upload by PageToGitHub on 2022-03-14T23:54:16+01:00
 -- [P2G] This code from page Modulo:wikitrek-FunzioniGeneriche
 -- Keyword: wikitrek
 local p = {} --p stands for package
@@ -64,7 +64,7 @@ function p.TableFromArray(AllRows)
 					Cell
 						:attr('id', Field[1])
 						:attr('title', Field[1])
-						:wikitext(Field[2])
+						:wikitext(Field[2]..":")
 				else
 					Cell
 						:wikitext(Field)
@@ -135,5 +135,22 @@ function p.TextColor(frame)
     	return "black"
     end
 		
+end
+--- Returns the color to use in CSS for the text depending on the luminance
+-- of the background
+-- @param BackColor The hex code of the background color
+-- @return name of the color
+function p.TestArray(frame)
+	local TestGroups = {"A", "B", "C"}
+	local TestValues = {"Alpha", "Beta"}
+	local FinalArray = {}
+	
+	for _, Group in pairs(TestGroups) do
+		for _, Value in pairs(TestValues) do
+			table.insert(FinalArray[Group], Value)
+		end
+	end
+	
+	return FinalArray["A"][1]
 end
 return p
