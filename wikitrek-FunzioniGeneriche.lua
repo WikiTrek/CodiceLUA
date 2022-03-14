@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-03-15T00:03:06+01:00
+-- [P2G] Auto upload by PageToGitHub on 2022-03-15T00:04:34+01:00
 -- [P2G] This code from page Modulo:wikitrek-FunzioniGeneriche
 -- Keyword: wikitrek
 local p = {} --p stands for package
@@ -141,7 +141,7 @@ end
 -- @param BackColor The hex code of the background color
 -- @return name of the color
 function p.TestArray(frame)
-	local TestGroups = {"A", "B", "C"}
+	local TestGroups = {"A", "B", "C", "B", "C"}
 	local TestValues = {"Alpha", "Beta"}
 	local FinalArray = {}
 	local FinalString = ""
