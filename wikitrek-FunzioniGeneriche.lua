@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-03-14T23:54:16+01:00
+-- [P2G] Auto upload by PageToGitHub on 2022-03-14T23:55:21+01:00
 -- [P2G] This code from page Modulo:wikitrek-FunzioniGeneriche
 -- Keyword: wikitrek
 local p = {} --p stands for package
@@ -147,6 +147,10 @@ function p.TestArray(frame)
 	
 	for _, Group in pairs(TestGroups) do
 		for _, Value in pairs(TestValues) do
+			if FinalArray[Group] == nil then
+				FinalArray[Group] = {}
+			end
+			
 			table.insert(FinalArray[Group], Value)
 		end
 	end
