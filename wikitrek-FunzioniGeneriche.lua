@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-03-15T00:04:34+01:00
+-- [P2G] Auto upload by PageToGitHub on 2022-03-15T23:10:30+01:00
 -- [P2G] This code from page Modulo:wikitrek-FunzioniGeneriche
 -- Keyword: wikitrek
 local p = {} --p stands for package
@@ -161,6 +161,39 @@ function p.TestArray(frame)
 	end
 	
 	--return FinalArray["A"][1]
+	return FinalString
+end
+function p.TestArray2(frame)
+	local FinalArray = {}
+	local FinalString = ""
+	local Actor = "Annie Wersching"
+	local QueryResult = mw.smw.getQueryResult('[[Interprete::' .. Actor .. ']]|?' .. Actor .. '|sort=Numero di produzione|order=asc')
+	
+	if QueryResult == nil then
+        return "''Nessun risultato''"
+    end
+
+    if type(QueryResult) == "table" then
+    	for k, v in pairs(QueryResult.results) do
+        	-- v.fulltext						represents EPISODE
+        	-- v.printouts[Actor][1].fulltext	represents CHARACTER
+        	local Episode = v.fulltext
+        	local Character = v.printouts[Actor][1].fulltext
+        	
+        	if FinalArray[Character] == nil then
+				FinalArray[Character] = {}
+			end
+			
+			table.insert(FinalArray[Character], Episode)
+    	end
+    else
+    	return "''Il risultato non è una TABLE''"
+    end
+	
+	for ID, Group in pairs(FinalArray) do
+		FinalString = FinalString .. "* " .. ID .. ": " .. table.concat(Group, ", ") .. string.char(10)
+	end
+	
 	return FinalString
 end
 return p
