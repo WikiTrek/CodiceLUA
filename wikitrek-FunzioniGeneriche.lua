@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-03-15T23:45:31+01:00
+-- [P2G] Auto upload by PageToGitHub on 2022-03-15T23:58:56+01:00
 -- [P2G] This code from page Modulo:wikitrek-FunzioniGeneriche
 -- Keyword: wikitrek
 local p = {} --p stands for package
@@ -184,11 +184,20 @@ function p.TestArray2(frame)
         	if v.printouts[Actor][1] == nil then
         		Character = "''Senza pagina''"
         	else
+        		--[==[
         		Character = v.printouts[Actor][1].fulltext
         		if FinalArray[Character] == nil then
         			FinalArray[Character] = {}
         		end
 				table.insert(FinalArray[Character], Episode)
+				]==]
+				for _, CurrChar in pairs(v.printouts[Actor]) do
+					Character = CurrChar.fulltext
+					if FinalArray[Character] == nil then
+						FinalArray[Character] = {}
+					end
+    				table.insert(FinalArray[Character], Episode)
+				end
         	end
         	
     	end
