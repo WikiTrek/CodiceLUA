@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-03-15T23:10:30+01:00
+-- [P2G] Auto upload by PageToGitHub on 2022-03-15T23:21:19+01:00
 -- [P2G] This code from page Modulo:wikitrek-FunzioniGeneriche
 -- Keyword: wikitrek
 local p = {} --p stands for package
@@ -166,7 +166,8 @@ end
 function p.TestArray2(frame)
 	local FinalArray = {}
 	local FinalString = ""
-	local Actor = "Annie Wersching"
+	--local Actor = "Annie Wersching"
+	local Actor = "Emily Coutts"
 	local QueryResult = mw.smw.getQueryResult('[[Interprete::' .. Actor .. ']]|?' .. Actor .. '|sort=Numero di produzione|order=asc')
 	
 	if QueryResult == nil then
@@ -178,7 +179,13 @@ function p.TestArray2(frame)
         	-- v.fulltext						represents EPISODE
         	-- v.printouts[Actor][1].fulltext	represents CHARACTER
         	local Episode = v.fulltext
-        	local Character = v.printouts[Actor][1].fulltext
+        	local Character
+        	
+        	if v.printouts[Actor][1] == nil then
+        		Character = "''Senza pagina''"
+        	else
+        		Character = v.printouts[Actor][1].fulltext
+        	end
         	
         	if FinalArray[Character] == nil then
 				FinalArray[Character] = {}
