@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2021-11-15T23:10:07+01:00
+-- [P2G] Auto upload by PageToGitHub on 2022-03-17T00:11:13+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTSpecific
 --- This module represent the package containing specific functions to access data from the WikiBase instance DataTrek
 -- @module p
@@ -13,7 +13,7 @@ local print
 -- 
 -- @frame Info from MW session
 -- @return A bullet list of appearances
-function p.ListAppearances(frame)
+function p.ListAppearancesOLD(frame)
 	-- See example
 	--[=[
 	{{#ask: [[Interprete::Carl Tart]]
@@ -108,7 +108,7 @@ function p.ListAppearances(frame)
             end
             ]=]
             
-            if CurrChar == nil or CurrChar == "" or CurrChar ~= v.printouts[Actor][1].fulltext then
+            if CurrChar == nil or CurrChar == "" then --or CurrChar ~= v.printouts[Actor][1].fulltext then
             	if Episodes ~= nil and CurrChar ~= nil then
             		-- episodes list contains data to print out, print it
             		Row = "[[" .. CurrChar .. "]]: [[" .. table.concat(Episodes, "]], [[") .. "]]"
@@ -151,6 +151,50 @@ function p.ListAppearances(frame)
     end
 
     return queryResult
+end
+--- generates a list of backlink using SMW query.
+-- 
+-- @frame Info from MW session
+-- @return A bullet list of appearances
+function p.ListAppearances(frame)
+	local FinalArray = {}
+	local FinalString = ""
+	local Actor = mw.title.getCurrentTitle().text
+	local QueryResult = mw.smw.getQueryResult('[[Interprete::' .. Actor .. ']]|?' .. Actor .. '|sort=Numero di produzione|order=asc')
+	
+	if QueryResult == nil then
+        return "''Nessun risultato''"
+    end
+
+    if type(QueryResult) == "table" then
+    	for k, v in pairs(QueryResult.results) do
+        	-- v.fulltext						represents EPISODE
+        	-- v.printouts[Actor][1].fulltext	represents CHARACTER
+        	local Episode = v.fulltext
+        	local Character
+        	
+        	if v.printouts[Actor][1] == nil then
+        		Character = "''Senza pagina''"
+        	else
+				for _, CurrChar in pairs(v.printouts[Actor]) do
+					Character = CurrChar.fulltext
+					if FinalArray[Character] == nil then
+						FinalArray[Character] = {}
+					end
+    				table.insert(FinalArray[Character], Episode)
+				end
+        	end
+        	
+    	end
+    else
+    	return "''Il risultato non è una TABLE''"
+    end
+	
+	for ID, Group in pairs(FinalArray) do
+		FinalString = FinalString .. "* [[" .. ID .. "]]: [[" .. table.concat(Group, "]], [[") .. "]]" .. string.char(10)
+	end
+	
+	return FinalString
 end
 --- This dumps the variable (converts it into a string representation of itself)
 --
