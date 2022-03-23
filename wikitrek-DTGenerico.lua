@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-02-26T17:19:11+01:00
+-- [P2G] Auto upload by PageToGitHub on 2022-03-23T11:46:57+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -92,6 +92,7 @@ function p.ListAllP(frame)
 	local ItemQ = mw.wikibase.getEntityIdForCurrentPage()
 	local IsEpisode = false
 	local OperatorName
+	local SkyMapURL = nil
 	
 	if not Item then
 		Item = mw.wikibase.getEntity('Q1')
@@ -138,6 +139,25 @@ function p.ListAllP(frame)
 			elseif (Property == "P7" or Property == "P23") and CollectionTable == '' then
 				--Previous or Next
 				CollectionTable = string.char(10) .. MakeNavTable(Item.claims, nil)
+			elseif (Property == "P80" or Property == "P82") then
+				--Right Ascension or Declination
+				if SkyMapURL == nil then
+					--SkyMapURL = "https://secure.sky-map.org/v2?ra=|RA|&de=|D|"
+					SkyMapURL = "https://secure.sky-map.org/v2?"
+				else
+					SkyMapURL = SkyMapURL .. "&"	
+				end
+				local Parameter
+				if Property == "P80" then
+					--Right ascension
+					Parameter = "ra"
+				else
+					--Declination
+					Parameter = "de"
+				end
+				
+				SkyMapURL = SkyMapURL .. Parameter .. "=" .. Item.claims[Property][1].mainsnak.datavalue.value.amount
+				AllRows[#AllRows + 1] = {{Property, (mw.wikibase.getLabelByLang(Property, 'it') or mw.wikibase.getLabel(Property))}, {SkyMapURL}}
 			elseif Property == "P14" then
 				--Instance
 				POnTree = {{"P40", 3, false}, {"P41", 3, false}, {"P88", 3, false}}
