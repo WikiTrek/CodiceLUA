@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-03-23T14:57:33+01:00
+-- [P2G] Auto upload by PageToGitHub on 2022-03-23T17:15:42+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -174,7 +174,7 @@ function p.ListAllP(frame)
 					AstroD = Item.claims[Property][1].mainsnak.datavalue.value.amount
 				end
 				
-				if (not AstroRA) and (not AstroD) then
+				if (AstroRA ~= nil and AstroD ~= nil) then
 					AllRows[#AllRows + 1] = {{"P80 e P82", "Coordinate celesti"}, {p.SkyMapLink(AstroRA, AstroD)}}
 				end
 			elseif Property == "P14" then
@@ -404,8 +404,24 @@ function p.SkyMapLink(RA, D)
 	-- Example
 	-- http://my.sky-map.org/v2?ra=0.709946185638474&de=41.22867547300068&zoom=5&show_grid=1&show_constellation_lines=1&show_constellation_boundaries=1&show_const_names=0&show_galaxies=1&show_box=1&box_ra=0.71166664&box_de=41.266666&box_width=682.6667008&box_height=682.6667008&box_var_size=1
 	-- https://secure.sky-map.org/v2
+	-- return "https://secure.sky-map.org/v2?ra=" .. RA .. "&de=" .. D
+	local URI
+	local Int
+	local Frac
+	local DMS = {}
 	
-	return "https://secure.sky-map.org/v2?ra=" .. RA .. "&de=" .. D
+	URI = "http://www.wikisky.org/v2?ra=" .. RA .. "&de=" .. D .. "&zoom=4"
+	
+	for _, Coord in pairs({RA, D}) do
+		Int, Frac = math.modf(Coord)
+		table.insert(DMS, Int)
+		Int, Frac = math.modf(Frac * 60)
+		table.insert(DMS, Int)
+		Int, Frac = math.modf(Frac * 60)
+		table.insert(DMS, Int)
+	end
+	
+	return "[" .. URI .. " " ..  table.concat(DMS, " ") .. "]"
 end
 --- Function to expand template contained within description,
 -- if present
