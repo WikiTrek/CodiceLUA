@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-03-23T11:58:23+01:00
+-- [P2G] Auto upload by PageToGitHub on 2022-03-23T14:57:33+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -92,7 +92,8 @@ function p.ListAllP(frame)
 	local ItemQ = mw.wikibase.getEntityIdForCurrentPage()
 	local IsEpisode = false
 	local OperatorName
-	local SkyMapURL = nil
+	local AstroRA = nil
+	local AstroD = nil
 	
 	if not Item then
 		Item = mw.wikibase.getEntity('Q1')
@@ -141,6 +142,8 @@ function p.ListAllP(frame)
 				CollectionTable = string.char(10) .. MakeNavTable(Item.claims, nil)
 			elseif (Property == "P80" or Property == "P82") then
 				--Right Ascension or Declination
+				
+				--[==[
 				local DoReturn = false
 				if SkyMapURL == nil then
 					--SkyMapURL = "https://secure.sky-map.org/v2?ra=|RA|&de=|D|"
@@ -161,6 +164,18 @@ function p.ListAllP(frame)
 				SkyMapURL = SkyMapURL .. Parameter .. "=" .. Item.claims[Property][1].mainsnak.datavalue.value.amount
 				if DoReturn then
 					AllRows[#AllRows + 1] = {{"P80 e P82", "Coordinate celesti"}, {SkyMapURL}}
+				end
+				]==]
+				if Property == "P80" then
+					--Right ascension
+					AstroRA = Item.claims[Property][1].mainsnak.datavalue.value.amount
+				else
+					--Declination
+					AstroD = Item.claims[Property][1].mainsnak.datavalue.value.amount
+				end
+				
+				if (not AstroRA) and (not AstroD) then
+					AllRows[#AllRows + 1] = {{"P80 e P82", "Coordinate celesti"}, {p.SkyMapLink(AstroRA, AstroD)}}
 				end
 			elseif Property == "P14" then
 				--Instance
