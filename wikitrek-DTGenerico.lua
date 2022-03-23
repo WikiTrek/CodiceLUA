@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-03-23T11:46:57+01:00
+-- [P2G] Auto upload by PageToGitHub on 2022-03-23T11:58:23+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -141,11 +141,13 @@ function p.ListAllP(frame)
 				CollectionTable = string.char(10) .. MakeNavTable(Item.claims, nil)
 			elseif (Property == "P80" or Property == "P82") then
 				--Right Ascension or Declination
+				local DoReturn = false
 				if SkyMapURL == nil then
 					--SkyMapURL = "https://secure.sky-map.org/v2?ra=|RA|&de=|D|"
 					SkyMapURL = "https://secure.sky-map.org/v2?"
 				else
-					SkyMapURL = SkyMapURL .. "&"	
+					SkyMapURL = SkyMapURL .. "&"
+					DoReturn = true
 				end
 				local Parameter
 				if Property == "P80" then
@@ -157,7 +159,9 @@ function p.ListAllP(frame)
 				end
 				
 				SkyMapURL = SkyMapURL .. Parameter .. "=" .. Item.claims[Property][1].mainsnak.datavalue.value.amount
-				AllRows[#AllRows + 1] = {{Property, (mw.wikibase.getLabelByLang(Property, 'it') or mw.wikibase.getLabel(Property))}, {SkyMapURL}}
+				if DoReturn then
+					AllRows[#AllRows + 1] = {{"P80 e P82", "Coordinate celesti"}, {SkyMapURL}}
+				end
 			elseif Property == "P14" then
 				--Instance
 				POnTree = {{"P40", 3, false}, {"P41", 3, false}, {"P88", 3, false}}
