@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-03-24T09:09:45+01:00
+-- [P2G] Auto upload by PageToGitHub on 2022-03-24T09:16:39+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -410,7 +410,8 @@ function p.SkyMapLink(RA, D)
 	local Frac
 	local DMS = {}
 	
-	URI = "http://www.wikisky.org/v2?ra=" .. RA .. "&de=" .. D .. "&zoom=4"
+	-- Zoom value 7 is the standard one when searching object in WikiSky
+	URI = "http://www.wikisky.org/v2?ra=" .. RA .. "&de=" .. D .. "&zoom=7"
 	
 	for _, Coord in pairs({RA, D}) do
 		Int, Frac = math.modf(Coord)
@@ -426,7 +427,7 @@ function p.SkyMapLink(RA, D)
 	end
 	
 	--return "[" .. URI .. " " ..  table.concat(DMS, "<sup>s</sup> ") .. "]"
-	return "[" .. URI .. " " .. DMS[1] .. "<sup>h</sup> " .. DMS[2] .. "<sup>m</sup> " .. DMS[3] .. "<sup>s</sup><br />" .. DMS[4] .. "° " .. DMS[5] .. "′ " .. DMS[6] .. "″]"
+	return "[" .. URI .. " " .. DMS[1] .. "<sup>h</sup> " .. DMS[2] .. "<sup>m</sup> " .. DMS[3] .. "<sup>s</sup>, " .. DMS[4] .. "° " .. DMS[5] .. "′ " .. DMS[6] .. "″]"
 end
 --- Function to expand template contained within description,
 -- if present
