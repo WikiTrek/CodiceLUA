@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-03-25T21:28:08+01:00
+-- [P2G] Auto upload by PageToGitHub on 2022-03-25T21:52:45+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -27,7 +27,7 @@ function p.DIVImage(frame)
 		Item = mw.wikibase.getEntity('Q1')
 	end
 	
-	local Markup
+	local Markup = ""
 	
 	-- TODO
 	-- If there are multiple images, then create a carousel
@@ -51,14 +51,11 @@ function p.DIVImage(frame)
 			FileCaption = "Immagine da Commons"
 		end
 		
-		Markup = "<div class='separatorebox'>'''Immagine'''</div>" ..  "<div class='contenitoreimgbox'>[[" .. FileTitle .. "|alt=" .. FileCaption .. "|" .. FileCaption .. "]]<br /><span style='font-size: smaller;'>" .. FileCaption .. "</span></div>"
-	else
-		Markup = ""
+		Markup = Markup .. "<div class='separatorebox'>'''Immagine'''</div>" ..  "<div class='contenitoreimgbox'>[[" .. FileTitle .. "|alt=" .. FileCaption .. "|" .. FileCaption .. "]]<br /><span style='font-size: smaller;'>" .. FileCaption .. "</span></div>"
 	end
 	end
 	
 	return Markup
-
 end
 function p.Title(frame)
 	-- |FileIcona=dsg.png
