@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-01-18T10:53:29+01:00
+-- [P2G] Auto upload by PageToGitHub on 2022-03-27T16:45:46+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTFunzioniComuni
 -- Keyword: wikitrek
 
@@ -157,7 +157,7 @@ function p.SeriesTree(frame)
 	return table.concat(p.PropertiesOnTree("P16", 3, false), "</br>")
 end
 function p.CategoryTree(frame)
-	local AZInstancesMember = {Q23 = "Personaggi", Q18 = "Specie", Q95 = "Pianeti", Q19 = "Cast"}
+	local AZInstancesMember = {Q23 = "Personaggi", Q18 = "Specie", Q95 = "Pianeti", Q19 = "Cast", Q52 = "Cast"}
 	--local CurrentItem = mw.wikibase.getEntity()
 	local CurrentQ = mw.wikibase.getEntity().claims['P14'][1].mainsnak.datavalue.value.id
 	local AZCategory = ''
