@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-03-16T23:39:27+01:00
+-- [P2G] Auto upload by PageToGitHub on 2022-04-12T23:14:35+02:00
 -- [P2G] This code from page Modulo:wikitrek-FunzioniGeneriche
 -- Keyword: wikitrek
 local p = {} --p stands for package
@@ -136,10 +136,10 @@ function p.TextColor(frame)
     end
 		
 end
---- Returns the color to use in CSS for the text depending on the luminance
--- of the background
--- @param BackColor The hex code of the background color
--- @return name of the color
+--- Test function for array manipulation
+-- 
+-- @param frame
+-- @return Processed string
 function p.TestArray(frame)
 	local TestGroups = {"A", "B", "C", "B", "C"}
 	local TestValues = {"Alpha", "Beta"}
@@ -210,5 +210,14 @@ function p.TestArray2(frame)
 	end
 	
 	return FinalString
+end
+--- Test function for spaces identifiaction
+-- using regex
+-- @param frame
+-- @return Processed string
+function p.TestSpaces(frame)
+	local TestString = "Seven of Nine"
+	
+	return string.find(TestString, "[^%s]+$")
 end
 return p
