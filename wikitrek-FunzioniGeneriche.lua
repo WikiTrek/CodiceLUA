@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-04-12T23:14:35+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-04-12T23:29:35+02:00
 -- [P2G] This code from page Modulo:wikitrek-FunzioniGeneriche
 -- Keyword: wikitrek
 local p = {} --p stands for package
@@ -217,7 +217,7 @@ end
 -- @return Processed string
 function p.TestSpaces(frame)
 	local TestString = "Seven of Nine"
-	
-	return string.find(TestString, "[^%s]+$")
+	local Match = string.match(TestString, "[^%s]+$")
+	return Match .. " - " .. string.upper(string.sub(Match, 1, 2))
 end
 return p
