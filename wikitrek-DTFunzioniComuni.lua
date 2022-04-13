@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-04-12T23:54:27+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-04-13T17:47:49+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTFunzioniComuni
 -- Keyword: wikitrek
 
@@ -166,7 +166,7 @@ function p.CategoryTree(frame)
 		local FirstLetter
 		if mw.wikibase.getEntity().claims['P8'] ~= nil then
 			--Manual criteria has precedence
-			FirstLetter = string.upper(mw.wikibase.getEntity().claims['P8'][1].mainsnak.datavalue.value)
+			FirstLetter = string.upper(string.sub(mw.wikibase.getEntity().claims['P8'][1].mainsnak.datavalue.value, 1, 1))
 		else
 			local Label = mw.wikibase.getLabel()
 			if AZInstancesMember[CurrentQ] == "Personaggi" or AZInstancesMember[CurrentQ] == "Cast" then
