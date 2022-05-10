@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-03-25T21:52:45+01:00
+-- [P2G] Auto upload by PageToGitHub on 2022-05-10T11:43:16+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -50,6 +50,8 @@ function p.DIVImage(frame)
 		else
 			FileCaption = "Immagine da Commons"
 		end
+		
+		FileCaption = FileCaption .. Property
 		
 		Markup = Markup .. "<div class='separatorebox'>'''Immagine'''</div>" ..  "<div class='contenitoreimgbox'>[[" .. FileTitle .. "|alt=" .. FileCaption .. "|" .. FileCaption .. "]]<br /><span style='font-size: smaller;'>" .. FileCaption .. "</span></div>"
 	end
@@ -104,7 +106,7 @@ function p.ListAllP(frame)
 		IsEpisode = frame.args['IsEpisode']
 	end
 	
-	ExcludeP = {P3 = true, P7 = true, P14 = false, P21 = IsEpisode, P23 = true, P26 = true, P30 = true, P37 = true,  P46 = true, P58 = true, P68 = true, P52 = true, P79 = true, P90 = true}
+	ExcludeP = {P3 = true, P7 = true, P11 = true, P14 = false, P21 = IsEpisode, P23 = true, P26 = true, P30 = true, P37 = true,  P46 = true, P58 = true, P68 = true, P52 = true, P79 = true, P90 = true}
 	
 	AllP = mw.wikibase.orderProperties(Item:getProperties())
 	--Debug: list unsorted and sorted properties
