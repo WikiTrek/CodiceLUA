@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-05-12T00:40:41+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-05-12T00:42:02+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTSpecific
 --- This module represent the package containing specific functions to access data from the WikiBase instance DataTrek
 -- @module p
@@ -227,7 +227,7 @@ function p.SecBoxContent(frame)
 		UL:node(LI)
 	end
 	
-	return "<strong>Categorie</strong>" .. UL
+	return "<strong>Categorie</strong>" .. tostring(UL)
 --[==[
 <strong>Categorie</strong>
 <ul class="compactul">
