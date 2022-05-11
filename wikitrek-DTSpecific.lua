@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-03-17T00:11:13+01:00
+-- [P2G] Auto upload by PageToGitHub on 2022-05-12T00:04:54+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTSpecific
 --- This module represent the package containing specific functions to access data from the WikiBase instance DataTrek
 -- @module p
@@ -9,6 +9,7 @@ local p = {}
 local dump
 local concat
 local print
+local QFromP = require('Modulo:DTGenerico').QFromP
 --- generates a list of backlink using SMW query.
 -- 
 -- @frame Info from MW session
@@ -196,6 +197,50 @@ function p.ListAppearances(frame)
 	
 	return FinalString
 end
+
+--- Content of secondary box
+-- 
+-- @frame Info from MW session
+-- @return Wikitext to inject in template
+function p.SecBoxContent(frame)
+	local SeriesQ
+	local Short
+	local CategoryNames = {}
+	local UL = mw.html.create('ul')
+	local LI
+	
+	--Series
+	SeriesQ = QFromP("P16")
+	--Short name of the series
+	Short  = mw.wikibase.getEntity(SeriesQ).claims['P24'][1].mainsnak.datavalue['value']
+	
+	CategoryNames = {"SHORT|Serie", "Personaggi di SHORT|Personaggi", "Episodi di SHORT|Episodi", "SHORT - Ordine di produzione|Ordine di produzione", "SHORT - Titoli italiani|Titoli italiani"}
+	
+	UL:attr('class', "compactul")
+	
+	for _, Name in pairs(CategoryNames) do
+		local Item
+		item = "[[:Categoria:" .. string.gsub(Name, "SHORT", Short) .. "]]"
+		
+		LI =  mw.html.create('li')
+		LI:wikitext(Item)
+		UL:node(LI)
+	end
+	
+	return UL
+--[==[
+<strong>Categorie</strong>
+<ul class="compactul">
+<li>[[:Categoria:Strange New Worlds|Serie]]</li>
+<li>[[:Categoria:Personaggi di Strange New Worlds|Personaggi]]</li>
+<li>[[:Categoria:Episodi di Strange New Worlds|Episodi]]</li>
+<li>[[:Categoria:Strange New Worlds - Ordine di produzione|Ordine di produzione]]</li>
+<li>[[:Categoria:Strange New Worlds - Titoli italiani|Titoli italiani]]</li>
+</ul>
+<hr />
+]==]
+end
+
 --- This dumps the variable (converts it into a string representation of itself)
 --
 -- @param entity mixed, value to dump
