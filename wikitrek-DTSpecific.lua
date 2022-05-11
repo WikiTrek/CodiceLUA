@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-05-12T00:16:26+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-05-12T00:17:03+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTSpecific
 --- This module represent the package containing specific functions to access data from the WikiBase instance DataTrek
 -- @module p
@@ -220,7 +220,7 @@ function p.SecBoxContent(frame)
 	
 	for _, Name in pairs(CategoryNames) do
 		local Item
-		Item = "[[:Categoria:" .. Name .. "]]" -- string.gsub(Name, "SHORT", Short) .. "]]"
+		Item = "[[:Categoria:" .. string.gsub(Name, "SHORT", Short) .. "]]"
 		
 		LI =  mw.html.create('li')
 		LI:wikitext(Item)
