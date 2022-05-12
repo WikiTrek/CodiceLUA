@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-05-12T14:53:39+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-05-12T14:55:42+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTSem
 -- Keyword: wikitrek
 local p = {}
@@ -59,14 +59,16 @@ end
 -- @return Integer Number of seasons
 function p.SeasonsQty(ShortName)
 	local QueryResult
+	local Max
 	
 	-- {{#ask: [[Istanza::Episodio di Discovery]]|?Stagione|format=max}}
 	QueryResult = mw.smw.ask('[[Istanza::Episodio di ' .. ShortName .. ']]|?Stagione|format=max')
 	
-    if QueryResult == nil or QueryResult[1]["Stagione"] < 0 then
+	Max = QueryResult[1]["Stagione"]
+    if QueryResult == nil or Max < 0 then
         return 0
     else
-    	return QueryResult
+    	return Max
     end
 end
 return p
