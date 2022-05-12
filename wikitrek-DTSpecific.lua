@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-05-12T00:42:02+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-05-12T10:21:47+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTSpecific
 --- This module represent the package containing specific functions to access data from the WikiBase instance DataTrek
 -- @module p
@@ -216,7 +216,9 @@ function p.SecBoxContent(frame)
 	
 	CategoryNames = {"SHORT|Serie", "Personaggi di SHORT|Personaggi", "Episodi di SHORT|Episodi", "SHORT - Ordine di produzione|Ordine di produzione", "SHORT - Titoli italiani|Titoli italiani"}
 	
-	UL:attr('class', "compactul")
+	UL
+		:attr('class', "compactul")
+		:attr('title', "Categorie")
 	
 	for _, Name in pairs(CategoryNames) do
 		local Item
@@ -227,7 +229,7 @@ function p.SecBoxContent(frame)
 		UL:node(LI)
 	end
 	
-	return "<strong>Categorie</strong>" .. tostring(UL)
+	return tostring(UL)
 --[==[
 <strong>Categorie</strong>
 <ul class="compactul">
