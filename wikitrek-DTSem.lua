@@ -1,7 +1,10 @@
--- [P2G] Auto upload by PageToGitHub on 2021-06-02T17:54:18+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-05-12T12:23:54+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTSem
 -- Keyword: wikitrek
 local p = {}
+
+local QFromP = require('Modulo:DTGenerico').QFromP
+
 function p.TypeFromDT(frame)
 	local Item
 	local Type
@@ -49,5 +52,21 @@ function p.DescrFromDT(frame)
 	end
 	
 	return string.char(10) .. AllLabels
+end
+--- Function to calculate the number of seasons of a series
+-- 
+-- @param ShortName The short name of the series as in P24
+-- @return Integer Number of seasons
+function p.SeasonsQty(ShortName)
+	local QueryResult
+	
+	-- {{#ask: [[Istanza::Episodio di Discovery]]|?Stagione|format=max}}
+	QueryResult = mw.smw.getQueryResult('[[Istanza::Episodio di ' .. ShortName .. ']]|?Stagione|format=max')
+	
+    if QueryResult == nil or QueryResult < 0 then
+        return 0
+    else
+    	return QueryResult
+    end
 end
 return p
