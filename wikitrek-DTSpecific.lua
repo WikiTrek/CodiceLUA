@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-05-12T10:21:47+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-05-12T12:45:27+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTSpecific
 --- This module represent the package containing specific functions to access data from the WikiBase instance DataTrek
 -- @module p
@@ -10,6 +10,7 @@ local dump
 local concat
 local print
 local QFromP = require('Modulo:DTGenerico').QFromP
+local SeasonsQty = require('Modulo:DTSem').SeasonsQty
 --- generates a list of backlink using SMW query.
 -- 
 -- @frame Info from MW session
@@ -206,8 +207,11 @@ function p.SecBoxContent(frame)
 	local SeriesQ
 	local Short
 	local CategoryNames = {}
-	local UL = mw.html.create('ul')
+	local UL
 	local LI
+	local Quantity
+	local Categories
+	local Seasons
 	
 	--Series
 	SeriesQ = QFromP("P16")
@@ -216,6 +220,7 @@ function p.SecBoxContent(frame)
 	
 	CategoryNames = {"SHORT|Serie", "Personaggi di SHORT|Personaggi", "Episodi di SHORT|Episodi", "SHORT - Ordine di produzione|Ordine di produzione", "SHORT - Titoli italiani|Titoli italiani"}
 	
+	UL = mw.html.create('ul')
 	UL
 		:attr('class', "compactul")
 		:attr('title', "Categorie")
@@ -228,8 +233,26 @@ function p.SecBoxContent(frame)
 		LI:wikitext(Item)
 		UL:node(LI)
 	end
+	Categories = tostring(UL)
 	
-	return tostring(UL)
+	Quantity = SeasonsQty(Short)
+	if Quantity < 1 then
+		Seasons = "Errore: <1"
+	else
+		UL = mw.html.create('ul')
+		UL
+			:attr('class', "compactul")
+			:attr('title', "Categorie")
+		
+		for Item = 0, Quantity, 1 do
+			LI =  mw.html.create('li')
+			LI:wikitext(Item)
+			UL:node(LI)
+		end
+		Seasons = tostring(UL)
+	end
+	
+	return Categories .. "<hr />" .. Seasons
 --[==[
 <strong>Categorie</strong>
 <ul class="compactul">
