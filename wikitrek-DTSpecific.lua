@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-05-12T12:45:27+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-05-12T12:56:27+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTSpecific
 --- This module represent the package containing specific functions to access data from the WikiBase instance DataTrek
 -- @module p
@@ -68,7 +68,7 @@ function p.ListAppearancesOLD(frame)
 	--local queryResult = mw.smw.getQueryResult( frame.args )
 	--local QueryResult = mw.smw.getQueryResult('[[Interprete::' .. mw.title.getCurrentTitle().text .. ']]|?DataTrek ID')
 	local Actor = mw.title.getCurrentTitle().text
-	local QueryResult = mw.smw.getQueryResult('[[Interprete::' .. Actor .. ']]|?' .. Actor .. '|sort=Numero di produzione|order=asc')
+	local QueryResult = mw.smw.getQueryResult('[[Interprete::' .. Actor .. ']]|?' .. Actor .. '|sort=Numero di produzione|order=asc')[1]
 	
 	if QueryResult == nil then
         return "''Nessun risultato''"
