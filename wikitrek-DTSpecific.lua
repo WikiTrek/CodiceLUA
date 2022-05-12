@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-05-12T16:38:36+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-05-12T16:58:58+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTSpecific
 --- This module represent the package containing specific functions to access data from the WikiBase instance DataTrek
 -- @module p
@@ -205,6 +205,7 @@ end
 -- @return Wikitext to inject in template
 function p.SecBoxContent(frame)
 	local SeriesQ
+	local Series
 	local Short
 	local CategoryNames = {}
 	local UL
@@ -214,9 +215,14 @@ function p.SecBoxContent(frame)
 	local Seasons
 	
 	--Series
-	SeriesQ = QFromP("P16")
+	if mw.wikibase.getEntity().claims["P14"][1].mainsnak.datavalue.value.id == "Q13" then
+		Series = mw.wikibase.getEntity()
+	else
+		Series = mw.wikibase.getEntity(QFromP("P16"))
+	end
 	--Short name of the series
-	Short  = mw.wikibase.getEntity(SeriesQ).claims['P24'][1].mainsnak.datavalue['value']
+	--Short  = mw.wikibase.getEntity(SeriesQ).claims['P24'][1].mainsnak.datavalue['value']
+	Short  = Series.claims['P24'][1].mainsnak.datavalue['value']
 	
 	CategoryNames = {"SHORT|Serie", "Personaggi di SHORT|Personaggi", "Episodi di SHORT|Episodi", "SHORT - Ordine di produzione|Ordine di produzione", "SHORT - Titoli italiani|Titoli italiani"}
 	
