@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-05-12T16:58:58+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-05-16T22:36:44+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTSpecific
 --- This module represent the package containing specific functions to access data from the WikiBase instance DataTrek
 -- @module p
@@ -254,7 +254,7 @@ function p.SecBoxContent(frame)
 			LI =  mw.html.create('li')
 			
 			if Item == 0 then
-				LI:wikitext("[[Tabella riassuntiva di " .. Short .. "|Tutti]]")
+				LI:wikitext("[[Tabella riassuntiva di " .. Short .. "|Tutti (" .. Quantity .. ")]]")
 			elseif Item == 1 then
 				LI:wikitext("Stagioni: [[Stagione " .. Item .. " di " .. Short .. "|" .. Item .. "]]")
 			else
