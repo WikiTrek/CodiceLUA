@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-05-10T11:43:16+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-05-19T22:05:08+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -51,9 +51,7 @@ function p.DIVImage(frame)
 			FileCaption = "Immagine da Commons"
 		end
 		
-		FileCaption = FileCaption .. Property
-		
-		Markup = Markup .. "<div class='separatorebox'>'''Immagine'''</div>" ..  "<div class='contenitoreimgbox'>[[" .. FileTitle .. "|alt=" .. FileCaption .. "|" .. FileCaption .. "]]<br /><span style='font-size: smaller;'>" .. FileCaption .. "</span></div>"
+		Markup = Markup .. "<div class='separatorebox'>'''Immagine'''</div>" ..  "<div class='contenitoreimgbox'>[[" .. FileTitle .. "|alt=" .. FileCaption .. Property .. "|" .. FileCaption .. "]]<br /><span style='font-size: smaller;'>" .. FileCaption .. "</span></div>"
 	end
 	end
 	
@@ -229,6 +227,11 @@ function p.ListAllP(frame)
 								Assignment = Assignment .. LabelOrLink(Value['id'])
 							end
 							
+							-- Suffix
+							if SnakValue.qualifiers['P19'] ~= nil then
+								Assignment = Assignment .. SnakValue.qualifiers['P19'][1].datavalue.value --.. " "
+							end
+							
 							if SnakValue.qualifiers ~= nil then
 								-- Rank
 								if SnakValue.qualifiers['P76'] then
@@ -251,6 +254,7 @@ function p.ListAllP(frame)
 								GenericItem = LabelOrLink(Value['id'])
 							end
 							
+							-- Prefix
 							if SnakValue.qualifiers and SnakValue.qualifiers['P15'] then
 								GenericItem = SnakValue.qualifiers['P15'][1].datavalue.value .. " " .. GenericItem
 							end
@@ -264,6 +268,11 @@ function p.ListAllP(frame)
 							--Category needs to be linked, not added to the page
 							if Property == "P141" then
 								GenericItem = string.gsub(GenericItem, "%[%[", "[[:")
+							end
+							
+							-- Suffix
+							if SnakValue.qualifiers and SnakValue.qualifiers['P19'] then
+								GenericItem = GenericItem .. " " .. SnakValue.qualifiers['P19'][1].datavalue.value
 							end
 				
 							AccValues[#AccValues + 1] = GenericItem --.. "|" .. Header[2] .. "|" .. tostring(AddSemantic)
