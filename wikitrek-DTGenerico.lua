@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-05-19T22:05:08+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-05-23T17:46:09+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -88,7 +88,7 @@ function p.ListAllP(frame)
 	local Item = mw.wikibase.getEntity()
 	local ItemQ = mw.wikibase.getEntityIdForCurrentPage()
 	local IsEpisode = false
-	local OperatorName
+	local OperatorName = ""
 	local AstroRA = nil
 	local AstroD = nil
 	
@@ -183,9 +183,10 @@ function p.ListAllP(frame)
 						local PropName = mw.wikibase.getLabelByLang(Prop[1], 'it') or mw.wikibase.getLabel(Prop[1])
 						--AllRows[#AllRows + 1] = {{Prop[1], PropName .. ":"}, {PropValue}}
 						AllRows[#AllRows + 1] = {{Prop[1], PropName}, {PropValue}}
-						--[==[if Prop[1] == "P41" then
-							OperatorName = mw.wikibase.getEntity(Value['id']).labels['it'].value .. "]]"
-						end]==]
+						if Prop[1] == "P41" then
+							--String to be used with P88 Naval Class
+							OperatorName = mw.wikibase.getEntity(Value['id']).labels['it'].value .. " - "
+						end
 						if AddSemantic then
 							mw.smw.set(PropName .. "=" .. PropValue)
 						end
@@ -229,7 +230,7 @@ function p.ListAllP(frame)
 							
 							-- Suffix
 							if SnakValue.qualifiers['P19'] ~= nil then
-								Assignment = Assignment .. SnakValue.qualifiers['P19'][1].datavalue.value --.. " "
+								Assignment = Assignment .. " " .. SnakValue.qualifiers['P19'][1].datavalue.value --.. " "
 							end
 							
 							if SnakValue.qualifiers ~= nil then
@@ -261,7 +262,7 @@ function p.ListAllP(frame)
 							
 							--Naval class
 							if Property == "P88" then
-								GenericItem = GenericItem .. "[[Category:" .. mw.wikibase.getEntity(Value['id']).labels['it'].value .. "]]"
+								GenericItem = GenericItem .. "[[Category:" .. OperatorName .. mw.wikibase.getEntity(Value['id']).labels['it'].value .. "]]"
 							end
 							
 							--P141 - Related Category
