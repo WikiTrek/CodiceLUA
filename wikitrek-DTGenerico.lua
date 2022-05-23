@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-05-23T18:22:39+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-05-23T23:39:51+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -185,7 +185,9 @@ function p.ListAllP(frame)
 						AllRows[#AllRows + 1] = {{Prop[1], PropName}, {PropValue}}
 						if Prop[1] == "P41" then
 							--String to be used with P88 Naval Class
-							--OperatorName = string.sub(PropValue, 3, -3)
+							--OperatorName = string.sub(PropValue, 2, -2)
+							--OperatorName = string.sub("[[Flotta Stellare]]", 3, -3)
+							OperatorName = string.gsub("[[Flotta Stellare|Flotta Stellare]]", "|.+]]", ""):gsub("%[%[", "") .. " - "
 						end
 						if AddSemantic then
 							mw.smw.set(PropName .. "=" .. PropValue)
