@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-05-25T13:10:09+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-05-25T13:13:03+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -131,9 +131,9 @@ function p.ListAllP(frame)
 	end
 	
 	--Process AKA
-	if Item.aliases["it"] ~= nil then
+	if Item.aliases ~= nil and Item.aliases["it"] ~= nil then
 		local AccValues = {}
-		for _, Alias in Item.aliases["it"] do
+		for _, Alias in pairs(Item.aliases["it"]) do
 			table.insert(AccValues, Alias.value)
 		end
 		table.insert(AllRows, {"Alias:", AccValues})
