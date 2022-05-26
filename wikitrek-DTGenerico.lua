@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-05-26T12:12:16+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-05-26T12:21:48+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -199,6 +199,7 @@ function p.ListAllP(frame)
 							--OperatorName = string.sub("[[Flotta Stellare]]", 3, -3)
 							--OperatorName = string.gsub("[[Flotta Stellare|Flotta Stellare]]", "|.+]]", ""):gsub("%[%[", "") .. " - "
 							OperatorName = string.gsub(PropValue, "|.+]]", ""):gsub("%[%[", "") .. " - "
+							mw.smw.set("OperatorName=" .. OperatorName)
 						end
 						if AddSemantic then
 							mw.smw.set(PropName .. "=" .. PropValue)
