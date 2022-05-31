@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-05-31T22:38:17+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-05-31T22:45:14+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -105,7 +105,7 @@ function p.ListAllP(frame)
 		IsEpisode = frame.args['IsEpisode']
 	end
 	
-	ExcludeP = {P3 = true, P7 = true, P11 = true, P14 = false, P21 = IsEpisode, P23 = true, P26 = true, P37 = true,  P46 = true, P58 = true, P68 = true, P52 = true, P79 = true, P90 = true}
+	ExcludeP = {P3 = true, P7 = true, P11 = true, P21 = IsEpisode, P23 = true, P26 = true, P37 = true,  P46 = true, P58 = true, P68 = true, P52 = true, P79 = true, P90 = true}
 	
 	AllP = mw.wikibase.orderProperties(Item:getProperties())
 	--Debug: list unsorted and sorted properties
@@ -140,6 +140,7 @@ function p.ListAllP(frame)
 		table.insert(AllRows, {"Alias:", AccValues})
 	end
 	
+	table.insert(AllP, 1, "P14")
 	mw.smw.set("AllP=" .. table.concat(AllP, ","))
 	for _, Property in pairs(AllP) do
 		table.insert(ListProp, Property)
@@ -152,30 +153,6 @@ function p.ListAllP(frame)
 				CollectionTable = string.char(10) .. MakeNavTable(Item.claims, nil)
 			elseif (Property == "P80" or Property == "P82") then
 				--Right Ascension or Declination
-				
-				--[==[
-				local DoReturn = false
-				if SkyMapURL == nil then
-					--SkyMapURL = "https://secure.sky-map.org/v2?ra=|RA|&de=|D|"
-					SkyMapURL = "https://secure.sky-map.org/v2?"
-				else
-					SkyMapURL = SkyMapURL .. "&"
-					DoReturn = true
-				end
-				local Parameter
-				if Property == "P80" then
-					--Right ascension
-					Parameter = "ra"
-				else
-					--Declination
-					Parameter = "de"
-				end
-				
-				SkyMapURL = SkyMapURL .. Parameter .. "=" .. Item.claims[Property][1].mainsnak.datavalue.value.amount
-				if DoReturn then
-					AllRows[#AllRows + 1] = {{"P80 e P82", "Coordinate celesti"}, {SkyMapURL}}
-				end
-				]==]
 				if Property == "P80" then
 					--Right ascension
 					AstroRA = Item.claims[Property][1].mainsnak.datavalue.value.amount
