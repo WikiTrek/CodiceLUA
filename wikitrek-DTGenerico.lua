@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-05-31T22:45:14+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-05-31T22:48:00+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -142,7 +142,7 @@ function p.ListAllP(frame)
 	
 	table.insert(AllP, 1, "P14")
 	mw.smw.set("AllP=" .. table.concat(AllP, ","))
-	for _, Property in pairs(AllP) do
+	for _, Property in ipairs(AllP) do
 		table.insert(ListProp, Property)
 		if (not ExcludeP[Property]) and Item.claims[Property][1].mainsnak.datatype ~= 'external-id' then
 			if Property == "P46" then
