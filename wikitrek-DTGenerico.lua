@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-05-31T09:28:15+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-05-31T18:07:01+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -139,6 +139,10 @@ function p.ListAllP(frame)
 		end
 		table.insert(AllRows, {"Alias:", AccValues})
 	end
+	
+	--Insure that P14 is the first element
+	Allp["P14"] = nil
+	table.insert (AllP, 1, "P14")
 	
 	for _, Property in pairs(AllP) do
 		table.insert(ListProp, Property)
