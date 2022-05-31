@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-04-12T23:29:35+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-05-31T22:31:12+02:00
 -- [P2G] This code from page Modulo:wikitrek-FunzioniGeneriche
 -- Keyword: wikitrek
 local p = {} --p stands for package
@@ -129,7 +129,7 @@ function p.TextColor(frame)
     end
     
     L = (R * 0.299 + G * 0.587 + B * 0.114) --/ 256
-    if L < 0.5 then
+    if L < 0.6 then --0.5 then
     	return "white"
     else
     	return "black"
@@ -218,6 +218,17 @@ end
 function p.TestSpaces(frame)
 	local TestString = "Seven of Nine"
 	local Match = string.match(TestString, "[^%s]+$")
-	return Match .. " - " .. string.upper(string.sub(Match, 1, 2))
+	return Match .. " - " .. string.upper(string.sub(Match, 1, 1))
+end
+--- Test function to check properties sorting
+-- 
+-- @param frame
+-- @return Comma-separated list of properties
+function p.SortedPropertiesList(frame)
+	local AllP
+	Item = mw.wikibase.getEntity('Q11160')
+	AllP = mw.wikibase.orderProperties(Item:getProperties())
+	
+	return table.concat(AllP, ",")
 end
 return p
