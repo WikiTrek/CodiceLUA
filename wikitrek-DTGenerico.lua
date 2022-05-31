@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-05-26T12:21:48+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-05-31T09:28:15+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -91,6 +91,7 @@ function p.ListAllP(frame)
 	local OperatorName = ""
 	local AstroRA = nil
 	local AstroD = nil
+	local ListProp = {}
 	
 	if not Item then
 		Item = mw.wikibase.getEntity('Q1')
@@ -104,7 +105,7 @@ function p.ListAllP(frame)
 		IsEpisode = frame.args['IsEpisode']
 	end
 	
-	ExcludeP = {P3 = true, P7 = true, P11 = true, P14 = false, P21 = IsEpisode, P23 = true, P26 = true, P30 = true, P37 = true,  P46 = true, P58 = true, P68 = true, P52 = true, P79 = true, P90 = true}
+	ExcludeP = {P3 = true, P7 = true, P11 = true, P14 = false, P21 = IsEpisode, P23 = true, P26 = true, P37 = true,  P46 = true, P58 = true, P68 = true, P52 = true, P79 = true, P90 = true}
 	
 	AllP = mw.wikibase.orderProperties(Item:getProperties())
 	--Debug: list unsorted and sorted properties
@@ -140,6 +141,7 @@ function p.ListAllP(frame)
 	end
 	
 	for _, Property in pairs(AllP) do
+		table.insert(ListProp, Property)
 		if (not ExcludeP[Property]) and Item.claims[Property][1].mainsnak.datatype ~= 'external-id' then
 			if Property == "P46" then
 				-- Collection
@@ -199,10 +201,10 @@ function p.ListAllP(frame)
 							--OperatorName = string.sub("[[Flotta Stellare]]", 3, -3)
 							--OperatorName = string.gsub("[[Flotta Stellare|Flotta Stellare]]", "|.+]]", ""):gsub("%[%[", "") .. " - "
 							OperatorName = string.gsub(PropValue, "|.+]]", ""):gsub("%[%[", "") .. " - "
-							mw.smw.set("OperatorName=" .. OperatorName)
+							--mw.smw.set("OperatorName1=" .. OperatorName)
 						end
 						if AddSemantic then
-							mw.smw.set(PropName .. "=" .. PropValue)
+							--mw.smw.set(PropName .. "=" .. PropValue)
 						end
 					end
 				end
@@ -214,13 +216,16 @@ function p.ListAllP(frame)
 					mw.smw.set("Affiliazione=" .. AffiliationTree(frame))
 					mw.smw.set("Operatore=" .. OperatorTree(frame))
 				end]==]
+				--mw.smw.set("OperatorName2=" .. OperatorName)
 			else
 				-- Unspecified Property
 				local Header = {Property, (mw.wikibase.getLabelByLang(Property, 'it') or mw.wikibase.getLabel(Property))} -- .. ":"} -- or {Property, mw.wikibase.getLabel(Property) .. ":"} --'-' .. Property .. ":"}
 				local Values = Item['claims'][Property]
 				local AccValues = {}
+				--mw.smw.set("OperatorName3=" .. OperatorName)
 				for _, SnakValue in pairs(Values) do
 					local Value = SnakValue.mainsnak.datavalue['value']
+					--mw.smw.set("OperatorName4=" .. OperatorName)
 					if (type(Value) == "table") then
 						if Property == "P72" then --CASE Assigments
 							local Assignment = ""
@@ -261,6 +266,7 @@ function p.ListAllP(frame)
 							--AccValues[#AccValues + 1] = LabelOrLink(SnakValue.qualifiers['P73'][1].datavalue.value['id']) .. " " .. LabelOrLink(Value['id']) .. ", " .. LabelOrLink(SnakValue.qualifiers['P76'][1].datavalue.value['id']) .. ", " .. LabelOrLink(SnakValue.qualifiers['P77'][1].datavalue.value['id'])
 							AccValues[#AccValues + 1] = Assignment
 						elseif Value['entity-type'] == 'item' then
+							--mw.smw.set("OperatorName5=" .. OperatorName)
 							-- Process a generic Item
 							local GenericItem
 							if AddSemantic then
@@ -268,17 +274,19 @@ function p.ListAllP(frame)
 							else
 								GenericItem = LabelOrLink(Value['id'])
 							end
-							
+							--mw.smw.set("OperatorName6=" .. OperatorName)
 							-- Prefix
 							if SnakValue.qualifiers and SnakValue.qualifiers['P15'] then
 								GenericItem = SnakValue.qualifiers['P15'][1].datavalue.value .. " " .. GenericItem
 							end
-							
+							--mw.smw.set("OperatorName7=" .. OperatorName .. " ( " .. Property)
 							--Naval class
 							if Property == "P88" then
+								--mw.smw.set("OperatorName8=" .. OperatorName .. " ( " .. Property)
 								GenericItem = GenericItem .. "[[Category:" .. OperatorName .. mw.wikibase.getEntity(Value['id']).labels['it'].value .. "]]"
+								--GenericItem = mw.text.nowiki(GenericItem) .. " -" .. mw.text.nowiki(OperatorName) .. "- "
 							end
-							
+							--mw.smw.set("OperatorName9=" .. OperatorName)
 							--P141 - Related Category
 							--Category needs to be linked, not added to the page
 							if Property == "P141" then
@@ -374,6 +382,8 @@ function p.ListAllP(frame)
 			end
 		end
 	end
+	
+	mw.smw.set("ListProp=" .. table.concat(ListProp, ", "))
 	
 	HTMLTable = TableFromArray(AllRows)
 	HTMLTable
