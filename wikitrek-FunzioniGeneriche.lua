@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-06-02T22:11:53+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-06-02T22:21:25+02:00
 -- [P2G] This code from page Modulo:wikitrek-FunzioniGeneriche
 -- Keyword: wikitrek
 local p = {} --p stands for package
@@ -249,11 +249,15 @@ function p.ParameterToSemantic(frame)
         ParaString = frame.args[1]
     end
 	
-	for Item in string.gmatch(TestString, "<li>(.-)</li>") do
-		table.insert(FinalArray, Item)
+	if string.find(ParaString, "<li>") ~= nil then
+		--Process UL or OL
+		for Item in string.gmatch(TestString, "<li>(.-)</li>") do
+			table.insert(FinalArray, Item)
+		end
+		return mw.text.nowiki(table.concat(FinalArray, Separator) .. SepDeclaration)
+	else
+		return ParaString
 	end
-	
-	return mw.text.nowiki(table.concat(FinalArray, Separator) .. SepDeclaration)
 end
 function p.ParameterToSemanticTest(frame)
 	local Separator = ";"
