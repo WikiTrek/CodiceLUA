@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-06-02T22:21:25+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-06-02T22:32:25+02:00
 -- [P2G] This code from page Modulo:wikitrek-FunzioniGeneriche
 -- Keyword: wikitrek
 local p = {} --p stands for package
@@ -240,7 +240,7 @@ end
 function p.ParameterToSemantic(frame)
 	local Separator = ";"
 	local SepDeclaration = "|+sep=" .. Separator
-	local ParaString --= "<ul><li>[[Michael Perricone]]</li><li>[[Greg Elliot]]</li></ul>"
+	local ParaString
 	local FinalArray = {}
 	
 	if frame.args[1] == nil then
@@ -251,10 +251,10 @@ function p.ParameterToSemantic(frame)
 	
 	if string.find(ParaString, "<li>") ~= nil then
 		--Process UL or OL
-		for Item in string.gmatch(TestString, "<li>(.-)</li>") do
+		for Item in string.gmatch(ParaString, "<li>(.-)</li>") do
 			table.insert(FinalArray, Item)
 		end
-		return mw.text.nowiki(table.concat(FinalArray, Separator) .. SepDeclaration)
+		return table.concat(FinalArray, Separator) .. SepDeclaration
 	else
 		return ParaString
 	end
