@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-05-31T22:31:12+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-06-02T17:31:43+02:00
 -- [P2G] This code from page Modulo:wikitrek-FunzioniGeneriche
 -- Keyword: wikitrek
 local p = {} --p stands for package
@@ -230,5 +230,22 @@ function p.SortedPropertiesList(frame)
 	AllP = mw.wikibase.orderProperties(Item:getProperties())
 	
 	return table.concat(AllP, ",")
+end
+--- Process the value assigned to parameter of the "old"-style template
+-- (pre-DataTrek) to sanitize it and pass it as clean value to
+-- SMW property using the #set function
+--
+-- @param frame
+-- @return Sanitized string representing one or more property values
+function p.ParameterToSemantic(frame)
+	local Separator = ";"
+	local SepDeclaration = "|+sep=" .. Separator
+	local TestString = "<ul><li>[[Michael Perricone]]</li><li>[[Greg Elliot]]</li></ul>"
+	local FinalArray = {}
+	
+	for Item in string.gmatch(TestString, "<li>(.–)</li>") do
+		table.insert(Item)
+	end
+	return mw.text.nowiki(table.concat(FinalArray, Separator) .. SepDeclaration)
 end
 return p
