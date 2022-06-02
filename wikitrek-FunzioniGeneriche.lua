@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-06-02T17:31:43+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-06-02T22:11:53+02:00
 -- [P2G] This code from page Modulo:wikitrek-FunzioniGeneriche
 -- Keyword: wikitrek
 local p = {} --p stands for package
@@ -138,7 +138,7 @@ function p.TextColor(frame)
 end
 --- Test function for array manipulation
 -- 
--- @param frame
+-- @param frame The interface to the parameters passed to {{#invoke:}}
 -- @return Processed string
 function p.TestArray(frame)
 	local TestGroups = {"A", "B", "C", "B", "C"}
@@ -213,7 +213,7 @@ function p.TestArray2(frame)
 end
 --- Test function for spaces identifiaction
 -- using regex
--- @param frame
+-- @param frame The interface to the parameters passed to {{#invoke:}}
 -- @return Processed string
 function p.TestSpaces(frame)
 	local TestString = "Seven of Nine"
@@ -222,7 +222,7 @@ function p.TestSpaces(frame)
 end
 --- Test function to check properties sorting
 -- 
--- @param frame
+-- @param frame The interface to the parameters passed to {{#invoke:}}
 -- @return Comma-separated list of properties
 function p.SortedPropertiesList(frame)
 	local AllP
@@ -235,16 +235,34 @@ end
 -- (pre-DataTrek) to sanitize it and pass it as clean value to
 -- SMW property using the #set function
 --
--- @param frame
+-- @param frame The interface to the parameters passed to {{#invoke:}}
 -- @return Sanitized string representing one or more property values
 function p.ParameterToSemantic(frame)
+	local Separator = ";"
+	local SepDeclaration = "|+sep=" .. Separator
+	local ParaString --= "<ul><li>[[Michael Perricone]]</li><li>[[Greg Elliot]]</li></ul>"
+	local FinalArray = {}
+	
+	if frame.args[1] == nil then
+        Return "Error"
+    else
+        ParaString = frame.args[1]
+    end
+	
+	for Item in string.gmatch(TestString, "<li>(.-)</li>") do
+		table.insert(FinalArray, Item)
+	end
+	
+	return mw.text.nowiki(table.concat(FinalArray, Separator) .. SepDeclaration)
+end
+function p.ParameterToSemanticTest(frame)
 	local Separator = ";"
 	local SepDeclaration = "|+sep=" .. Separator
 	local TestString = "<ul><li>[[Michael Perricone]]</li><li>[[Greg Elliot]]</li></ul>"
 	local FinalArray = {}
 	
-	for Item in string.gmatch(TestString, "<li>(.–)</li>") do
-		table.insert(Item)
+	for Item in string.gmatch(TestString, "<li>(.-)</li>") do
+		table.insert(FinalArray, Item)
 	end
 	return mw.text.nowiki(table.concat(FinalArray, Separator) .. SepDeclaration)
 end
