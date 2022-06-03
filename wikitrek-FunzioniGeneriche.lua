@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-06-03T12:21:17+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-06-03T22:04:40+02:00
 -- [P2G] This code from page Modulo:wikitrek-FunzioniGeneriche
 -- Keyword: wikitrek
 local p = {} --p stands for package
@@ -236,28 +236,36 @@ end
 -- SMW property using the #set function
 --
 -- @param frame The interface to the parameters passed to {{#invoke:}}
--- @return Sanitized string representing one or more property values
+-- No return @return Sanitized string representing one or more property values
 function p.ParameterToSemantic(frame)
 	local Separator = ";"
 	local SepDeclaration = "|+sep=" .. Separator
 	local ParaString
 	local FinalArray = {}
+	local PropName
+	local PropValue
 	
 	if frame.args[1] == nil then
-        Return "Error"
+        PropName = "Error"
     else
-        ParaString = frame.args[1]
+        PropName = frame.args[1]
+        if frame.args[2] == nil then
+        	PropValue = "Error"
+        else
+        	ParaString = frame.args[2]
+        	if string.find(ParaString, "<li>") ~= nil then
+        		--Process UL or OL
+        		for Item in string.gmatch(ParaString, "<li>(.-)</li>") do
+        			table.insert(FinalArray, Item)
+        		end
+        		PropValue = table.concat(FinalArray, Separator) .. SepDeclaration
+        	else
+        		--No process, assign original value
+        		PropValue = ParaString
+        	end
+        end
     end
-	
-	if string.find(ParaString, "<li>") ~= nil then
-		--Process UL or OL
-		for Item in string.gmatch(ParaString, "<li>(.-)</li>") do
-			table.insert(FinalArray, "[[" .. Item .. "]]")
-		end
-		return table.concat(FinalArray, Separator) .. SepDeclaration
-	else
-		return ParaString
-	end
+	mw.smw.set(PropName .. " = " .. PropValue)
 end
 function p.ParameterToSemanticTest(frame)
 	local Separator = ";"
