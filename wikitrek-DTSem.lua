@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-05-12T14:57:18+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-06-06T15:50:43+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTSem
 -- Keyword: wikitrek
 local p = {}
@@ -60,9 +60,17 @@ end
 function p.SeasonsQty(ShortName)
 	local QueryResult
 	local Max
+	local PrefixText
+	
+	if ShortName == "Serie Classica" or ShortName == "Serie Animata" then
+		PrefixText = '[[Istanza::Episodio della '
+	else
+		PrefixText = '[[Istanza::Episodio di '
+	end
 	
 	-- {{#ask: [[Istanza::Episodio di Discovery]]|?Stagione|format=max}}
-	QueryResult = mw.smw.ask('[[Istanza::Episodio di ' .. ShortName .. ']]|?Stagione|format=max')
+	--QueryResult = mw.smw.ask('[[Istanza::Episodio di ' .. ShortName .. ']]|?Stagione|format=max')
+	QueryResult = mw.smw.ask(PrefixText .. ShortName .. ']]|?Stagione|format=max')
 	
 	-- See https://github.com/SemanticMediaWiki/SemanticScribunto/blob/master/docs/mw.smw.ask.md#result
 	-- for return value example
