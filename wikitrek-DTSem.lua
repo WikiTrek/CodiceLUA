@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-06-06T15:50:43+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-06-07T09:35:04+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTSem
 -- Keyword: wikitrek
 local p = {}
@@ -70,8 +70,7 @@ function p.SeasonsQty(ShortName)
 	
 	-- {{#ask: [[Istanza::Episodio di Discovery]]|?Stagione|format=max}}
 	--QueryResult = mw.smw.ask('[[Istanza::Episodio di ' .. ShortName .. ']]|?Stagione|format=max')
-	QueryResult = mw.smw.ask(PrefixText .. ShortName .. ']]|?Stagione|format=max')
-	
+	QueryResult = mw.smw.ask(PrefixText .. ShortName .. ']]|?Stagione|sort=Stagione|order=desc|format=max')
 	-- See https://github.com/SemanticMediaWiki/SemanticScribunto/blob/master/docs/mw.smw.ask.md#result
 	-- for return value example
 	Max = QueryResult[1]["Stagione"]
