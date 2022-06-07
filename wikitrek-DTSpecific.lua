@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-06-07T17:12:34+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-06-07T17:15:42+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTSpecific
 --- This module represent the package containing specific functions to access data from the WikiBase instance DataTrek
 -- @module p
@@ -270,16 +270,16 @@ function p.SecBoxContent(frame)
 	--Series
 	local SeriesQuery = mw.smw.getQueryResult('[[Istanza::Serie]]|sort=Serie|order=asc')
 	
-	if QueryResult == nil then
+	if SeriesQuery == nil then
         Series = "''Nessun risultato''"
     end
 
-    if type(QueryResult) == "table" then
+    if type(SeriesQuery) == "table" then
     	UL = mw.html.create('ul')
 		UL
 			:attr('class', "compactul")
 			:attr('title', "Tutte le serie")
-    	for _, CurrSeries in pairs(QueryResult.results) do
+    	for _, CurrSeries in pairs(SeriesQuery.results) do
     		--In the output, example:
     		--"fulltext": "Star Trek: Strange New Worlds",
     		LI =  mw.html.create('li')
