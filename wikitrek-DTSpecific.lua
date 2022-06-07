@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-06-07T17:15:42+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-06-07T17:48:10+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTSpecific
 --- This module represent the package containing specific functions to access data from the WikiBase instance DataTrek
 -- @module p
@@ -268,7 +268,7 @@ function p.SecBoxContent(frame)
 	end
 	
 	--Series
-	local SeriesQuery = mw.smw.getQueryResult('[[Istanza::Serie]]|sort=Serie|order=asc')
+	local SeriesQuery = mw.smw.getQueryResult('[[Istanza::Serie]]|sort=Ordinale|order=asc')
 	
 	if SeriesQuery == nil then
         Series = "''Nessun risultato''"
