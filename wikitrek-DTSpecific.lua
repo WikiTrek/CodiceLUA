@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-06-07T09:35:35+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-06-07T17:12:34+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTSpecific
 --- This module represent the package containing specific functions to access data from the WikiBase instance DataTrek
 -- @module p
@@ -213,6 +213,7 @@ function p.SecBoxContent(frame)
 	local Quantity
 	local Categories
 	local Seasons
+	local Series
 	
 	--Series
 	if mw.wikibase.getEntity().claims["P14"][1].mainsnak.datavalue.value.id == "Q13" then
@@ -266,7 +267,32 @@ function p.SecBoxContent(frame)
 		Seasons = tostring(UL)
 	end
 	
-	return Categories .. "<hr />" .. Seasons
+	--Series
+	local SeriesQuery = mw.smw.getQueryResult('[[Istanza::Serie]]|sort=Serie|order=asc')
+	
+	if QueryResult == nil then
+        Series = "''Nessun risultato''"
+    end
+
+    if type(QueryResult) == "table" then
+    	UL = mw.html.create('ul')
+		UL
+			:attr('class', "compactul")
+			:attr('title', "Tutte le serie")
+    	for _, CurrSeries in pairs(QueryResult.results) do
+    		--In the output, example:
+    		--"fulltext": "Star Trek: Strange New Worlds",
+    		LI =  mw.html.create('li')
+        	LI:wikitext("[[" .. CurrSeries.fulltext .. "]]")
+        	
+        	UL:node(LI)
+    	end
+    	Series = tostring(UL)
+    else
+    	Series = "''Il risultato non è una TABLE''"
+    end
+	
+	return Categories .. "<hr />" .. Seasons .. "<hr />" .. Series 
 --[==[
 <strong>Categorie</strong>
 <ul class="compactul">
