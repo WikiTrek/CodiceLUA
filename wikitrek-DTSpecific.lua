@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-05-16T22:42:50+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-06-07T09:35:35+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTSpecific
 --- This module represent the package containing specific functions to access data from the WikiBase instance DataTrek
 -- @module p
@@ -242,6 +242,7 @@ function p.SecBoxContent(frame)
 	Categories = tostring(UL)
 	
 	Quantity = SeasonsQty(Short)
+	--mw.smw.set("Numero di stagioni = " .. Quantity)
 	if Quantity < 1 then
 		Seasons = "Errore: <1"
 	else
