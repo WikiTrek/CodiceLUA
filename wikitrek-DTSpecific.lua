@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-06-08T10:08:57+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-06-08T10:10:50+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTSpecific
 --- This module represent the package containing specific functions to access data from the WikiBase instance DataTrek
 -- @module p
@@ -283,7 +283,7 @@ function p.SecBoxContent(frame)
     		--In the output, example:
     		--"fulltext": "Star Trek: Strange New Worlds",
     		LI =  mw.html.create('li')
-        	LI:wikitext("[[" .. CurrSeries.Abbreviazione[1] .. "]]")
+        	LI:wikitext("[[" .. CurrSeries.printouts.Abbreviazione[1] .. "]]")
         	
         	UL:node(LI)
     	end
