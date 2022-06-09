@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-06-09T12:15:19+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-06-09T12:18:04+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTSpecific
 --- This module represent the package containing specific functions to access data from the WikiBase instance DataTrek
 -- @module p
@@ -234,7 +234,14 @@ function p.SecBoxContent(frame)
 	
 	for _, Name in pairs(CategoryNames) do
 		local Item
-		local Preposizione = "di"
+		local Preposizione
+		
+		if Short == "Serie Classica" or Short == "Serie Animata" then
+			Preposizione = "della"
+		else
+			Preposizione = "di"
+		end
+		
 		Name = string.gsub(Name, "PREPOSIZIONE", Preposizione)
 		Item = "[[:Categoria:" .. string.gsub(Name, "SHORT", Short) .. "]]"
 		
