@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-06-08T22:46:35+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-06-09T12:15:19+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTSpecific
 --- This module represent the package containing specific functions to access data from the WikiBase instance DataTrek
 -- @module p
@@ -225,7 +225,7 @@ function p.SecBoxContent(frame)
 	--Short  = mw.wikibase.getEntity(SeriesQ).claims['P24'][1].mainsnak.datavalue['value']
 	Short  = Series.claims['P24'][1].mainsnak.datavalue['value']
 	
-	CategoryNames = {"SHORT|Serie", "Personaggi di SHORT|Personaggi", "Episodi di SHORT|Episodi", "SHORT - Ordine di produzione|Ordine di produzione", "SHORT - Titoli italiani|Titoli italiani"}
+	CategoryNames = {"SHORT|Serie", "Personaggi PREPOSIZIONE SHORT|Personaggi", "Episodi PREPOSIZIONE SHORT|Episodi", "SHORT - Ordine di produzione|Ordine di produzione", "SHORT - Titoli italiani|Titoli italiani"}
 	
 	UL = mw.html.create('ul')
 	UL
@@ -234,6 +234,8 @@ function p.SecBoxContent(frame)
 	
 	for _, Name in pairs(CategoryNames) do
 		local Item
+		local Preposizione = "di"
+		Name = string.gsub(Name, "PREPOSIZIONE", Preposizione)
 		Item = "[[:Categoria:" .. string.gsub(Name, "SHORT", Short) .. "]]"
 		
 		LI =  mw.html.create('li')
