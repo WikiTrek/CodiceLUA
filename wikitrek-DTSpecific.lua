@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-06-09T22:45:13+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-06-20T09:35:45+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTSpecific
 --- This module represent the package containing specific functions to access data from the WikiBase instance DataTrek
 -- @module p
@@ -233,7 +233,7 @@ function p.SecBoxContent(frame)
 		:attr('class', "compactul")
 		:attr('title', "Categorie")
 	
-	for _, Name in pairs(CategoryNames) do
+	for _, Name in ipairs(CategoryNames) do
 		local Item
 		
 		if Short == "Serie Classica" or Short == "Serie Animata" then
@@ -288,7 +288,7 @@ function p.SecBoxContent(frame)
 		UL
 			:attr('class', "compactul")
 			:attr('title', "Tutte le serie")
-    	for _, CurrSeries in pairs(SeriesQuery.results) do
+    	for _, CurrSeries in ipairs(SeriesQuery.results) do
     		--In the output, example:
     		--"fulltext": "Star Trek: Strange New Worlds",
     		LI =  mw.html.create('li')
