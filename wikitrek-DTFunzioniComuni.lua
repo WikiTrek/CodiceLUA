@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-04-13T17:47:49+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-06-21T09:23:39+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTFunzioniComuni
 -- Keyword: wikitrek
 
@@ -159,8 +159,14 @@ end
 function p.CategoryTree(frame)
 	local AZInstancesMember = {Q23 = "Personaggi", Q18 = "Specie", Q95 = "Pianeti", Q19 = "Cast", Q52 = "Cast"}
 	--local CurrentItem = mw.wikibase.getEntity()
-	local CurrentQ = mw.wikibase.getEntity().claims['P14'][1].mainsnak.datavalue.value.id
+	local CurrentQ
 	local AZCategory = ''
+	
+	if mw.wikibase.getEntity() then
+		CurrentQ = mw.wikibase.getEntity().claims['P14'][1].mainsnak.datavalue.value.id
+	else
+		return ""
+	end
 	
 	if AZInstancesMember[CurrentQ] ~= nil then
 		local FirstLetter
