@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-06-21T09:20:35+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-06-21T09:26:12+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTBase
 --- This module represent the package containing basic functions to access data from the WikiBase instance DataTrek
 -- @module p
@@ -103,7 +103,7 @@ function p.SiteLinksInterwiki()
 	
 	local Item = mw.wikibase.getEntity()
 	if not Item then
-		Item = mw.wikibase.getEntity('Q1')
+		return "''Nessun collegamento generico trovato su DataTrek''"
 	end
 	
 	local SiteLinks = Item['sitelinks']
