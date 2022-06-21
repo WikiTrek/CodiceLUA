@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-02-24T21:33:42+01:00
+-- [P2G] Auto upload by PageToGitHub on 2022-06-21T09:20:35+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTBase
 --- This module represent the package containing basic functions to access data from the WikiBase instance DataTrek
 -- @module p
@@ -40,7 +40,8 @@ function p.ExtLinks(frame)
 	end
 	
 	if not AllRows then
-		AllRows = "''Nessun collegamento generico [[:datatrek:Item:" .. mw.wikibase.getEntityIdForCurrentPage() .. "|trovato su DataTrek]]''"
+		--AllRows = "''Nessun collegamento generico [[:datatrek:Item:" .. mw.wikibase.getEntityIdForCurrentPage() .. "|trovato su DataTrek]]''"
+		AllRows = "''Nessun collegamento generico trovato su DataTrek''"
 	end
 		
 	--return AllRows .. string.char(10) .. string.char(10) .. "=== Interwiki ===" .. string.char(10) .. "* " .. frame:expandTemplate{title = 'InterlinkMA', args = {Nome=Item:getSitelink("enma")}} .. string.char(10) .. p.SiteLinksInterwiki()
