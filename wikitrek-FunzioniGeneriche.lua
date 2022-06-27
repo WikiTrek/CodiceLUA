@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-06-27T23:14:40+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-06-27T23:34:43+02:00
 -- [P2G] This code from page Modulo:wikitrek-FunzioniGeneriche
 -- Keyword: wikitrek
 local p = {} --p stands for package
@@ -226,7 +226,7 @@ end
 -- @return Bare name- of the ship
 function p.ShipName(frame)
 	local FullName = frame.args[1]
-	local Prefixes = {"USS ", "IKS ", "ECS "}
+	local Prefixes = {"USS ", "IKS ", "ECS ", "''", "<i>", "</i>"}
 	
 	-- Removes prefix
 	for _, Prefix in ipairs(Prefixes) do
