@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-06-27T22:32:31+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-06-27T22:47:14+02:00
 -- [P2G] This code from page Modulo:wikitrek-FunzioniGeneriche
 -- Keyword: wikitrek
 local p = {} --p stands for package
@@ -226,11 +226,13 @@ end
 -- @return Bare name
 function p.ShipName(frame)
 	local FullName = frame.args[1]
-	local Prefixes = {"USS ", "IKS "}
+	local Prefixes = {"USS ", "IKS ", "ECS "}
 	
 	for _, Prefix in ipairs(Prefixes) do
 		FullName = FullName:gsub((Prefix), "")
 	end
+	
+	FullName = FullName:gsub("(%w+)", "%1")
 	
 	return FullName
 end
