@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-06-27T22:54:08+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-06-27T22:56:32+02:00
 -- [P2G] This code from page Modulo:wikitrek-FunzioniGeneriche
 -- Keyword: wikitrek
 local p = {} --p stands for package
@@ -232,7 +232,7 @@ function p.ShipName(frame)
 		FullName = FullName:gsub((Prefix), "")
 	end
 	
-	FullName = FullName:gsub("[^%s]+$", "")
+	FullName = FullName:gsub("%s[^%s]+$", "")
 	
 	return FullName
 end
