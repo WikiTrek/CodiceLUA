@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-06-03T22:04:40+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-06-27T22:32:31+02:00
 -- [P2G] This code from page Modulo:wikitrek-FunzioniGeneriche
 -- Keyword: wikitrek
 local p = {} --p stands for package
@@ -219,6 +219,20 @@ function p.TestSpaces(frame)
 	local TestString = "Seven of Nine"
 	local Match = string.match(TestString, "[^%s]+$")
 	return Match .. " - " .. string.upper(string.sub(Match, 1, 1))
+end
+--- Extarct the name of a ship from full designation
+--
+-- @param frame The interface to the parameters passed to {{#invoke:}}
+-- @return Bare name
+function p.ShipName(frame)
+	local FullName = frame.args[1]
+	local Prefixes = {"USS ", "IKS "}
+	
+	for _, Prefix in ipairs(Prefixes) do
+		FullName = FullName:gsub((Prefix), "")
+	end
+	
+	return FullName
 end
 --- Test function to check properties sorting
 -- 
