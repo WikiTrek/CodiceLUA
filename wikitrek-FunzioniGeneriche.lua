@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-06-28T18:16:08+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-06-28T23:11:35+02:00
 -- [P2G] This code from page Modulo:wikitrek-FunzioniGeneriche
 -- Keyword: wikitrek
 local p = {} --p stands for package
@@ -294,25 +294,30 @@ function p.ParameterToSemantic(frame)
     end
 	mw.smw.set(PropName .. " = " .. PropValue)
 end
---- Process the value assigned to parameter of the "old"-style template
--- (pre-DataTrek) to sanitize it and pass it as clean value to
+--- Process the value assigned to "EpisodioPersonaggi" of the "old-style"
+-- template (pre-DataTrek) to sanitize it and pass it as clean value to
 -- SMW property using the #set function
 --
 -- @param frame The interface to the parameters passed to {{#invoke:}}
 -- No return @return Sanitized string representing one or more property values
 function p.PerformersToSemantic(frame)
-local InputString = "* [[Vina]]: [[Melissa George]]* [[Spock]]: [[Ethan Peck]]* [[Leland]]: [[Alan van Sprang]]* [[Nhan]]: [[Rachael Ancheril]]* Un [[Talosiani|Talosiano]]: [[Dee Pelletier]]* Il ''Keeper'' [[Talosiani|Talosiano]]: [[Rob Brownstein]]* Lt. Cmdr. [[Airiam]]: [[Hannah Cheesman]]* Lt. [[Keyla Detmer]]: [[Emily Coutts]]* [[Talosiani|Talosiano]] n.3: [[Nicole Dickinson]]"
-local Character
-local Performer
-local Pattern = "%*.-%[%[(.-)%]%].-:%s?%[%[(.-)%]%]"
+	local InputString
+	local Character
+	local Performer
+	local Pattern = "%*.-%[%[(.-)%]%].-:%s?%[%[(.-)%]%]"
 
-_, _, Character, Performer = string.find(InputString, Pattern)
---print(Character, Performer)
-
-for Character, Performer in string.gmatch(InputString, Pattern) do  
-  Character = string.gsub(Character, "|.*","")
-  print("Character: " .. Character, "Performer: " .. Performer)
-end
+	--InputString = "* [[Vina]]: [[Melissa George]]* [[Spock]]: [[Ethan Peck]]* [[Leland]]: [[Alan van Sprang]]* [[Nhan]]: [[Rachael Ancheril]]* Un [[Talosiani|Talosiano]]: [[Dee Pelletier]]* Il ''Keeper'' [[Talosiani|Talosiano]]: [[Rob Brownstein]]* Lt. Cmdr. [[Airiam]]: [[Hannah Cheesman]]* Lt. [[Keyla Detmer]]: [[Emily Coutts]]* [[Talosiani|Talosiano]] n.3: [[Nicole Dickinson]]"
+	InputString = frame.args[1]
+	
+	--_, _, Character, Performer = string.find(InputString, Pattern)
+	
+	for Character, Performer in string.gmatch(InputString, Pattern) do  
+		Character = string.gsub(Character, "|.*","")
+		--print("Character: " .. Character, "Performer: " .. Performer)
+		mw.smw.set("Personaggio=" .. Character)
+		mw.smw.set("Interprete=" .. Performer)
+		mw.smw.set(Performer .. " = " .. Character)
+	end
 end
 function p.ParameterToSemanticTest(frame)
 	local Separator = ";"
