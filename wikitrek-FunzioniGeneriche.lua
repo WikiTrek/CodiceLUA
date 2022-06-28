@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-06-27T23:34:43+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-06-28T10:56:14+02:00
 -- [P2G] This code from page Modulo:wikitrek-FunzioniGeneriche
 -- Keyword: wikitrek
 local p = {} --p stands for package
@@ -223,9 +223,18 @@ end
 --- Extract the name of a ship from its full designation
 --
 -- @param frame The interface to the parameters passed to {{#invoke:}}
--- @return Bare name- of the ship
+-- @return Bare name of the ship
 function p.ShipName(frame)
 	local FullName = frame.args[1]
+	
+	return p.ShipNameCore(FullName)
+end
+--- Extract the name of a ship from its full designation
+--
+-- @param designation The full designation to process
+-- @return Bare name of the ship
+function p.ShipNameCore(designation)
+	local FullName = designation
 	local Prefixes = {"USS ", "IKS ", "ECS ", "''", "<i>", "</i>"}
 	
 	-- Removes prefix
