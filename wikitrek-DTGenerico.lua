@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-06-27T12:08:26+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-06-28T10:59:33+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -8,7 +8,8 @@ local MakeNavTable = require('Modulo:DTBase').MakeNavTable
 --local AffiliationTree = require('Modulo:DTFunzioniComuni').AffiliationTree
 --local OperatorTree = require('Modulo:DTFunzioniComuni').OperatorTree
 local PropertiesOnTree = require('Modulo:DTFunzioniComuni').PropertiesOnTree
-
+local ShipNameCore = require('Modulo:FunzioniGeneriche').ShipNameCore
+	
 local p = {}
 function p.QFromP(Property)
 	local Item = mw.wikibase.getEntity()
@@ -87,11 +88,13 @@ function p.ListAllP(frame)
 	local POnTree = {}
 	local Item = mw.wikibase.getEntity()
 	local ItemQ = mw.wikibase.getEntityIdForCurrentPage()
+	local InstanceQ
 	local IsEpisode = false
 	local OperatorName = ""
 	local AstroRA = nil
 	local AstroD = nil
 	local ListProp = {}
+	local PageName
 	
 	if not Item then
 		Item = mw.wikibase.getEntity('Q1')
@@ -128,6 +131,7 @@ function p.ListAllP(frame)
 		if AddSemantic then
 			mw.smw.set(ITLabel .. "=" .. ITValue)
 		end
+		PageName = ITValue
 		if (mw.wikibase.getLabelByLang(ItemQ, 'it')) ~= PageTitle.text then
 			AllRows[#AllRows + 1] = {ITLabel .. ":", {ITValue}}
 		end
@@ -186,6 +190,13 @@ function p.ListAllP(frame)
 							--mw.smw.set(PropName .. "=" .. PropValue)
 						end
 					end
+				end
+				
+				InstanceQ = Item.claims[Property][1].mainsnak.datavalue.value.id
+				
+				if InstanceQ == "Q876" or InstanceQ == "Q78" then
+					--Spaceship or starship
+					mw.smw.set("Nome=" .. ShipNameCore(PageName))
 				end
 				
 				--[==[AllRows[#AllRows + 1] = {{"P40", "Affiliazione:"}, {AffiliationTree(frame)}}
