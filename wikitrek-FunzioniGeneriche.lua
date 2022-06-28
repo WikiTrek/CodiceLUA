@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-06-28T11:21:21+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-06-28T11:22:24+02:00
 -- [P2G] This code from page Modulo:wikitrek-FunzioniGeneriche
 -- Keyword: wikitrek
 local p = {} --p stands for package
@@ -235,7 +235,7 @@ end
 -- @return Bare name of the ship
 function p.ShipNameCore(designation)
 	local FullName = designation
-	local Prefixes = {"USS ", "IKS ", "ECS ", "''", "<i>", "</i>", "reboot", "%s(Kelvin)"}
+	local Prefixes = {"USS ", "IKS ", "ECS ", "''", "<i>", "</i>", " (", "%s(Kelvin)"}
 	
 	-- Removes prefix
 	for _, Prefix in ipairs(Prefixes) do
