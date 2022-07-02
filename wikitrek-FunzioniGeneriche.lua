@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-07-02T10:49:58+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-07-02T14:30:00+02:00
 -- [P2G] This code from page Modulo:wikitrek-FunzioniGeneriche
 -- Keyword: wikitrek
 local p = {} --p stands for package
@@ -352,7 +352,12 @@ function p.PerformersToSemantic(frame)
     		Pattern = "%*%s?(.-)%s?:%s?(.-)%s?\n"
 		end
 		_, _, Character, Performer = string.find(FullRow, Pattern)
-		Character = string.gsub(Character, "|.*","")
+		if Character == nil then
+			Character = "Null"
+		else
+			Character = string.gsub(Character, "|.*","")
+		end
+		
 		--print("          Character: " .. Character, "Performer: " .. Performer)
 		--print(string.rep("-",100))
 		mw.smw.set("Personaggio=" .. Character)
