@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-07-02T14:30:00+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-07-02T14:32:47+02:00
 -- [P2G] This code from page Modulo:wikitrek-FunzioniGeneriche
 -- Keyword: wikitrek
 local p = {} --p stands for package
@@ -356,6 +356,10 @@ function p.PerformersToSemantic(frame)
 			Character = "Null"
 		else
 			Character = string.gsub(Character, "|.*","")
+		end
+		
+		if Performer == nil then
+			Performer = "Null"
 		end
 		
 		--print("          Character: " .. Character, "Performer: " .. Performer)
