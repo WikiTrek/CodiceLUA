@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-07-02T15:00:11+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-07-02T15:03:21+02:00
 -- [P2G] This code from page Modulo:wikitrek-FunzioniGeneriche
 -- Keyword: wikitrek
 local p = {} --p stands for package
@@ -342,7 +342,7 @@ function p.PerformersToSemantic(frame)
 		if string.find(FullRow, ":") == nil then
 			--Character only, unknown performer
 			Pattern = "%*.-%[%[(.-)%]%].-"
-			_, Character = string.find(FullRow, Pattern)
+			_, _, Character = string.find(FullRow, Pattern)
 			Performer = "Interprete non accreditato"
 		else
 			if CountLiks == 2 then
