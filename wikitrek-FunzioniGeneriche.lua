@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-07-02T10:44:44+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-07-02T10:49:58+02:00
 -- [P2G] This code from page Modulo:wikitrek-FunzioniGeneriche
 -- Keyword: wikitrek
 local p = {} --p stands for package
@@ -333,7 +333,7 @@ function p.PerformersToSemantic(frame)
 
 	InputString = frame.args[1]
 	
-	for FullRow in string.gmatch(InputString, "%*.-/n") do
+	for FullRow in string.gmatch(InputString, "%*.-\n") do
 		local Character
 		local Performer
 		--print (FullRow)
@@ -349,7 +349,7 @@ function p.PerformersToSemantic(frame)
 			Pattern = "%*%s?(.-)%s?:%s?%[%[(.-)%]%]"
 		else
 			--error no links on either side
-    		Pattern = "%*%s?(.-)%s?:%s?(.-)%s?/n"
+    		Pattern = "%*%s?(.-)%s?:%s?(.-)%s?\n"
 		end
 		_, _, Character, Performer = string.find(FullRow, Pattern)
 		Character = string.gsub(Character, "|.*","")
