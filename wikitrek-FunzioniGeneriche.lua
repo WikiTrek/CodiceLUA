@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-07-02T14:32:47+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-07-02T15:00:11+02:00
 -- [P2G] This code from page Modulo:wikitrek-FunzioniGeneriche
 -- Keyword: wikitrek
 local p = {} --p stands for package
@@ -339,29 +339,27 @@ function p.PerformersToSemantic(frame)
 		--print (FullRow)
 		local CountLiks = select(2, string.gsub(FullRow, "%[%[", ""))
 		--print (CountLiks)
-		if CountLiks == 2 then
-			--Two links in the string, process both
-			--print("Two links")
-			Pattern = "%*.-%[%[(.-)%]%].-:%s?%[%[(.-)%]%]"      
-		elseif CountLiks == 1 then
-			--Character is not a linked entity
-			--print("One link")
-			Pattern = "%*%s?(.-)%s?:%s?%[%[(.-)%]%]"
+		if string.find(FullRow, ":") == nil then
+			--Character only, unknown performer
+			Pattern = "%*.-%[%[(.-)%]%].-"
+			_, Character = string.find(FullRow, Pattern)
+			Performer = "Interprete non accreditato"
 		else
-			--error no links on either side
-    		Pattern = "%*%s?(.-)%s?:%s?(.-)%s?\n"
+			if CountLiks == 2 then
+				--Two links in the string, process both
+				--print("Two links")
+				Pattern = "%*.-%[%[(.-)%]%].-:%s?%[%[(.-)%]%]"      
+			elseif CountLiks == 1 then
+				--Character is not a linked entity
+				--print("One link")
+				Pattern = "%*%s?(.-)%s?:%s?%[%[(.-)%]%]"
+			else
+				--error no links on either side
+	    		Pattern = "%*%s?(.-)%s?:%s?(.-)%s?\n"
+			end
+			_, _, Character, Performer = string.find(FullRow, Pattern)
 		end
-		_, _, Character, Performer = string.find(FullRow, Pattern)
-		if Character == nil then
-			Character = "Null"
-		else
-			Character = string.gsub(Character, "|.*","")
-		end
-		
-		if Performer == nil then
-			Performer = "Null"
-		end
-		
+		Character = string.gsub(Character, "|.*","")
 		--print("          Character: " .. Character, "Performer: " .. Performer)
 		--print(string.rep("-",100))
 		mw.smw.set("Personaggio=" .. Character)
