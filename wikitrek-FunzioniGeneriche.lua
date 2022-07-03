@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-07-02T15:03:21+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-07-03T15:22:00+02:00
 -- [P2G] This code from page Modulo:wikitrek-FunzioniGeneriche
 -- Keyword: wikitrek
 local p = {} --p stands for package
@@ -331,7 +331,7 @@ function p.PerformersToSemantic(frame)
 	local InputString
 	local Pattern
 
-	InputString = frame.args[1]
+	InputString = frame.args[1] .. "\n"
 	
 	for FullRow in string.gmatch(InputString, "%*.-\n") do
 		local Character
