@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-06-24T16:44:41+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-07-12T16:51:54+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTSpecific
 --- This module represent the package containing specific functions to access data from the WikiBase instance DataTrek
 -- @module p
@@ -217,7 +217,10 @@ function p.SecBoxContent(frame)
 	local Preposizione
 	
 	--Series
-	if mw.wikibase.getEntity().claims["P14"][1].mainsnak.datavalue.value.id == "Q13" then
+	if frame.args[0] ~= nil then
+		--Function is called from unliked page
+		Series = mw.wikibase.getEntity(frame.args[0])
+	elseif mw.wikibase.getEntity().claims["P14"][1].mainsnak.datavalue.value.id == "Q13" then
 		Series = mw.wikibase.getEntity()
 	else
 		Series = mw.wikibase.getEntity(QFromP("P16"))
