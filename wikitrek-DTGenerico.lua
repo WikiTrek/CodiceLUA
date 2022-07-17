@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-07-10T23:24:54+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-07-17T11:56:00+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -460,7 +460,7 @@ end
 -- @return String Text containing expanded template
 function p.DescrWithTemplate(frame)
 	local RawDescription = mw.wikibase.getDescription()
-	local Pattern = "{{.*}}"
+	local Pattern = "{{.-}}"
 	
 	--[==[
 	local FinalString = ">"
