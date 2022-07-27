@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-07-27T12:28:56+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-07-27T12:36:32+02:00
 -- [P2G] This code from page Modulo:wikitrek-FunzioniGeneriche
 -- Keyword: wikitrek
 local p = {} --p stands for package
@@ -281,25 +281,24 @@ function p.ParameterToSemantic(frame)
         	PropValue = "Error"
         else
         	ParaString = frame.args[2]
-        	if string.find(ParaString, "<li>") ~= nil then
-        		-- Look for <i> to determine if property is Assignment
-        		if string.find(ParaString, "<i>") == nil then
-        			LIPattern = "<li>.-%[%[(.-)%]%].-</li>"
-        		else
-        			LIPattern = "<li>.-<i>%[%[(.-)%]%]</i>.-</li>"
-        		end
-    				
-        		--Process UL or OL
-        		for Item in string.gmatch(ParaString, LIPattern) do
-        			Item = string.gsub(Item, "(|.*)", "")
-        			table.insert(FinalArray, Item)
-        		end
-        		PropValue = table.concat(FinalArray, Separator) .. SepDeclaration
-        	else
-        		--No process, assign original value
-        		PropValue = ParaString
-        		--PropValue = string.gsub(ParaString, "(|.*)%]%]", "")
+        	if string.find(ParaString, "<li>") == nil then
+        		-- Add dummy tags to use a single process afterwards
+        		ParaString = "<li>" .. ParaString .. "</li>"
         	end
+        	
+        	-- Look for <i> to determine if property is Assignment
+    		if string.find(ParaString, "<i>") == nil then
+    			LIPattern = "<li>.-%[%[(.-)%]%].-</li>"
+    		else
+    			LIPattern = "<li>.-<i>%[%[(.-)%]%]</i>.-</li>"
+    		end
+				
+    		--Process UL or OL
+    		for Item in string.gmatch(ParaString, LIPattern) do
+    			Item = string.gsub(Item, "(|.*)", "")
+    			table.insert(FinalArray, Item)
+    		end
+    		PropValue = table.concat(FinalArray, Separator) .. SepDeclaration
         end
     end
 	mw.smw.set(PropName .. " = " .. PropValue)
