@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-07-26T12:50:07+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-07-27T12:26:49+02:00
 -- [P2G] This code from page Modulo:wikitrek-FunzioniGeneriche
 -- Keyword: wikitrek
 local p = {} --p stands for package
@@ -297,7 +297,8 @@ function p.ParameterToSemantic(frame)
         		PropValue = table.concat(FinalArray, Separator) .. SepDeclaration
         	else
         		--No process, assign original value
-        		PropValue = string.gsub(ParaString, "(|.*)%]%]", "")
+        		PropValue = "test"
+        		--PropValue = string.gsub(ParaString, "(|.*)%]%]", "")
         	end
         end
     end
