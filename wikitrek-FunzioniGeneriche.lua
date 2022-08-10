@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-07-27T12:36:32+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-08-10T23:53:04+02:00
 -- [P2G] This code from page Modulo:wikitrek-FunzioniGeneriche
 -- Keyword: wikitrek
 local p = {} --p stands for package
@@ -290,7 +290,11 @@ function p.ParameterToSemantic(frame)
     		if string.find(ParaString, "<i>") == nil then
     			LIPattern = "<li>.-%[%[(.-)%]%].-</li>"
     		else
-    			LIPattern = "<li>.-<i>%[%[(.-)%]%]</i>.-</li>"
+    			if PropName == "Classe navale" then
+    				LIPattern = "<li><i>%[%[(.-)%]%]</i></li>"
+    			else
+    				LIPattern = "<li>.-<i>%[%[(.-)%]%]</i>.-</li>"
+    			end
     		end
 				
     		--Process UL or OL
