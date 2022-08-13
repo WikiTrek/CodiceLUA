@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-08-10T23:53:04+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-08-13T16:48:07+02:00
 -- [P2G] This code from page Modulo:wikitrek-FunzioniGeneriche
 -- Keyword: wikitrek
 local p = {} --p stands for package
@@ -286,15 +286,12 @@ function p.ParameterToSemantic(frame)
         		ParaString = "<li>" .. ParaString .. "</li>"
         	end
         	
-        	-- Look for <i> to determine if property is Assignment
-    		if string.find(ParaString, "<i>") == nil then
-    			LIPattern = "<li>.-%[%[(.-)%]%].-</li>"
+        	-- Determine if property is Assignment
+    		if PropValue == "Assegnazione" then
+    			-- Look for <i> to get the object of assignment
+    			LIPattern = "<li>.-<i>%[%[(.-)%]%]</i>.-</li>"
     		else
-    			if PropName == "Classe navale" then
-    				LIPattern = "<li><i>%[%[(.-)%]%]</i></li>"
-    			else
-    				LIPattern = "<li>.-<i>%[%[(.-)%]%]</i>.-</li>"
-    			end
+    			LIPattern = "<li>.-%[%[(.-)%]%].-</li>"
     		end
 				
     		--Process UL or OL
