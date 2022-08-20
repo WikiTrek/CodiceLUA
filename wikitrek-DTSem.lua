@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-08-20T12:46:54+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-08-20T12:47:44+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTSem
 -- Keyword: wikitrek
 local p = {}
@@ -114,7 +114,7 @@ function p.RecurringListFromCategory(frame)
     end
 
     if type(Pages) == "table" then
-    	for _, Page in ipairs(Pages.results) do
+    	for _, Page in pairs(Pages.results) do
         	-- Page.fulltext						represents Page name
         	
         	table.insert(Results, "* " .. Page.fulltext)
