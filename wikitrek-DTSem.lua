@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-08-20T13:04:52+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-08-20T13:05:23+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTSem
 -- Keyword: wikitrek
 local p = {}
@@ -120,7 +120,7 @@ function p.RecurringListFromCategory(frame)
         	-- Page.fulltext						represents Page name
         	
         	Count = mw.smw.ask('[[Serie::' .. SeriesShort .. ']][[Personaggio::' .. Page.fulltext .. ']]|format=count') --[1]["Personaggio"]
-        	table.insert(Results, "* " .. Page.fulltext .. " - " .. count)
+        	table.insert(Results, "* " .. Page.fulltext .. " - " .. Count)
     	end
     else
     	return "''Il risultato non è una TABLE''"
