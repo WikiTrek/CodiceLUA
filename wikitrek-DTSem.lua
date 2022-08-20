@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-06-07T09:35:04+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-08-20T12:28:43+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTSem
 -- Keyword: wikitrek
 local p = {}
@@ -79,5 +79,35 @@ function p.SeasonsQty(ShortName)
     else
     	return Max
     end
+end
+--- Function to extract recurring characters and list them
+-- 
+-- @param ShortName The short name of the series as in P24
+-- @return Integer Number of seasons
+function p.RecurringListFromCategory(frame)
+	local QueryResult
+	local Item
+	local CategoryText
+	
+	
+	if not Item then
+		Item = mw.wikibase.getEntity(frame.args['Item'])
+	end
+	if not Item then
+		Item = mw.wikibase.getEntity('Q1')
+	end
+	
+	CategoryText = mw.wikibase.getEntity(CurrentItem.claims['P16'][1].mainsnak.datavalue.value.id).claims['P24'][1].mainsnak.datavalue.value
+	
+	if ShortName == "Serie Classica" or ShortName == "Serie Animata" then
+		CategoryText = '[[Category:Personaggi della ' .. CategoryText .. "]]"
+	else
+		CategoryText = '[[Category:Personaggi di ' .. CategoryText .. "]]"
+	end
+	
+	--	QueryResult = mw.smw.ask(PrefixText .. ShortName .. ']]|?Stagione|sort=Stagione|order=desc|format=max')
+	-- See https://github.com/SemanticMediaWiki/SemanticScribunto/blob/master/docs/mw.smw.ask.md#result
+	-- for return value example
+	return mw.text.nowiki(CategoryText)
 end
 return p
