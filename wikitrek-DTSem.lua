@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-08-20T13:04:26+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-08-20T13:04:52+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTSem
 -- Keyword: wikitrek
 local p = {}
@@ -119,7 +119,7 @@ function p.RecurringListFromCategory(frame)
     		local Count
         	-- Page.fulltext						represents Page name
         	
-        	Count = mw.smw.ask('[[Serie::' .. SeriesShort .. ']][[Personaggio::' .. Page.fulltext .. ']]|format=count')[1]["Personaggio"]
+        	Count = mw.smw.ask('[[Serie::' .. SeriesShort .. ']][[Personaggio::' .. Page.fulltext .. ']]|format=count') --[1]["Personaggio"]
         	table.insert(Results, "* " .. Page.fulltext .. " - " .. count)
     	end
     else
