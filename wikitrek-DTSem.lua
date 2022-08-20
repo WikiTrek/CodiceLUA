@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-08-20T12:32:58+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-08-20T12:46:54+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTSem
 -- Keyword: wikitrek
 local p = {}
@@ -85,7 +85,7 @@ end
 -- @param ShortName The short name of the series as in P24
 -- @return Integer Number of seasons
 function p.RecurringListFromCategory(frame)
-	local QueryResult
+	local Results = {}
 	local Item
 	local CategoryText
 	local Pages
@@ -108,6 +108,22 @@ function p.RecurringListFromCategory(frame)
 	Pages = mw.smw.ask(CategoryText) --PrefixText .. ShortName .. ']]|?Stagione|sort=Stagione|order=desc|format=max')
 	-- See https://github.com/SemanticMediaWiki/SemanticScribunto/blob/master/docs/mw.smw.ask.md#result
 	-- for return value example
-	return mw.text.nowiki(CategoryText) .. #Pages
+	
+	if Pages == nil then
+        return "''Nessun risultato''"
+    end
+
+    if type(Pages) == "table" then
+    	for _, Page in ipairs(Pages.results) do
+        	-- Page.fulltext						represents Page name
+        	
+        	table.insert(Results, "* " .. Page.fulltext)
+    	end
+    else
+    	return "''Il risultato non è una TABLE''"
+    end
+	
+	--return mw.text.nowiki(CategoryText) .. #Pages
+	return table.concat(Results, string.char(10))
 end
 return p
