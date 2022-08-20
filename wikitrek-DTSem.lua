@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-08-20T13:05:23+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-08-20T14:49:47+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTSem
 -- Keyword: wikitrek
 local p = {}
@@ -89,6 +89,7 @@ function p.RecurringListFromCategory(frame)
 	local Item
 	local CategoryText
 	local Pages
+	local Series
 	local SeriesShort
 	
 	if not Item then
@@ -99,6 +100,7 @@ function p.RecurringListFromCategory(frame)
 	end
 	
 	SeriesShort = mw.wikibase.getEntity(Item.claims['P16'][1].mainsnak.datavalue.value.id).claims['P24'][1].mainsnak.datavalue.value
+	Series = mw.wikibase.getLabel(Item.claims['P16'][1].mainsnak.datavalue.value.id)
 	
 	if ShortName == "Serie Classica" or ShortName == "Serie Animata" then
 		CategoryText = '[[Category:Personaggi della ' .. SeriesShort .. "]]"
@@ -117,10 +119,20 @@ function p.RecurringListFromCategory(frame)
     if type(Pages) == "table" then
     	for _, Page in ipairs(Pages.results) do
     		local Count
+    		local Episodes = {}
+        	local List = {}
         	-- Page.fulltext						represents Page name
         	
-        	Count = mw.smw.ask('[[Serie::' .. SeriesShort .. ']][[Personaggio::' .. Page.fulltext .. ']]|format=count') --[1]["Personaggio"]
-        	table.insert(Results, "* " .. Page.fulltext .. " - " .. Count)
+        	Count = mw.smw.ask('[[Serie::' .. Series .. ']][[Personaggio::' .. Page.fulltext .. ']]|format=count')
+        	if Count > 0 then
+        		Episodes = mw.smw.getQueryResult('[[Serie::' .. Series .. ']][[Personaggio::' .. Page.fulltext .. ']]|sort=Numero di produzione|order=asc')
+        		
+        		for _, Episode in ipairs(Episodes.results) do
+        			table.insert(List, "[[" .. Episode.fulltext .. "]]")
+        		end
+        		
+        		table.insert(Results, "* '''[[" .. Page.fulltext .. "]]''' (" .. Count .. "): " .. table.concat(List, ", "))
+        	end
     	end
     else
     	return "''Il risultato non è una TABLE''"
