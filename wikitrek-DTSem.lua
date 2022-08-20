@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-08-20T12:28:43+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-08-20T12:29:17+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTSem
 -- Keyword: wikitrek
 local p = {}
@@ -97,7 +97,7 @@ function p.RecurringListFromCategory(frame)
 		Item = mw.wikibase.getEntity('Q1')
 	end
 	
-	CategoryText = mw.wikibase.getEntity(CurrentItem.claims['P16'][1].mainsnak.datavalue.value.id).claims['P24'][1].mainsnak.datavalue.value
+	CategoryText = mw.wikibase.getEntity(Item.claims['P16'][1].mainsnak.datavalue.value.id).claims['P24'][1].mainsnak.datavalue.value
 	
 	if ShortName == "Serie Classica" or ShortName == "Serie Animata" then
 		CategoryText = '[[Category:Personaggi della ' .. CategoryText .. "]]"
