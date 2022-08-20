@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-08-20T12:29:17+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-08-20T12:32:30+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTSem
 -- Keyword: wikitrek
 local p = {}
@@ -88,7 +88,7 @@ function p.RecurringListFromCategory(frame)
 	local QueryResult
 	local Item
 	local CategoryText
-	
+	local Pages
 	
 	if not Item then
 		Item = mw.wikibase.getEntity(frame.args['Item'])
@@ -105,9 +105,9 @@ function p.RecurringListFromCategory(frame)
 		CategoryText = '[[Category:Personaggi di ' .. CategoryText .. "]]"
 	end
 	
-	--	QueryResult = mw.smw.ask(PrefixText .. ShortName .. ']]|?Stagione|sort=Stagione|order=desc|format=max')
+	Pages = mw.smw.ask(CategoryText) --PrefixText .. ShortName .. ']]|?Stagione|sort=Stagione|order=desc|format=max')
 	-- See https://github.com/SemanticMediaWiki/SemanticScribunto/blob/master/docs/mw.smw.ask.md#result
 	-- for return value example
-	return mw.text.nowiki(CategoryText)
+	return mw.text.nowiki(CategoryText) .. Pages
 end
 return p
