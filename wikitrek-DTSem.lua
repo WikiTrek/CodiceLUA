@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-08-21T13:20:29+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-08-21T16:34:20+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTSem
 -- Keyword: wikitrek
 local p = {}
@@ -179,7 +179,8 @@ function p.Ask(frame)
     --end
 	
 	--local queryResult = mw.smw.ask( frame.args )
-	local queryResult = mw.smw.ask("[[Serie::Star Trek: Strange New Worlds]][[Personaggio::T'Pring]]|sort=Numero di produzione|order=asc")
+	--local queryResult = mw.smw.ask("[[Serie::Star Trek: Strange New Worlds]][[Personaggio::T'Pring]]|sort=Numero di produzione|order=asc")
+	local queryResult = mw.smw.ask("[[Istanza::Episodio di Picard]]|?Personaggio|order=asc|sort=Numero di produzione")
     
     if queryResult == nil then
         return "(no values)"
