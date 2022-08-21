@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-08-21T12:31:31+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-08-21T13:20:29+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTSem
 -- Keyword: wikitrek
 local p = {}
@@ -82,8 +82,8 @@ function p.SeasonsQty(ShortName)
 end
 --- Function to extract recurring characters and list them
 -- 
--- @param ShortName The short name of the series as in P24
--- @return Integer Number of seasons
+-- @param frame Context from MediaWiki
+-- @return String Bullet list of characters and episodes
 function p.RecurringListFromCategory(frame)
 	local Results = {}
 	local Item
@@ -114,8 +114,19 @@ function p.RecurringListFromCategory(frame)
 	
 	if Pages == nil then
         return "''Nessun risultato''"
-    end
-
+    else
+    	return p.RecurringList(Pages, Series)    	
+	end
+	
+	--return table.concat(Results, string.char(10))
+end
+--- Helper to extract recurring characters and list them
+-- 
+-- @param Pages Array of characters' page name
+-- @return String Bullet list of characters and episodes
+function p.RecurringList(Pages, Series)
+	local Results = {}
+	
     if type(Pages) == "table" then
     	for _, Page in ipairs(Pages.results) do
     		local Count
@@ -123,8 +134,10 @@ function p.RecurringListFromCategory(frame)
         	local List = {}
         	-- Page.fulltext						represents Page name
         	
-        	Count = mw.smw.ask('[[Serie::' .. Series .. ']][[Personaggio::' .. Page.fulltext .. ']]|format=count')
-        	if Count > 0 then
+        	--Count = mw.smw.ask('[[Serie::' .. Series .. ']][[Personaggio::' .. Page.fulltext .. ']]|format=count')
+        	Episodes = mw.smw.ask('[[Serie::' .. Series .. ']][[Personaggio::' .. Page.fulltext .. ']]|sort=Numero di produzione|order=asc')
+        	
+        	if (Episodes ~= nil) and (#Episodes > 0) then
         		--[=[
         		Episodes = mw.smw.getQueryResult('[[Serie::' .. Series .. ']][[Personaggio::' .. Page.fulltext .. ']]|sort=Numero di produzione|order=asc')
         		
@@ -132,22 +145,25 @@ function p.RecurringListFromCategory(frame)
         			table.insert(List, "[[" .. Episode.fulltext .. "]]")
         		end
         		]=]
-        		Episodes = mw.smw.ask('[[Serie::' .. Series .. ']][[Personaggio::' .. Page.fulltext .. ']]|sort=Numero di produzione|order=asc')
         		
-        		for num, row in pairs(Episodes) do
+        		for num, Episode in pairs(Episodes) do
         			--myResult = myResult .. '* This is result #' .. num .. '\n'
-            		for property, data in pairs( row ) do
-            			table.insert(List, table.concat(data))
+            		for _, Data in pairs(Episode) do
+            			if type(Data) == 'table' then
+            				table.insert(List, table.concat(Data))
+            			else
+            				table.insert(List, Data)
+            			end
+        					
             		end
         		end
-        		table.insert(Results, "* '''[[" .. Page.fulltext .. "]]''' (" .. Count .. "): " .. table.concat(List, ", "))
+        		table.insert(Results, "* '''[[" .. Page.fulltext .. "]]''' (" .. #Episodes .. "): " .. table.concat(List, ", "))
         	end
     	end
     else
     	return "''Il risultato non è una TABLE''"
     end
 	
-	--return mw.text.nowiki(CategoryText) .. #Pages
 	return table.concat(Results, string.char(10))
 end
 
