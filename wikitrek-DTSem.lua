@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-08-21T12:17:48+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-08-21T12:19:50+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTSem
 -- Keyword: wikitrek
 local p = {}
@@ -148,13 +148,14 @@ function p.Ask(frame)
     if not mw.smw then
         return "mw.smw module not found"
     end
-
-    if frame.args[1] == nil then
-        return "no parameter found"
-    end
-
-    local queryResult = mw.smw.ask( frame.args )
-
+	
+    --if frame.args[1] == nil then
+    --    return "no parameter found"
+    --end
+	
+	--local queryResult = mw.smw.ask( frame.args )
+	local queryResult = mw.smw.ask("[[Serie::Star Trek: Strange New Worlds]][[Personaggio::T'Pring]]|sort=Numero di produzione|order=asc")
+    
     if queryResult == nil then
         return "(no values)"
     end
