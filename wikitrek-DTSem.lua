@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-08-21T12:19:50+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-08-21T12:31:31+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTSem
 -- Keyword: wikitrek
 local p = {}
@@ -125,12 +125,21 @@ function p.RecurringListFromCategory(frame)
         	
         	Count = mw.smw.ask('[[Serie::' .. Series .. ']][[Personaggio::' .. Page.fulltext .. ']]|format=count')
         	if Count > 0 then
+        		--[=[
         		Episodes = mw.smw.getQueryResult('[[Serie::' .. Series .. ']][[Personaggio::' .. Page.fulltext .. ']]|sort=Numero di produzione|order=asc')
         		
         		for _, Episode in ipairs(Episodes.results) do
         			table.insert(List, "[[" .. Episode.fulltext .. "]]")
         		end
+        		]=]
+        		Episodes = mw.smw.ask('[[Serie::' .. Series .. ']][[Personaggio::' .. Page.fulltext .. ']]|sort=Numero di produzione|order=asc')
         		
+        		for num, row in pairs(Episodes) do
+        			--myResult = myResult .. '* This is result #' .. num .. '\n'
+            		for property, data in pairs( row ) do
+            			table.insert(List, table.concat(data))
+            		end
+        		end
         		table.insert(Results, "* '''[[" .. Page.fulltext .. "]]''' (" .. Count .. "): " .. table.concat(List, ", "))
         	end
     	end
