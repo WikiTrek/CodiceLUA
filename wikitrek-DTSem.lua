@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-08-20T14:49:47+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-08-21T12:17:48+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTSem
 -- Keyword: wikitrek
 local p = {}
@@ -140,5 +140,40 @@ function p.RecurringListFromCategory(frame)
 	
 	--return mw.text.nowiki(CategoryText) .. #Pages
 	return table.concat(Results, string.char(10))
+end
+
+-- Return results
+function p.Ask(frame)
+
+    if not mw.smw then
+        return "mw.smw module not found"
+    end
+
+    if frame.args[1] == nil then
+        return "no parameter found"
+    end
+
+    local queryResult = mw.smw.ask( frame.args )
+
+    if queryResult == nil then
+        return "(no values)"
+    end
+
+    if type( queryResult ) == "table" then
+        local myResult = ""
+        for num, row in pairs( queryResult ) do
+            myResult = myResult .. '* This is result #' .. num .. '\n'
+            for property, data in pairs( row ) do
+                local dataOutput = data
+                if type( data ) == 'table' then
+                    dataOutput = mw.text.listToText( data, ', ', ' and ')
+                end
+                myResult = myResult .. '** ' .. property .. ': ' .. dataOutput .. '\n'
+            end
+        end
+        return myResult
+    end
+
+    return queryResult
 end
 return p
