@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-08-21T16:34:20+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-08-28T17:00:32+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTSem
 -- Keyword: wikitrek
 local p = {}
@@ -89,6 +89,7 @@ function p.RecurringListFromCategory(frame)
 	local Item
 	local CategoryText
 	local Pages
+	local PagesList = {}
 	local Series
 	local SeriesShort
 	
@@ -102,7 +103,7 @@ function p.RecurringListFromCategory(frame)
 	SeriesShort = mw.wikibase.getEntity(Item.claims['P16'][1].mainsnak.datavalue.value.id).claims['P24'][1].mainsnak.datavalue.value
 	Series = mw.wikibase.getLabel(Item.claims['P16'][1].mainsnak.datavalue.value.id)
 	
-	if ShortName == "Serie Classica" or ShortName == "Serie Animata" then
+	if SeriesShort == "Serie Classica" or SeriesShort == "Serie Animata" then
 		CategoryText = '[[Category:Personaggi della ' .. SeriesShort .. "]]"
 	else
 		CategoryText = '[[Category:Personaggi di ' .. SeriesShort .. "]]"
@@ -115,29 +116,127 @@ function p.RecurringListFromCategory(frame)
 	if Pages == nil then
         return "''Nessun risultato''"
     else
-    	return p.RecurringList(Pages, Series)    	
+    	for _, Page in ipairs(Pages.results) do
+    		table.insert(PagesList, Page.fulltext)
+    	end
+		
+    	return p.RecurringList(PagesList, Series)    	
 	end
 	
 	--return table.concat(Results, string.char(10))
 end
+--- Function to extract recurring characters from all pages and list them
+-- 
+-- @param frame Context from MediaWiki
+-- @return String Bullet list of characters and episodes
+function p.RecurringListFull(frame)
+	local Results = {}
+	local Item
+	local InstanceText
+	local Pages
+	local Series
+	local SeriesShort
+	local Characters = {}
+	local PagesList = {}
+	
+	if not Item then
+		Item = mw.wikibase.getEntity(frame.args['Item'])
+	end
+	if not Item then
+		Item = mw.wikibase.getEntity('Q1')
+	end
+	
+	SeriesShort = mw.wikibase.getEntity(Item.claims['P16'][1].mainsnak.datavalue.value.id).claims['P24'][1].mainsnak.datavalue.value
+	Series = mw.wikibase.getLabel(Item.claims['P16'][1].mainsnak.datavalue.value.id)
+	
+	if SeriesShort == "Serie Classica" or SeriesShort == "Serie Originale" or SeriesShort == "Serie Animata" then
+		InstanceText = '[[Istanza::Episodio della ' .. SeriesShort .. "]]"
+	else
+		InstanceText = '[[Istanza::Episodio di ' .. SeriesShort .. "]]"
+	end
+	--[==[
+	Pages = mw.smw.ask(InstanceText .. "|?Personaggio|order=asc|sort=Numero di produzione")
+	
+	if Pages == nil then
+        return "''Nessun risultato'' (<code>" .. mw.text.nowiki(InstanceText) .. "</code>, )" 
+    else
+    	--local myResult = ""
+        for num, row in pairs(Pages) do
+            --myResult = myResult .. '* This is result #' .. num .. '\n'
+            mw.smw.set("Test=" .. num)
+            for property, data in pairs( row ) do
+            	if property == "Personaggio"  then
+            		if type(data) == 'table' then
+            			for _, Character in pairs(data) do
+            				if Characters[Character] == nil then
+            					--table.insert(Characters, Character)
+            				end
+            			end
+            		else
+            			-- This should never happens
+            			table.insert(Characters, "NEXT ONE ->")
+            			if Characters[data] == nil then
+            				table.insert(Characters, data)
+            			end
+            		end
+            	end
+            end
+        end
+	end
+	]==]
+	NewPages = mw.smw.getQueryResult(InstanceText .. "|?Personaggio|limit=500|order=asc|sort=Numero di produzione")
+	
+	for _, Episode in ipairs(NewPages.results) do
+		for _, Character in ipairs(Episode.printouts.Personaggio) do
+			local CharText = Character.fulltext
+			if not Characters[CharText] then
+				table.insert(Characters, CharText)
+				Characters[CharText] = true
+			end
+		end
+	end
+
+	table.sort(Characters)
+	
+	if type(Characters) == 'table' and Characters ~= nil then
+		for _, Page in ipairs(Characters) do
+    		table.insert(PagesList, Page)
+    	end
+		
+		
+		return p.RecurringList(PagesList, Series, 3)
+		--return #Characters .. " - " .. #Characters .. " - " .. table.concat(PagesList, ", ")
+	else
+		return "No table"
+	end
+		
+	--return table.concat(Results, string.char(10))
+end
 --- Helper to extract recurring characters and list them
 -- 
--- @param Pages Array of characters' page name
+-- @param Pages Table containing characters' pages names
+-- @param Series String with name of the Series
+-- @param[opt=1] MinOccurr Integer with minimum value of occurencies
 -- @return String Bullet list of characters and episodes
-function p.RecurringList(Pages, Series)
+function p.RecurringList(Pages, Series, MinOccurr)
 	local Results = {}
+	if not MinOccurr or MinOccurr < 1 then
+		MinOccurr = 1
+	end
 	
     if type(Pages) == "table" then
-    	for _, Page in ipairs(Pages.results) do
+    	--for _, Page in ipairs(Pages.results) do
+    	for _, Page in ipairs(Pages) do	
     		local Count
     		local Episodes = {}
         	local List = {}
         	-- Page.fulltext						represents Page name
         	
         	--Count = mw.smw.ask('[[Serie::' .. Series .. ']][[Personaggio::' .. Page.fulltext .. ']]|format=count')
-        	Episodes = mw.smw.ask('[[Serie::' .. Series .. ']][[Personaggio::' .. Page.fulltext .. ']]|sort=Numero di produzione|order=asc')
+        	--Episodes = mw.smw.ask('[[Serie::' .. Series .. ']][[Personaggio::' .. Page.fulltext .. ']]|sort=Numero di produzione|order=asc')
+        	Episodes = mw.smw.ask('[[Serie::' .. Series .. ']][[Personaggio::' .. Page .. ']]|sort=Numero di produzione|order=asc')
         	
-        	if (Episodes ~= nil) and (#Episodes > 0) then
+        	if (Episodes ~= nil) and (#Episodes > MinOccurr - 1) then
         		--[=[
         		Episodes = mw.smw.getQueryResult('[[Serie::' .. Series .. ']][[Personaggio::' .. Page.fulltext .. ']]|sort=Numero di produzione|order=asc')
         		
@@ -157,7 +256,10 @@ function p.RecurringList(Pages, Series)
         					
             		end
         		end
-        		table.insert(Results, "* '''[[" .. Page.fulltext .. "]]''' (" .. #Episodes .. "): " .. table.concat(List, ", "))
+        		table.insert(Results, "* '''[[" .. Page .. "]]''' (" .. #Episodes .. "): " .. table.concat(List, ", "))
+        	else
+        		-- Episode is NULL or number of episodes is LESS the set value
+        		--table.insert(Results, "* NULL or ZERO Episodes - " .. mw.text.nowiki('[[Serie::' .. Series .. ']][[Personaggio::' .. Page .. ']]|sort=Numero di produzione|order=asc'))
         	end
     	end
     else
