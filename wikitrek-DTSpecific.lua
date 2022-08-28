@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-07-12T17:31:08+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-08-28T10:58:23+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTSpecific
 --- This module represent the package containing specific functions to access data from the WikiBase instance DataTrek
 -- @module p
@@ -215,6 +215,7 @@ function p.SecBoxContent(frame)
 	local Seasons
 	local Series
 	local Preposizione
+	local Others
 	
 	--Series
 	if frame.args[1] ~= nil then
@@ -229,6 +230,12 @@ function p.SecBoxContent(frame)
 	--Short  = mw.wikibase.getEntity(SeriesQ).claims['P24'][1].mainsnak.datavalue['value']
 	Short  = Series.claims['P24'][1].mainsnak.datavalue['value']
 	
+	if Short == "Serie Classica" or Short == "Serie Animata" then
+		Preposizione = "della"
+	else
+		Preposizione = "di"
+	end
+		
 	CategoryNames = {"SHORT|Serie", "Personaggi PREPOSIZIONE SHORT|Personaggi", "Episodi PREPOSIZIONE SHORT|Episodi", "SHORT - Ordine di produzione|Ordine di produzione", "SHORT - Titoli italiani|Titoli italiani"}
 	
 	UL = mw.html.create('ul')
@@ -238,13 +245,7 @@ function p.SecBoxContent(frame)
 	
 	for _, Name in ipairs(CategoryNames) do
 		local Item
-		
-		if Short == "Serie Classica" or Short == "Serie Animata" then
-			Preposizione = "della"
-		else
-			Preposizione = "di"
-		end
-		
+	
 		Name = string.gsub(Name, "PREPOSIZIONE", Preposizione)
 		Item = "[[:Categoria:" .. string.gsub(Name, "SHORT", Short) .. "]]"
 		
@@ -279,7 +280,19 @@ function p.SecBoxContent(frame)
 		Seasons = tostring(UL)
 	end
 	
-	--Series
+	--Other pages
+	UL = mw.html.create('ul')
+	UL
+		:attr('class', "compactul")
+		:attr('title', "Altre pagine")
+		
+	LI =  mw.html.create('li')
+	LI:wikitext("[[Personaggi ricorrenti " .. Preposizione .. " " .. Short .. "]]")
+	UL:node(LI)
+	
+	Others = tostring(UL)
+	
+	--All Series
 	local SeriesQuery = mw.smw.getQueryResult('[[Istanza::Serie]]|?Abbreviazione|sort=Ordinale|order=asc')
 	
 	if SeriesQuery == nil then
@@ -304,7 +317,7 @@ function p.SecBoxContent(frame)
     	Series = "''Il risultato non è una TABLE''"
     end
 	
-	return Categories .. "<hr />" .. Seasons .. "<hr />" .. Series 
+	return Categories .. "<hr />" .. Seasons .. "<hr />" .. Others .. "<hr />" .. Series 
 --[==[
 <strong>Categorie</strong>
 <ul class="compactul">
