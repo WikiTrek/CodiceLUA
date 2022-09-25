@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-08-13T16:48:07+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-09-25T22:17:15+02:00
 -- [P2G] This code from page Modulo:wikitrek-FunzioniGeneriche
 -- Keyword: wikitrek
 local p = {} --p stands for package
@@ -287,7 +287,7 @@ function p.ParameterToSemantic(frame)
         	end
         	
         	-- Determine if property is Assignment
-    		if PropValue == "Assegnazione" then
+    		if PropName == "Assegnazione" then
     			-- Look for <i> to get the object of assignment
     			LIPattern = "<li>.-<i>%[%[(.-)%]%]</i>.-</li>"
     		else
@@ -387,5 +387,17 @@ function p.ParameterToSemanticTest(frame)
 		table.insert(FinalArray, Item)
 	end
 	return mw.text.nowiki(table.concat(FinalArray, Separator) .. SepDeclaration)
+end
+--- Check if a file is SVG and validate it
+-- 
+-- @param frame The interface to the parameters passed to {{#invoke:}}
+-- @return Processed string
+function p.SVGChackValidate(frame)
+	local ValidateURI = "http://validator.w3.org/check?uri="
+	local FileTitle
+	
+	FileTitle =  mw.title.getCurrentTitle()	
+	
+	return FileTitle.fullText .. "<br />" .. FileText.fullUrl
 end
 return p
