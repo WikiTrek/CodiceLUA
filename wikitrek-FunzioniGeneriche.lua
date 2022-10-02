@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-09-25T22:17:15+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-10-02T14:38:16+02:00
 -- [P2G] This code from page Modulo:wikitrek-FunzioniGeneriche
 -- Keyword: wikitrek
 local p = {} --p stands for package
@@ -395,9 +395,16 @@ end
 function p.SVGChackValidate(frame)
 	local ValidateURI = "http://validator.w3.org/check?uri="
 	local FileTitle
-	
+	local MediaURI
+
 	FileTitle =  mw.title.getCurrentTitle()	
-	
-	return FileTitle.fullText .. "<br />" .. FileText.fullUrl
+	if string.lower(string.sub(Filetitle.fullText, -4)) == ".svg" then
+		--file is Scalable Vector Graphics
+		MediaURI = frame:callParserFunction('filepath:' .. string.sub(FileTitle.fullText, 6))
+		--return FileTitle.fullText .. "<br />" .. FileTitle:fullUrl() .. "<br />" .. FileTitle:localUrl() .. "<br />" .. FileTitle:canonicalUrl() .. "<br />" .. MediaURI
+		return "== Validazione ==" .. string.char(10) .. ValidateURI .. mw.uri.encode(MediaURI, "PATH")
+	else
+		return nil
+	end
 end
 return p
