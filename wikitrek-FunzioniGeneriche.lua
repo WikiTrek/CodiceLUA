@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-10-02T18:50:49+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-10-02T18:54:55+02:00
 -- [P2G] This code from page Modulo:wikitrek-FunzioniGeneriche
 -- Keyword: wikitrek
 local p = {} --p stands for package
@@ -392,7 +392,7 @@ end
 -- 
 -- @param frame The interface to the parameters passed to {{#invoke:}}
 -- @return Processed string
-function p.SVGChackValidate(frame)
+function p.SVGValidate(frame)
 	local ValidateURI = "http://validator.w3.org/check?uri="
 	local FileTitle
 	local MediaURI
