@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-08-28T10:58:23+02:00
+-- [P2G] Auto upload by PageToGitHub on 2022-10-03T22:57:11+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTSpecific
 --- This module represent the package containing specific functions to access data from the WikiBase instance DataTrek
 -- @module p
@@ -193,7 +193,7 @@ function p.ListAppearances(frame)
     end
 	
 	for ID, Group in pairs(FinalArray) do
-		FinalString = FinalString .. "* [[" .. ID .. "]]: [[" .. table.concat(Group, "]], [[") .. "]]" .. string.char(10)
+		FinalString = FinalString .. "* '''[[" .. ID .. "]]''': [[" .. table.concat(Group, "]], [[") .. "]]" .. string.char(10)
 	end
 	
 	return FinalString
@@ -216,11 +216,16 @@ function p.SecBoxContent(frame)
 	local Series
 	local Preposizione
 	local Others
+	local Separator ="<hr />"
+	local FullOutput = true
+	local Output = {}
 	
 	--Series
 	if frame.args[1] ~= nil then
 		--Function is called from unliked page
 		Series = mw.wikibase.getEntity(frame.args[1])
+		Separator = " | "
+		FullOutput = false
 	elseif mw.wikibase.getEntity().claims["P14"][1].mainsnak.datavalue.value.id == "Q13" then
 		Series = mw.wikibase.getEntity()
 	else
@@ -255,6 +260,8 @@ function p.SecBoxContent(frame)
 	end
 	Categories = tostring(UL)
 	
+	table.insert(Output, Categories)
+	
 	Quantity = SeasonsQty(Short)
 	--mw.smw.set("Numero di stagioni = " .. Quantity)
 	if Quantity < 1 then
@@ -278,46 +285,54 @@ function p.SecBoxContent(frame)
 			UL:node(LI)
 		end
 		Seasons = tostring(UL)
+		table.insert(Output, Seasons)
 	end
 	
-	--Other pages
-	UL = mw.html.create('ul')
-	UL
-		:attr('class', "compactul")
-		:attr('title', "Altre pagine")
-		
-	LI =  mw.html.create('li')
-	LI:wikitext("[[Personaggi ricorrenti " .. Preposizione .. " " .. Short .. "]]")
-	UL:node(LI)
-	
-	Others = tostring(UL)
-	
-	--All Series
-	local SeriesQuery = mw.smw.getQueryResult('[[Istanza::Serie]]|?Abbreviazione|sort=Ordinale|order=asc')
-	
-	if SeriesQuery == nil then
-        Series = "''Nessun risultato''"
-    end
-
-    if type(SeriesQuery) == "table" then
-    	UL = mw.html.create('ul')
+	if FullOutput then 
+		--Other pages
+		UL = mw.html.create('ul')
 		UL
 			:attr('class', "compactul")
-			:attr('title', "Tutte le serie")
-    	for _, CurrSeries in ipairs(SeriesQuery.results) do
-    		--In the output, example:
-    		--"fulltext": "Star Trek: Strange New Worlds",
-    		LI =  mw.html.create('li')
-        	LI:wikitext("[[" .. CurrSeries.fulltext .. "|" .. CurrSeries.printouts.Abbreviazione[1] .. "]]")
-        	
-        	UL:node(LI)
-    	end
-    	Series = tostring(UL)
-    else
-    	Series = "''Il risultato non è una TABLE''"
-    end
+			:attr('title', "Altre pagine")
+			
+		LI =  mw.html.create('li')
+		LI:wikitext("[[Personaggi ricorrenti " .. Preposizione .. " " .. Short .. "]]")
+		UL:node(LI)
+		
+		Others = tostring(UL)
+		table.insert(Output, Others)
+	end
 	
-	return Categories .. "<hr />" .. Seasons .. "<hr />" .. Others .. "<hr />" .. Series 
+	if FullOutput then
+		--All Series
+		local SeriesQuery = mw.smw.getQueryResult('[[Istanza::Serie]]|?Abbreviazione|sort=Ordinale|order=asc')
+		
+		if SeriesQuery == nil then
+	        Series = "''Nessun risultato''"
+	    end
+	
+	    if type(SeriesQuery) == "table" then
+	    	UL = mw.html.create('ul')
+			UL
+				:attr('class', "compactul")
+				:attr('title', "Tutte le serie")
+	    	for _, CurrSeries in ipairs(SeriesQuery.results) do
+	    		--In the output, example:
+	    		--"fulltext": "Star Trek: Strange New Worlds",
+	    		LI =  mw.html.create('li')
+	        	LI:wikitext("[[" .. CurrSeries.fulltext .. "|" .. CurrSeries.printouts.Abbreviazione[1] .. "]]")
+	        	
+	        	UL:node(LI)
+	    	end
+	    	Series = tostring(UL)
+	    else
+	    	Series = "''Il risultato non è una TABLE''"
+	    end
+	    table.insert(Output, Series)
+	end
+
+	--return Categories .. "<hr />" .. Seasons .. "<hr />" .. Others .. "<hr />" .. Series 
+	return table.concat(Output, Separator)
 --[==[
 <strong>Categorie</strong>
 <ul class="compactul">
