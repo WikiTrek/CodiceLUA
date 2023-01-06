@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-10-02T18:54:55+02:00
+-- [P2G] Auto upload by PageToGitHub on 2023-01-06T15:08:56+01:00
 -- [P2G] This code from page Modulo:wikitrek-FunzioniGeneriche
 -- Keyword: wikitrek
 local p = {} --p stands for package
@@ -286,6 +286,7 @@ function p.ParameterToSemantic(frame)
         		ParaString = "<li>" .. ParaString .. "</li>"
         	end
         	
+        	--[=[
         	-- Determine if property is Assignment
     		if PropName == "Assegnazione" then
     			-- Look for <i> to get the object of assignment
@@ -293,7 +294,20 @@ function p.ParameterToSemantic(frame)
     		else
     			LIPattern = "<li>.-%[%[(.-)%]%].-</li>"
     		end
-				
+    		]=]
+    	
+    		LIPattern = "<li>.-%[%[(.-)%]%].-</li>"
+    		
+    		-- Determine if property is Assignment, so process a string like:
+    		-- [[Timeline 2267|2267]] <i>[[USS Enterprise NCC-1701|USS Enterprise]]</i>
+    		if PropName == "Assegnazione" then
+    			-- then remove italic
+    			ParaString = string.gsub(ParaString, "<i>", "")
+    			ParaString = string.gsub(ParaString, "</i>", "")
+    			-- then remove Timeline
+    			ParaString = string.gsub(ParaString, "(%[%[Timeline.-%]%])", "")
+    		end
+			
     		--Process UL or OL
     		for Item in string.gmatch(ParaString, LIPattern) do
     			Item = string.gsub(Item, "(|.*)", "")
