@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2023-01-06T15:08:56+01:00
+-- [P2G] Auto upload by PageToGitHub on 2023-01-19T23:02:56+01:00
 -- [P2G] This code from page Modulo:wikitrek-FunzioniGeneriche
 -- Keyword: wikitrek
 local p = {} --p stands for package
@@ -360,6 +360,10 @@ function p.PerformersToSemantic(frame)
 	for FullRow in string.gmatch(InputString, "%*.-\n") do
 		local Character
 		local Performer
+		
+		--Remove italic
+		FullRow = string.gsub(FullRow, "<i>", "")
+    	FullRow = string.gsub(FullRow, "</i>", "")
 		--print (FullRow)
 		local CountLiks = select(2, string.gsub(FullRow, "%[%[", ""))
 		--print (CountLiks)
