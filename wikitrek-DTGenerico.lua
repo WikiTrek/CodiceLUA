@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-07-17T11:56:00+02:00
+-- [P2G] Auto upload by PageToGitHub on 2023-02-18T11:55:42+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -108,7 +108,7 @@ function p.ListAllP(frame)
 		IsEpisode = frame.args['IsEpisode']
 	end
 	
-	ExcludeP = {P3 = true, P7 = true, P8 = true, P11 = true, P21 = IsEpisode, P23 = true, P26 = true, P37 = true,  P46 = true, P58 = true, P68 = true, P52 = true, P79 = true, P90 = true}
+	ExcludeP = {P3 = true, P7 = true, P8 = true, P11 = true, P21 = IsEpisode, P23 = true, P26 = true, P37 = true,  P46 = true, P58 = true, P68 = true, P52 = true, P79 = true, P90 = true, P104 = true, P162 = true}
 	
 	AllP = mw.wikibase.orderProperties(Item:getProperties())
 	--Debug: list unsorted and sorted properties
@@ -213,7 +213,7 @@ function p.ListAllP(frame)
 				local Values = Item['claims'][Property]
 				local AccValues = {}
 				--mw.smw.set("OperatorName3=" .. OperatorName)
-				for _, SnakValue in pairs(Values) do
+				for _, SnakValue in ipairs(Values) do
 					local Value = SnakValue.mainsnak.datavalue['value']
 					--mw.smw.set("OperatorName4=" .. OperatorName)
 					if (type(Value) == "table") then
@@ -253,7 +253,9 @@ function p.ListAllP(frame)
 								end
 							end
 							--AccValues[#AccValues + 1] = LabelOrLink(SnakValue.qualifiers['P73'][1].datavalue.value['id']) .. " " .. LabelOrLink(Value['id']) .. ", " .. LabelOrLink(SnakValue.qualifiers['P76'][1].datavalue.value['id']) .. ", " .. LabelOrLink(SnakValue.qualifiers['P77'][1].datavalue.value['id'])
-							AccValues[#AccValues + 1] = Assignment
+							--AccValues[#AccValues + 1] = Assignment
+							table.insert(AccValues, Assignment)
+							table.sort(AccValues)
 						elseif Value['entity-type'] == 'item' then
 							--mw.smw.set("OperatorName5=" .. OperatorName)
 							-- Process a generic Item
