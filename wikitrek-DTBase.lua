@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-06-24T15:17:05+02:00
+-- [P2G] Auto upload by PageToGitHub on 2023-02-26T18:05:49+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTBase
 --- This module represent the package containing basic functions to access data from the WikiBase instance DataTrek
 -- @module p
@@ -12,7 +12,7 @@ function p.Epilogo(frame)
 	return frame:expandTemplate{ title = 'paginecheportanoqui' } .. DoubleReturn .. "== Collegamenti esterni ==" .. DoubleReturn .. p.ExtLinks(frame) .. DoubleReturn .. "==" .. frame:expandTemplate{ title = 'Etichetta', args = {Tipo=Annotazioni} } .. "==" .. string.char(10) ..  mw.text.nowiki("<references/>") .. DoubleReturn .. string.char(10) .. frame:expandTemplate{ title = 'NavGlobale' }  .. "categorie"
 end
 function p.ExtLinks(frame)
-	local AllRows
+	local AllRows = ""
 	local Item = mw.wikibase.getEntity()
 	if not Item then
 		Item = mw.wikibase.getEntity('Q1')
@@ -24,6 +24,7 @@ function p.ExtLinks(frame)
 		local LinkTitle = LinkStatement['qualifiers']['P20'][1].datavalue['value']
 		local LinkID
 		local LinkWiki
+		local ExternalIDList = ""
 		
 		if not LinkStatement['qualifiers']['P19'] then
 			LinkWiki = frame:expandTemplate{title='LinkTrek', args={LinkURI, LinkTitle}}
@@ -39,13 +40,24 @@ function p.ExtLinks(frame)
 		end
 	end
 	
+	--[=[
 	if not AllRows then
 		--AllRows = "''Nessun collegamento generico [[:datatrek:Item:" .. mw.wikibase.getEntityIdForCurrentPage() .. "|trovato su DataTrek]]''"
 		AllRows = "''Nessun collegamento generico trovato su DataTrek''"
 	end
-		
-	--return AllRows .. string.char(10) .. string.char(10) .. "=== Interwiki ===" .. string.char(10) .. "* " .. frame:expandTemplate{title = 'InterlinkMA', args = {Nome=Item:getSitelink("enma")}} .. string.char(10) .. p.SiteLinksInterwiki()
-	return AllRows .. string.char(10) .. string.char(10) .. "=== Interwiki ===" .. string.char(10) .. p.SiteLinksInterwiki() .. string.char(10) .. "=== Identificativi esterni ===" .. string.char(10) .. p.ExternalID()
+	]=]
+
+	if AllRows ~= "" then
+		AllRows = AllRows .. string.char(10) .. string.char(10)
+	end
+	
+	ExternalIDList = p.ExternalID()
+	
+	if ExternalIDList ~= nil and ExternalIDList ~= "" then
+		ExternalIDList = string.char(10) .. "=== Identificativi esterni ===" .. string.char(10) .. ExternalIDList
+	end
+	
+	return AllRows .. "=== Interwiki ===" .. string.char(10) .. p.SiteLinksInterwiki() .. ExternalIDList
 end
 function p.Categories(frame)
 	local Opening = '[[Category:'
