@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2023-02-18T11:55:42+01:00
+-- [P2G] Auto upload by PageToGitHub on 2023-02-26T11:01:22+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -150,6 +150,7 @@ function p.ListAllP(frame)
 	for _, Property in ipairs(AllP) do
 		table.insert(ListProp, Property)
 		if (not ExcludeP[Property]) and Item.claims[Property][1].mainsnak.datatype ~= 'external-id' then
+			-- START specific property
 			if Property == "P46" then
 				-- Collection
 				CollectionTable = string.char(10) .. MakeNavTable(Item.claims[Property][1].qualifiers, Item.claims[Property][1].mainsnak.datavalue.value)
@@ -207,8 +208,9 @@ function p.ListAllP(frame)
 					mw.smw.set("Operatore=" .. OperatorTree(frame))
 				end]==]
 				--mw.smw.set("OperatorName2=" .. OperatorName)
+			-- END specific property
 			else
-				-- Unspecified Property
+				-- START Unspecified Property
 				local Header = {Property, (mw.wikibase.getLabelByLang(Property, 'it') or mw.wikibase.getLabel(Property))} -- .. ":"} -- or {Property, mw.wikibase.getLabel(Property) .. ":"} --'-' .. Property .. ":"}
 				local Values = Item['claims'][Property]
 				local AccValues = {}
@@ -217,7 +219,9 @@ function p.ListAllP(frame)
 					local Value = SnakValue.mainsnak.datavalue['value']
 					--mw.smw.set("OperatorName4=" .. OperatorName)
 					if (type(Value) == "table") then
-						if Property == "P72" then --CASE Assigments
+						-- DataValue is an array
+						if Property == "P72" then
+							--CASE Assigments
 							local Assignment = ""
 							if SnakValue.qualifiers ~= nil then
 								-- Timeline year
@@ -361,6 +365,15 @@ function p.ListAllP(frame)
 						else
 							AccValues[#AccValues + 1] = 'Unspecified TABLE'
 						end
+					elseif SnakValue.mainsnak.datatype == 'url' then
+							--URL, URI or URN
+							local URLString
+							URLString = SnakValue.mainsnak.datavalue.value
+							if SnakValue.qualifiers['P20'][1].datavalue.value ~= nil then
+								--Label is present
+								URLString = "[" .. URLString .. " " .. mw.text.nowiki(SnakValue.qualifiers['P20'][1].datavalue.value) .. "]"
+							end
+							table.insert(AccValues, URLString)
 					else
 						-- String items
 						AccValues[#AccValues + 1] = Value
@@ -370,6 +383,7 @@ function p.ListAllP(frame)
 					end
 				end
 				AllRows[#AllRows + 1] = {Header, AccValues}
+			-- END Unspecified Property
 			end
 		end
 	end
