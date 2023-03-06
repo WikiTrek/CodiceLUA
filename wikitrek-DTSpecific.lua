@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-10-03T22:57:11+02:00
+-- [P2G] Auto upload by PageToGitHub on 2023-03-06T11:09:01+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTSpecific
 --- This module represent the package containing specific functions to access data from the WikiBase instance DataTrek
 -- @module p
@@ -11,6 +11,8 @@ local concat
 local print
 local QFromP = require('Modulo:DTGenerico').QFromP
 local SeasonsQty = require('Modulo:DTSem').SeasonsQty
+local LabelOrLink = require('Modulo:DTBase').LabelOrLink
+
 --- generates a list of backlink using SMW query.
 -- 
 -- @frame Info from MW session
@@ -199,11 +201,33 @@ function p.ListAppearances(frame)
 	return FinalString
 end
 
---- Content of secondary box
+--- Content of a generic secondary box
 -- 
 -- @frame Info from MW session
 -- @return Wikitext to inject in template
 function p.SecBoxContent(frame)
+	local SeriesQ
+	local Series
+	local Short
+	local CategoryNames = {}
+	local UL
+	local LI
+	local Quantity
+	local Categories
+	local Seasons
+	local Series
+	local Preposizione
+	local Others
+	local Separator ="<hr />"
+	local FullOutput = true
+	local Output = {}
+end
+
+--- Content of secondary box
+-- 
+-- @frame Info from MW session
+-- @return Wikitext to inject in template
+function p.SecBoxSeries(frame)
 	local SeriesQ
 	local Series
 	local Short
@@ -344,6 +368,36 @@ function p.SecBoxContent(frame)
 </ul>
 <hr />
 ]==]
+end
+
+--- Listo of "motto" sentences (P104) for Template:BoxAvvisi
+-- 
+-- @frame Info from MW session
+-- @return Wikitext to inject in template
+function p.MottoBoxes(frame)
+	local Subject
+	local Boxes = {}
+	--Series
+	if frame.args[1] ~= nil then
+		--Function is called from unliked page
+		Subject = mw.wikibase.getEntity(frame.args[1])
+	else
+		Subject = mw.wikibase.getEntity()
+	end
+	
+	for _, Motto in ipairs(Subject.claims["P104"]) do
+		local Sentence
+		local Author
+		local Reference
+		
+		Sentence = Motto.mainsnak.datavalue.value
+		Author = LabelOrLink(Motto.qualifiers["P47"][1].datavalue.value.id)
+		Reference =LabelOrLink(Motto.qualifiers["P58"][1].datavalue.value.id)
+		
+		table.insert(Boxes, frame:expandTemplate{ title = 'quote', args = {text = Sentence, sign = Author, source = Reference} })
+	end
+	
+	return table.concat(Boxes, string.char(10))
 end
 
 --- This dumps the variable (converts it into a string representation of itself)
