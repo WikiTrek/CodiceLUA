@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2023-03-21T11:21:16+01:00
+-- [P2G] Auto upload by PageToGitHub on 2023-03-21T11:26:47+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTSpecific
 --- This module represent the package containing specific functions to access data from the WikiBase instance DataTrek
 -- @module p
@@ -238,6 +238,7 @@ function p.SecBoxBuilder(frame)
 		end
 		
 		Series = SeriesTree(frame)
+		BoxContent = BoxContent .. "<span class='titoletto'>Serie</span>"
 		BoxContent = BoxContent .. Series
 		BoxTitle = "Titolo BoxSecEpisodio"
 		--BoxContent = "Contenuto BoxSecEpisodio<br />" .. Series
