@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2023-03-21T11:26:47+01:00
+-- [P2G] Auto upload by PageToGitHub on 2023-03-21T12:26:58+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTSpecific
 --- This module represent the package containing specific functions to access data from the WikiBase instance DataTrek
 -- @module p
@@ -284,8 +284,8 @@ end
 -- @return Wikitext to inject in template
 function p.SecBoxSeries(frame)
 	local SeriesQ
-	local Series
-	local Short
+	local Series = ""
+	local Short = ""
 	local CategoryNames = {}
 	local UL
 	local LI
@@ -306,10 +306,15 @@ function p.SecBoxSeries(frame)
 		Separator = " | "
 		FullOutput = false
 	elseif mw.wikibase.getEntity().claims["P14"][1].mainsnak.datavalue.value.id == "Q13" then
+		--Instance of the item is "Series"
 		Series = mw.wikibase.getEntity()
-	else
+	elseif mw.wikibase.getEntity().claims["P16"] ~= nil then
 		Series = mw.wikibase.getEntity(QFromP("P16"))
+	else
+		--Episode
+		Series = mw.wikibase.getEntity(mw.wikibase.getEntity(QFromP("P14")).claims["P16"][1].mainsnak.datavalue.value.id)
 	end
+	
 	--Short name of the series
 	--Short  = mw.wikibase.getEntity(SeriesQ).claims['P24'][1].mainsnak.datavalue['value']
 	Short  = Series.claims['P24'][1].mainsnak.datavalue['value']
@@ -342,7 +347,7 @@ function p.SecBoxSeries(frame)
 	table.insert(Output, Categories)
 	
 	Quantity = SeasonsQty(Short)
-	--mw.smw.set("Numero di stagioni = " .. Quantity)
+	--mw.smw.set("Numero di stagioni = " .. Short)
 	if Quantity < 1 then
 		Seasons = "Errore: <1"
 	else
