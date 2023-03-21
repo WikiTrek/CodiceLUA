@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2023-03-06T11:09:01+01:00
+-- [P2G] Auto upload by PageToGitHub on 2023-03-21T11:21:16+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTSpecific
 --- This module represent the package containing specific functions to access data from the WikiBase instance DataTrek
 -- @module p
@@ -12,6 +12,8 @@ local print
 local QFromP = require('Modulo:DTGenerico').QFromP
 local SeasonsQty = require('Modulo:DTSem').SeasonsQty
 local LabelOrLink = require('Modulo:DTBase').LabelOrLink
+--local PropertiesOnTree = require('Modulo:DTFunzioniComuni').PropertiesOnTree
+local SeriesTree = require('Modulo:DTFunzioniComuni').SeriesTree
 
 --- generates a list of backlink using SMW query.
 -- 
@@ -205,9 +207,13 @@ end
 -- 
 -- @frame Info from MW session
 -- @return Wikitext to inject in template
-function p.SecBoxContent(frame)
+function p.SecBoxBuilder(frame)
+	local TemplateName	
+	local BoxTitle = ""
+	local BoxContent = ""
+	
+	
 	local SeriesQ
-	local Series
 	local Short
 	local CategoryNames = {}
 	local UL
@@ -221,6 +227,54 @@ function p.SecBoxContent(frame)
 	local Separator ="<hr />"
 	local FullOutput = true
 	local Output = {}
+	
+	-- Get page name and clean to get the name
+	TemplateName = string.gsub(frame:getParent():getTitle(), "Template:", "")
+	
+	if TemplateName == "BoxSecEpisodio" then
+		if mw.wikibase.getEntity().claims["P162"] ~= nil then
+			BoxContent = BoxContent .. "<span class='titoletto'>Presentazione</span>"
+			BoxContent = BoxContent .. "<p>" ..  mw.wikibase.getEntity().claims["P162"][1].mainsnak.datavalue.value .. "</p>"
+		end
+		
+		Series = SeriesTree(frame)
+		BoxContent = BoxContent .. Series
+		BoxTitle = "Titolo BoxSecEpisodio"
+		--BoxContent = "Contenuto BoxSecEpisodio<br />" .. Series
+	else
+		--Series
+	if frame.args[1] ~= nil then
+		--Function is called from unliked page
+		Series = mw.wikibase.getEntity(frame.args[1])
+		Separator = " | "
+		FullOutput = false
+	elseif mw.wikibase.getEntity().claims["P14"][1].mainsnak.datavalue.value.id == "Q13" then
+		-- Page is instance of Series
+		Series = mw.wikibase.getEntity()
+	elseif  mw.wikibase.getEntity().claims["P16"] ~= nil then
+		Series = mw.wikibase.getEntity(QFromP("P16"))
+	else
+		-- Fall back to Short Treks
+		Series = mw.wikibase.getEntity("Q8537")
+	end
+		
+		
+		BoxTitle = "Titolo " .. TemplateName
+		BoxContent = "Contenuto " .. TemplateName
+	end	
+	
+	
+	
+	--[=[
+	Output example
+	
+	{{BoxSecondario
+	|Titolo= Serie {{#if: {{#statements:P16}} | {{#statements:P16}} | ''No P16<!--{{#statements:P24}}-->'' }}
+	|Contenuto={{#invoke:DTSpecific|SecBoxSeries|Q66}} 
+	|Nome=BoxSecEpisodio
+	}}
+	--]=]
+	return frame:expandTemplate{title = 'BoxSecondario', args = {Titolo = BoxTitle,  Contenuto = BoxContent, Nome = TemplateName}}
 end
 
 --- Content of secondary box
