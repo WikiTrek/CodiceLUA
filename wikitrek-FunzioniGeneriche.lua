@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2023-01-19T23:02:56+01:00
+-- [P2G] Auto upload by PageToGitHub on 2023-03-26T15:47:13+02:00
 -- [P2G] This code from page Modulo:wikitrek-FunzioniGeneriche
 -- Keyword: wikitrek
 local p = {} --p stands for package
@@ -242,7 +242,9 @@ function p.ShipNameCore(designation)
 		FullName = FullName:gsub((Prefix), "")
 	end
 	
-	--Removes suffix
+	--Removes suffix year or number specification
+	FullName = FullName:gsub("%s%(%d+%)", "")
+	--Removes suffix registry number
 	FullName = FullName:gsub("%s[^%s]+$", "")
 	
 	return FullName
