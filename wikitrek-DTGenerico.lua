@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2023-02-26T11:01:22+01:00
+-- [P2G] Auto upload by PageToGitHub on 2023-04-24T22:35:52+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -214,6 +214,7 @@ function p.ListAllP(frame)
 				local Header = {Property, (mw.wikibase.getLabelByLang(Property, 'it') or mw.wikibase.getLabel(Property))} -- .. ":"} -- or {Property, mw.wikibase.getLabel(Property) .. ":"} --'-' .. Property .. ":"}
 				local Values = Item['claims'][Property]
 				local AccValues = {}
+				local Year = ""
 				--mw.smw.set("OperatorName3=" .. OperatorName)
 				for _, SnakValue in ipairs(Values) do
 					local Value = SnakValue.mainsnak.datavalue['value']
@@ -223,10 +224,12 @@ function p.ListAllP(frame)
 						if Property == "P72" then
 							--CASE Assigments
 							local Assignment = ""
+							local AssLabel = ""
 							if SnakValue.qualifiers ~= nil then
 								-- Timeline year
 								if SnakValue.qualifiers['P73'] ~= nil then
-									Assignment = LabelOrLink(SnakValue.qualifiers['P73'][1].datavalue.value['id']) .. " "
+									Year = LabelOrLink(SnakValue.qualifiers['P73'][1].datavalue.value['id'])
+									Assignment = Year .. " "
 								end
 							
 								-- Prefix
@@ -235,10 +238,15 @@ function p.ListAllP(frame)
 								end
 							end
 							
+							-- If Wikitrek label (P20) is present, force it 
+							if SnakValue.qualifiers['P20'] ~= nil then
+								AssLabel = SnakValue.qualifiers['P20'][1].datavalue.value
+							end
+							
 							if AddSemantic then
-								Assignment = Assignment .. LabelOrLink(Value['id'], "Assegnazione", true)
+								Assignment = Assignment .. LabelOrLink(Value['id'], "Assegnazione", true, AssLabel)
 							else
-								Assignment = Assignment .. LabelOrLink(Value['id'])
+								Assignment = Assignment .. LabelOrLink(Value['id'], "", false, AssLabel)
 							end
 							
 							if SnakValue.qualifiers ~= nil then
@@ -291,6 +299,10 @@ function p.ListAllP(frame)
 							-- Suffix
 							if SnakValue.qualifiers and SnakValue.qualifiers['P19'] then
 								GenericItem = GenericItem .. " " .. SnakValue.qualifiers['P19'][1].datavalue.value
+							end
+							
+							if SnakValue.qualifiers and SnakValue.qualifiers['P73'] ~= nil and Year == "" then
+								GenericItem = GenericItem .. " (" .. LabelOrLink(SnakValue.qualifiers['P73'][1].datavalue.value['id']) .. ")"
 							end
 				
 							AccValues[#AccValues + 1] = GenericItem --.. "|" .. Header[2] .. "|" .. tostring(AddSemantic)
