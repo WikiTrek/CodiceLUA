@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2023-04-24T22:35:52+02:00
+-- [P2G] Auto upload by PageToGitHub on 2023-12-02T10:22:49+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -239,7 +239,7 @@ function p.ListAllP(frame)
 							end
 							
 							-- If Wikitrek label (P20) is present, force it 
-							if SnakValue.qualifiers['P20'] ~= nil then
+							if SnakValue.qualifiers ~= nil and SnakValue.qualifiers['P20'] ~= nil then
 								AssLabel = SnakValue.qualifiers['P20'][1].datavalue.value
 							end
 							
