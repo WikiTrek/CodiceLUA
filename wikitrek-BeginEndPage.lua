@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2023-12-09T16:02:38+01:00
+-- [P2G] Auto upload by PageToGitHub on 2023-12-09T16:36:55+01:00
 -- [P2G] This code from page Modulo:wikitrek-BeginEndPage
 -- <nowiki>
 --------------------------------------------------------------------------------
@@ -59,7 +59,7 @@ function p.UniversalBoxes(frame)
 	local FinalString
 	
 	FinalString = frame:expandTemplate{title = 'BoxSecInstallazioni'}
-	FinalString = PropertiesOnTree("P177", 3, false)
+	FinalString = PropertiesOnTree("P177", 3, false, false, true)
 
 	return FinalString
 end
