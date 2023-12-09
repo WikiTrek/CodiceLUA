@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2023-12-09T16:36:55+01:00
+-- [P2G] Auto upload by PageToGitHub on 2023-12-09T17:19:03+01:00
 -- [P2G] This code from page Modulo:wikitrek-BeginEndPage
 -- <nowiki>
 --------------------------------------------------------------------------------
@@ -55,12 +55,14 @@ end
 -- @param frame Data from MW session
 -- @return String with expanded templates
 --------------------------------------------------------------------------------
-function p.UniversalBoxes(frame)
+function p.SecondaryBox(frame)
 	local FinalString
+	local NSPrefix = "Template:"
+	local PropertyNumber = "P177"
 	
-	FinalString = frame:expandTemplate{title = 'BoxSecInstallazioni'}
-	FinalString = PropertiesOnTree("P177", 3, false, false, true)
-
+	--FinalString = string.sub(PropertiesOnTree("P177", 3, false, false, true), string.len(NSPrefix))
+	FinalString = frame:expandTemplate{title = string.sub(PropertiesOnTree(PropertyNumber, 3, false, false, true), string.len(NSPrefix))}
+	
 	return FinalString
 end
 return p
