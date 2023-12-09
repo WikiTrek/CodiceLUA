@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2023-12-08T18:31:38+01:00
+-- [P2G] Auto upload by PageToGitHub on 2023-12-09T15:37:59+01:00
 -- [P2G] This code from page Modulo:wikitrek-BeginEndPage
 -- <nowiki>
 --------------------------------------------------------------------------------
@@ -47,16 +47,16 @@ function p._buildUniversalIncipit(args)
 	return ret
 end
 --------------------------------------------------------------------------------
--- Function to construct content for Box Secondario
+-- Function to launch template for DataBoxes
 -- Specific for Template:IncipitUniversale
 --
 -- @param frame Data from MW session
--- @return String with HTML content
+-- @return String with expanded templates
 --------------------------------------------------------------------------------
-function p.BoxSecContent(frame)
+function p.UniversalBoxes(frame)
 	local FinalString
 	
-	FinalString = "<span class='titoletto'>Primo</span>Test 1<hr /><span class='titoletto'>Altri</span>Test 2"
+	FinalString = frame:expandTemplate{title = 'BoxSecInstallazioni'}
 	
 	return FinalString
 end
