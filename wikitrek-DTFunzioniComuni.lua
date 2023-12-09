@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2022-06-21T09:23:39+02:00
+-- [P2G] Auto upload by PageToGitHub on 2023-12-09T16:05:58+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTFunzioniComuni
 -- Keyword: wikitrek
 
@@ -73,19 +73,27 @@ function p.LinkFromPage(frame)
 	end
 	return table.concat(results, ', ')
 end
---- Three dashes indicate the beginning of a function or field documented
--- using the LDoc format
+
+--------------------------------------------------------------------------------
+-- Return a specific Property from Item and/or Instance and/or
+-- Instance of Instance.
+-- Return the single or multiple values of the Property
+--
 -- @param Property The property whose values are returned
--- @param Depth How far to go on the tree: 1 - item only, 2 - item and Instance, 3 - item, Instance and Instance of Instance
--- @param Aggregate Wether to aggregate results or return the first found
--- @param SkipItem Don't return value for current item, Instance and Instance of Instance only
--- @return Table withs strings or wikilinks
+-- @param Depth How far to go on the tree: 1 - item only,
+--                                         2 - item and Instance,
+--                                         3 - item, Instance and
+--                                             Instance of Instance
+-- @param Aggregate Wether to aggregate results or return upon first match
+-- @param SkipItem Don't return value for current item,
+--                 return Instance and Instance of Instance only
+-- @return Table with strings or wikilinks
+--------------------------------------------------------------------------------
 function p.PropertiesOnTree(Property, Depth, Aggregate, SkipItem)
 	local CurrentItem = mw.wikibase.getEntity()
 	local InstanceItem = nil
 	local InstanceInstanceItem = nil
 	local ResultsArray = {}
-	--local ItemQ = mw.wikibase.getEntityIdForCurrentPage()
 	if not CurrentItem then
 		CurrentItem = mw.wikibase.getEntity('Q1')
 	end
@@ -102,11 +110,9 @@ function p.PropertiesOnTree(Property, Depth, Aggregate, SkipItem)
 	
 	if Depth > 1 and CurrentItem['claims']['P14'] then
 		--Set instance of
-		--ResultsArray[#ResultsArray + 1] = ">1"
 		InstanceItem = mw.wikibase.getEntity(CurrentItem['claims']['P14'][1].mainsnak.datavalue.value['id'])
 		if Depth > 2 and InstanceItem['claims']['P14'] then
 			--Set instance of instance
-			--ResultsArray[#ResultsArray + 1] = ">2"
 			InstanceInstanceItem = mw.wikibase.getEntity(InstanceItem['claims']['P14'][1].mainsnak.datavalue.value['id'])
 		end
 	end
@@ -129,24 +135,24 @@ function p.PropertiesOnTree(Property, Depth, Aggregate, SkipItem)
 		QList = {CurrentItem, InstanceItem, InstanceInstanceItem}
 	end
 	
-	--for _, Item in pairs({CurrentItem, InstanceItem, InstanceInstanceItem}) do
 	for _, Item in pairs(QList) do
 		--ResultsArray[#ResultsArray + 1] = "For - " .. Item.id 
 		if Item ~= nil and Item.claims[Property] then
-			--ResultsArray[#ResultsArray + 1] = Item.id .. " - " .. Property
-			--ResultsArray[#ResultsArray + 1] = LabelOrLink(Item.claims[Property][1].mainsnak.datavalue.value.id)
 			local Values = Item.claims[Property]
 			for _, SnakValue in pairs(Values) do
 				if SnakValue.mainsnak.datavalue.value.amount ~= nil then
-					ResultsArray[#ResultsArray + 1] = string.format('%u', SnakValue.mainsnak.datavalue.value.amount)
+					--ResultsArray[#ResultsArray + 1] = string.format('%u', SnakValue.mainsnak.datavalue.value.amount)
+					table.insert(ResultsArray, string.format('%u', SnakValue.mainsnak.datavalue.value.amount))
 				elseif SnakValue.mainsnak.datavalue.value.id ~= nil then
-					ResultsArray[#ResultsArray + 1] = LabelOrLink(SnakValue.mainsnak.datavalue.value.id)
+					--ResultsArray[#ResultsArray + 1] = LabelOrLink(SnakValue.mainsnak.datavalue.value.id)
+					table.insert(ResultsArray, LabelOrLink(SnakValue.mainsnak.datavalue.value.id))
 				else
-					ResultsArray[#ResultsArray + 1] = SnakValue.mainsnak.datavalue.value
+					--ResultsArray[#ResultsArray + 1] = SnakValue.mainsnak.datavalue.value
+					table.insert(ResultsArray, SnakValue.mainsnak.datavalue.value)
 				end
 			end
 			if not Aggregate then
-				return ResultsArray
+				return ResultsArray[1]
 			end
 		end
 	end
