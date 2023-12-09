@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2023-12-09T16:05:58+01:00
+-- [P2G] Auto upload by PageToGitHub on 2023-12-09T18:02:25+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTFunzioniComuni
 -- Keyword: wikitrek
 
@@ -85,11 +85,13 @@ end
 --                                         3 - item, Instance and
 --                                             Instance of Instance
 -- @param Aggregate Wether to aggregate results or return upon first match
--- @param SkipItem Don't return value for current item,
---                 return Instance and Instance of Instance only
--- @return Table with strings or wikilinks
+-- @param[opt=false] SkipItem Don't return value for current item,
+--                            return Instance and Instance of Instance only
+-- @param[opt=false] ForceString Force to return string even in case of Page 
+--                               that should return link
+-- @return Table with single value or array of values
 --------------------------------------------------------------------------------
-function p.PropertiesOnTree(Property, Depth, Aggregate, SkipItem)
+function p.PropertiesOnTree(Property, Depth, Aggregate, SkipItem, ForceString)
 	local CurrentItem = mw.wikibase.getEntity()
 	local InstanceItem = nil
 	local InstanceInstanceItem = nil
@@ -107,6 +109,7 @@ function p.PropertiesOnTree(Property, Depth, Aggregate, SkipItem)
 	if SkipItem == nil then
 		SkipItem = false
 	end
+	ForceString = ForceString or false
 	
 	if Depth > 1 and CurrentItem['claims']['P14'] then
 		--Set instance of
@@ -145,7 +148,7 @@ function p.PropertiesOnTree(Property, Depth, Aggregate, SkipItem)
 					table.insert(ResultsArray, string.format('%u', SnakValue.mainsnak.datavalue.value.amount))
 				elseif SnakValue.mainsnak.datavalue.value.id ~= nil then
 					--ResultsArray[#ResultsArray + 1] = LabelOrLink(SnakValue.mainsnak.datavalue.value.id)
-					table.insert(ResultsArray, LabelOrLink(SnakValue.mainsnak.datavalue.value.id))
+					table.insert(ResultsArray, LabelOrLink(SnakValue.mainsnak.datavalue.value.id, nil, nil, nil, ForceString))
 				else
 					--ResultsArray[#ResultsArray + 1] = SnakValue.mainsnak.datavalue.value
 					table.insert(ResultsArray, SnakValue.mainsnak.datavalue.value)
@@ -160,7 +163,8 @@ function p.PropertiesOnTree(Property, Depth, Aggregate, SkipItem)
 	return ResultsArray
 end
 function p.SeriesTree(frame)
-	return table.concat(p.PropertiesOnTree("P16", 3, false), "</br>")
+	--return table.concat(p.PropertiesOnTree("P16", 3, false), "</br>")
+	return p.PropertiesOnTree("P16", 3, false)
 end
 function p.CategoryTree(frame)
 	local AZInstancesMember = {Q23 = "Personaggi", Q18 = "Specie", Q95 = "Pianeti", Q19 = "Cast", Q52 = "Cast"}
@@ -207,7 +211,8 @@ function p.IconTree(frame)
 	local ImageName
 	
 	--return table.concat(p.PropertiesOnTree("P3", 3, false), "</br>")
-	ImageName = p.PropertiesOnTree("P3", 3, false)[1]
+	--ImageName = p.PropertiesOnTree("P3", 3, false)[1]
+	ImageName = p.PropertiesOnTree("P3", 3, false)
 	if ImageName == nil or ImageName == '' then
 		local CurrentItem
 		
@@ -221,12 +226,15 @@ function p.IconTree(frame)
 	return ImageName
 end
 function p.SeasonTree(frame)
-	return table.concat(p.PropertiesOnTree("P18", 3, false), "</br>")
+	--return table.concat(p.PropertiesOnTree("P18", 3, false), "</br>")
+	return p.PropertiesOnTree("P18", 3, false)
 end
 function p.AffiliationTree(frame)
-	return table.concat(p.PropertiesOnTree("P40", 3, false), "</br>")
+	--return table.concat(p.PropertiesOnTree("P40", 3, false), "</br>")
+	return p.PropertiesOnTree("P40", 3, false)
 end
 function p.OperatorTree(frame)
-	return table.concat(p.PropertiesOnTree("P41", 3, false), "</br>")
+	--return table.concat(p.PropertiesOnTree("P41", 3, false), "</br>")
+	return p.PropertiesOnTree("P41", 3, false)
 end
 return p
