@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2023-03-26T15:47:13+02:00
+-- [P2G] Auto upload by PageToGitHub on 2023-12-10T22:03:49+01:00
 -- [P2G] This code from page Modulo:wikitrek-FunzioniGeneriche
 -- Keyword: wikitrek
 local p = {} --p stands for package
@@ -80,8 +80,13 @@ function p.TableFromArray(AllRows)
 					end
 					Cell:node(List)
 				else
-					Cell
-						:wikitext(Field[1])
+					if type(Field) == "table" then
+						Cell
+							:wikitext(Field[1])
+					else
+						Cell
+							:wikitext(Field)
+					end
 				end
 			end
 			
@@ -288,17 +293,13 @@ function p.ParameterToSemantic(frame)
         		ParaString = "<li>" .. ParaString .. "</li>"
         	end
         	
-        	--[=[
-        	-- Determine if property is Assignment
-    		if PropName == "Assegnazione" then
-    			-- Look for <i> to get the object of assignment
-    			LIPattern = "<li>.-<i>%[%[(.-)%]%]</i>.-</li>"
-    		else
-    			LIPattern = "<li>.-%[%[(.-)%]%].-</li>"
-    		end
-    		]=]
-    	
-    		LIPattern = "<li>.-%[%[(.-)%]%].-</li>"
+        	if string.find(ParaString, "%[%[") == nil then
+        		-- There is no wikilink, plain text
+        		LIPattern = "<li>(.-)</li>"
+        	else
+        		-- A wikilink is present, discard surrounding text
+        		LIPattern = "<li>.-%[%[(.-)%]%].-</li>"
+        	end
     		
     		-- Determine if property is Assignment, so process a string like:
     		-- [[Timeline 2267|2267]] <i>[[USS Enterprise NCC-1701|USS Enterprise]]</i>
