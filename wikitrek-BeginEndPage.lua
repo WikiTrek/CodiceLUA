@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2023-12-09T17:20:02+01:00
+-- [P2G] Auto upload by PageToGitHub on 2023-12-10T16:10:52+01:00
 -- [P2G] This code from page Modulo:wikitrek-BeginEndPage
 -- <nowiki>
 --------------------------------------------------------------------------------
@@ -59,9 +59,16 @@ function p.SecondaryBox(frame)
 	local FinalString
 	local NSPrefix = "Template:"
 	local PropertyNumber = "P177"
+	local TemplateName
 	
+	--FinalString = PropertiesOnTree("P177", 3, false, false, true)[1]
 	--FinalString = string.sub(PropertiesOnTree("P177", 3, false, false, true), string.len(NSPrefix))
-	FinalString = frame:expandTemplate{title = string.sub(PropertiesOnTree(PropertyNumber, 3, false, false, true), string.len(NSPrefix) + 1)}
+	TemplateName = PropertiesOnTree(PropertyNumber, 3, false, false, true)
+	if type(TemplateName) == "table" or TemplateName == nil or TemplateName == "" then
+		FinalString = ""
+	else
+		FinalString = frame:expandTemplate{title = string.sub(TemplateName, string.len(NSPrefix) + 1)}
+	end
 	
 	return FinalString
 end
