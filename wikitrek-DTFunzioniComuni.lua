@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2023-12-09T18:02:25+01:00
+-- [P2G] Auto upload by PageToGitHub on 2023-12-10T22:28:18+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTFunzioniComuni
 -- Keyword: wikitrek
 
@@ -157,6 +157,8 @@ function p.PropertiesOnTree(Property, Depth, Aggregate, SkipItem, ForceString)
 			if not Aggregate then
 				return ResultsArray[1]
 			end
+		else
+			return nil
 		end
 	end
 	
