@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2023-12-10T22:28:18+01:00
+-- [P2G] Auto upload by PageToGitHub on 2023-12-10T23:42:58+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTFunzioniComuni
 -- Keyword: wikitrek
 
@@ -95,7 +95,7 @@ function p.PropertiesOnTree(Property, Depth, Aggregate, SkipItem, ForceString)
 	local CurrentItem = mw.wikibase.getEntity()
 	local InstanceItem = nil
 	local InstanceInstanceItem = nil
-	local ResultsArray = {}
+	local ResultsArray = nil
 	if not CurrentItem then
 		CurrentItem = mw.wikibase.getEntity('Q1')
 	end
@@ -142,6 +142,11 @@ function p.PropertiesOnTree(Property, Depth, Aggregate, SkipItem, ForceString)
 		--ResultsArray[#ResultsArray + 1] = "For - " .. Item.id 
 		if Item ~= nil and Item.claims[Property] then
 			local Values = Item.claims[Property]
+			-- Only initialize ResultsArray if the Property exist at least once along the tree
+			if ResultsArray == nil then
+				ResultsArray = {}
+			end
+			
 			for _, SnakValue in pairs(Values) do
 				if SnakValue.mainsnak.datavalue.value.amount ~= nil then
 					--ResultsArray[#ResultsArray + 1] = string.format('%u', SnakValue.mainsnak.datavalue.value.amount)
@@ -155,10 +160,8 @@ function p.PropertiesOnTree(Property, Depth, Aggregate, SkipItem, ForceString)
 				end
 			end
 			if not Aggregate then
-				return ResultsArray[1]
+				return table.concat(ResultsArray)
 			end
-		else
-			return nil
 		end
 	end
 	
@@ -172,6 +175,7 @@ function p.CategoryTree(frame)
 	local AZInstancesMember = {Q23 = "Personaggi", Q18 = "Specie", Q95 = "Pianeti", Q19 = "Cast", Q52 = "Cast"}
 	--local CurrentItem = mw.wikibase.getEntity()
 	local CurrentQ
+	local UpperCategories
 	local AZCategory = ''
 	
 	if mw.wikibase.getEntity() then
@@ -201,13 +205,19 @@ function p.CategoryTree(frame)
 		end
 		
 		AZCategory = "[[Category:" .. AZInstancesMember[CurrentQ] .. " - " .. FirstLetter .. "]]"
-		return (table.concat(p.PropertiesOnTree("P68", 1, true))) .. AZCategory
+		return (p.PropertiesOnTree("P68", 1, false) or "") .. AZCategory
 	else
-		return table.concat(p.PropertiesOnTree("P68", 2, true))
+		UpperCategories = p.PropertiesOnTree("P68", 2, true)
+		
+		if type(UpperCategories) == "table" then
+			return table.concat(UpperCategories)
+		else
+			return UpperCategories
+		end
 	end
 end
 function p.UpperCategoryTree(frame)
-	return table.concat(p.PropertiesOnTree("P69", 1, true))
+	return p.PropertiesOnTree("P69", 1, false)
 end
 function p.IconTree(frame)
 	local ImageName
