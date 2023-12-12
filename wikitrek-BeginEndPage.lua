@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2023-12-10T16:10:52+01:00
+-- [P2G] Auto upload by PageToGitHub on 2023-12-12T23:25:32+01:00
 -- [P2G] This code from page Modulo:wikitrek-BeginEndPage
 -- <nowiki>
 --------------------------------------------------------------------------------
@@ -24,7 +24,7 @@ local p = {}
 --------------------------------------------------------------------------------
 function p.buildUniversalIncipit(frame)
 	local args = frame:getParent().args
-	return p._main(args)
+	return p._buildUniversalIncipit(args)
 end
 
 --------------------------------------------------------------------------------
@@ -48,6 +48,48 @@ function p._buildUniversalIncipit(args)
 	ret = '<span class="plainlinks">' .. ret .. '</span>'
 	return ret
 end
+
+--------------------------------------------------------------------------------
+-- Build and return the list of shortcodes for series, season and episode
+--
+-- @param {Frame} Info from MW session
+-- @return {string} The full incipit wikitext
+--------------------------------------------------------------------------------
+function p.BuildShortCode(frame)
+	local args = frame:getParent().args
+	return p._BuildShortCode(args)
+end
+
+--------------------------------------------------------------------------------
+-- Build and return the list of shortcodes for series, season and episode
+--
+-- @param {Frame} Info from MW session
+-- @return {string} The full incipit wikitext
+--------------------------------------------------------------------------------
+function p._BuildShortCode(Series, Season, Episode)
+	local Templates = {"S0.E00", " s00e00", "s00e000"}
+	local Notations = {}
+	
+	if Season < 1 or Season > 99 then
+		Season = 0
+	end
+	if Episode < 1 or Episode > 99 then
+		Episode = 0
+	end
+	Series = string.upper(string.sub(Series, 1, 3))
+	
+	for _, Template in pairs(Templates) do
+	end
+end
+
+
+
+
+
+
+
+
+
 --------------------------------------------------------------------------------
 -- Function to launch template for DataBoxes
 -- Specific for Template:IncipitUniversale
