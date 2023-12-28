@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2023-12-12T23:25:32+01:00
+-- [P2G] Auto upload by PageToGitHub on 2023-12-28T17:18:21+01:00
 -- [P2G] This code from page Modulo:wikitrek-BeginEndPage
 -- <nowiki>
 --------------------------------------------------------------------------------
@@ -66,8 +66,32 @@ end
 -- @param {Frame} Info from MW session
 -- @return {string} The full incipit wikitext
 --------------------------------------------------------------------------------
+function p.ShortCodeFromProdNo(frame)
+	local ProdNo = frame.args[1]
+	
+	p._BuildShortCode("", tonumber(string.sub(ProdNo, 1, 1)), tonumber(string.sub(ProdNo, 2)))
+end
+
+--------------------------------------------------------------------------------
+-- Gets episode's data from DataTrek and passes them
+--
+-- @param {Frame} Info from MW session
+--------------------------------------------------------------------------------
+function p.ShortCodeFromDT(frame)
+	return ""
+end
+
+--------------------------------------------------------------------------------
+-- Set the Semantic property related to episode shortcodes for
+-- series, season and episode
+--
+-- @param {Series} Acronym of the series' name
+-- @param {Season} Ordinal of the season
+-- @param {Season} Ordinal of the episode in the season
+--------------------------------------------------------------------------------
 function p._BuildShortCode(Series, Season, Episode)
-	local Templates = {"S0.E00", " s00e00", "s00e000"}
+	--local Templates = {"S0.E00", " s00e00", "s00e000"}
+	local Templates = {"S%d.E%02d", " s%02de%02d", "s%02de%03d"}
 	local Notations = {}
 	
 	if Season < 1 or Season > 99 then
@@ -79,6 +103,7 @@ function p._BuildShortCode(Series, Season, Episode)
 	Series = string.upper(string.sub(Series, 1, 3))
 	
 	for _, Template in pairs(Templates) do
+		mw.smw.set("Codice breve=" .. Series .. string.format(Template, Season, Episode)) 
 	end
 end
 
