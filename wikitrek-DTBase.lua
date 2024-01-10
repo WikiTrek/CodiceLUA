@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2023-02-26T18:05:49+01:00
+-- [P2G] Auto upload by PageToGitHub on 2024-01-10T22:34:31+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTBase
 --- This module represent the package containing basic functions to access data from the WikiBase instance DataTrek
 -- @module p
@@ -209,6 +209,15 @@ function p.LinkToEntity(frame, AddSemantic)
        :wikitext(Text)
     return  tostring(p)
 end
+--------------------------------------------------------------------------------
+-- Set the semantic property for the linked DataTrek entity on the current page
+--
+-- @param frame The frame of the page
+--------------------------------------------------------------------------------
+function p.SemanticToEntity(frame)
+	mw.smw.set("DataTrek ID = " .. mw.wikibase.getEntityIdForCurrentPage())
+end
+
 function p.LabelByLang(frame)
 	local Item = mw.wikibase.getEntityIdForCurrentPage()
 	local Lang = frame.args['Lingua']
@@ -300,7 +309,22 @@ function p.GenericValue(Property)
 	
 	return Value
 end
-function p.LabelOrLink(QItem, SMWProperty, AddSemantic, ForcedLabel)
+
+--------------------------------------------------------------------------------
+-- Return a label ora wikilink or a link to the special Placeholder page for a 
+-- given Property
+-- Return string containing label or link
+--
+-- @param QItem The item identifier in the from 'Q0'
+-- @param[opt=nil] SMWProperty Name of the semantic property to add
+-- @param[opt=false] AddSemantic Wether to add sematinc or not
+-- @param[opt=""] ForcedLabel Specific label to show regardless DataTrek values
+-- @param[opt=false] ForceString Force to return string even in case of Page 
+--                               that should return link
+--
+-- @treturn string String containing label or wikilink
+--------------------------------------------------------------------------------
+function p.LabelOrLink(QItem, SMWProperty, AddSemantic, ForcedLabel, ForceString)
 	local Label
 	local WTLink
 	
@@ -309,6 +333,8 @@ function p.LabelOrLink(QItem, SMWProperty, AddSemantic, ForcedLabel)
 	else
 		AddSemantic = false
 	end
+	
+	ForceString = ForceString or false
 	
 	local Item = mw.wikibase.getEntity(QItem)
 	if Item == nil then
@@ -345,6 +371,11 @@ function p.LabelOrLink(QItem, SMWProperty, AddSemantic, ForcedLabel)
 		if not Label then
 			Label = WTLink
 		end
+		
+		if ForceString then
+			return WTLink
+		end
+		
 		if string.find(WTLink, "Categoria:", 1, true) ~= nil then
 			return "[[" .. WTLink .. "]]"
 		elseif AddSemantic then
@@ -489,14 +520,12 @@ function p.ListBackReferences(frame)
 
     if type(QueryResult) == "table" then
         local Row = ""
+        local ImagesList = ""
+        local ResultText = ""
         for k, v in pairs(QueryResult.results) do
-            --[=[if  v.fulltext and v.fullurl then
-                myResult = myResult .. k .. " | " .. v.fulltext .. " " .. v.fullurl .. " | " .. "<br/>"
-            else
-                myResult = myResult .. k .. " | no page title for result set available (you probably specified ''mainlabel=-')"
-            end]=]
             if string.sub(v.fulltext, 1, 5) == "File:" then
 				Row = "[[:" .. v.fulltext .. "]]" --string.sub(v.fulltext, 3)
+				ImagesList = ImagesList .. v.fulltext .. "|" .. frame:expandTemplate{ title = v.fulltext} .. string.char(10)
 			else
 				Row = "[[" .. v.fulltext .. "]]"
             end
@@ -506,12 +535,16 @@ function p.ListBackReferences(frame)
             
 			AllBackReferences[#AllBackReferences + 1] = "*" .. Row
         end
-        	return table.concat(AllBackReferences, string.char(10))
+        	ResultText = table.concat(AllBackReferences, string.char(10))
+        	if not (ImagesList == nil or ImagesList == "") then
+        		ResultText = ResultText .. string.char(10) .. "=== Immagini collegate ===" .. string.char(10) .. frame:extensionTag( "gallery", ImagesList)
+        	end
+        	return ResultText --table.concat(AllBackReferences, string.char(10))
     else
     	return "''No table''"
     end
 
-    return queryResult
+    return QueryResult
 end
 --- Writes a gneric UL list from property, adding SMW link if specified
 -- 
