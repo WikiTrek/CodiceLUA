@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2023-12-28T17:18:21+01:00
+-- [P2G] Auto upload by PageToGitHub on 2024-01-12T22:41:57+01:00
 -- [P2G] This code from page Modulo:wikitrek-BeginEndPage
 -- <nowiki>
 --------------------------------------------------------------------------------
@@ -78,7 +78,19 @@ end
 -- @param {Frame} Info from MW session
 --------------------------------------------------------------------------------
 function p.ShortCodeFromDT(frame)
-	return ""
+	local CurrentEntity = mw.wikibase.getEntity()
+	local Acronym
+	local Season
+	local Episode
+	
+	if CurrentEntity.claims['P18'] == nil then
+		return ""
+	else
+		Acronym = PropertiesOnTree("P25", 3, false, false, true) or "Err"
+		Season = tonumber(CurrentEntity.claims['P18'][1].mainsnak.datavalue.value['amount'])
+		Episode = tonumber(CurrentEntity.claims['P178'][1].mainsnak.datavalue.value['amount'])
+		return p._BuildShortCode(Acronym, Season, Episode)
+	end
 end
 
 --------------------------------------------------------------------------------
@@ -91,8 +103,7 @@ end
 --------------------------------------------------------------------------------
 function p._BuildShortCode(Series, Season, Episode)
 	--local Templates = {"S0.E00", " s00e00", "s00e000"}
-	local Templates = {"S%d.E%02d", " s%02de%02d", "s%02de%03d"}
-	local Notations = {}
+	local Templates = {"%dx%02d", "S%d.E%02d", " s%02de%02d", "s%02de%03d"}
 	
 	if Season < 1 or Season > 99 then
 		Season = 0
@@ -103,7 +114,7 @@ function p._BuildShortCode(Series, Season, Episode)
 	Series = string.upper(string.sub(Series, 1, 3))
 	
 	for _, Template in pairs(Templates) do
-		mw.smw.set("Codice breve=" .. Series .. string.format(Template, Season, Episode)) 
+		mw.smw.set("Codice breve=" .. Series .. " " .. string.format(Template, Season, Episode)) 
 	end
 end
 
