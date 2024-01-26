@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2024-01-10T22:34:31+01:00
+-- [P2G] Auto upload by PageToGitHub on 2024-01-26T22:17:01+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTBase
 --- This module represent the package containing basic functions to access data from the WikiBase instance DataTrek
 -- @module p
@@ -215,9 +215,21 @@ end
 -- @param frame The frame of the page
 --------------------------------------------------------------------------------
 function p.SemanticToEntity(frame)
-	mw.smw.set("DataTrek ID = " .. mw.wikibase.getEntityIdForCurrentPage())
+	if mw.wikibase.getEntity() ~= nil then
+		mw.smw.set("DataTrek ID = " .. mw.wikibase.getEntityIdForCurrentPage())
+	end
 end
-
+--------------------------------------------------------------------------------
+-- Set the semantic property for the linked DataTrek entity on the current page
+-- to be used as a plain text string
+--
+-- @param frame The frame of the page
+--------------------------------------------------------------------------------
+function p.SemanticToItem(frame)
+	if mw.wikibase.getEntity() ~= nil then
+		mw.smw.set("DataTrek Item = " .. mw.wikibase.getEntityIdForCurrentPage())
+	end
+end
 function p.LabelByLang(frame)
 	local Item = mw.wikibase.getEntityIdForCurrentPage()
 	local Lang = frame.args['Lingua']
