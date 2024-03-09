@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2024-01-26T22:17:01+01:00
+-- [P2G] Auto upload by PageToGitHub on 2024-03-09T16:42:52+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTBase
 --- This module represent the package containing basic functions to access data from the WikiBase instance DataTrek
 -- @module p
@@ -547,11 +547,14 @@ function p.ListBackReferences(frame)
             
 			AllBackReferences[#AllBackReferences + 1] = "*" .. Row
         end
-        	ResultText = table.concat(AllBackReferences, string.char(10))
-        	if not (ImagesList == nil or ImagesList == "") then
-        		ResultText = ResultText .. string.char(10) .. "=== Immagini collegate ===" .. string.char(10) .. frame:extensionTag( "gallery", ImagesList)
-        	end
-        	return ResultText --table.concat(AllBackReferences, string.char(10))
+        
+        ResultText = table.concat(AllBackReferences, string.char(10))
+        ResultText = "<div style='column-count:3;-moz-column-count:3;-webkit-column-count:3'>" .. ResultText .. "</div>"
+        
+        if not (ImagesList == nil or ImagesList == "") then
+        	ResultText = ResultText .. string.char(10) .. "=== Immagini collegate ===" .. string.char(10) .. frame:extensionTag( "gallery", ImagesList)
+        end
+        return ResultText --table.concat(AllBackReferences, string.char(10))
     else
     	return "''No table''"
     end
