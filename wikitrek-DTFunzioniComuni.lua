@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2024-03-10T17:09:36+01:00
+-- [P2G] Auto upload by PageToGitHub on 2024-03-10T17:16:58+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTFunzioniComuni
 -- Keyword: wikitrek
 
@@ -215,7 +215,7 @@ function p.CategoryTree(frame)
 		
 		-- Check if item has Species (P65) property
 		if mw.wikibase.getEntity().claims['P65'] ~= nil then
-			SpeciesCategory = "[[Category:" .. AZInstancesMember[CurrentQ] .. " - " .. mw.wikibase.getEntity().claims['P65'][1].mainsnak.datavalue.value .. "]]"
+			SpeciesCategory = "[[Category:" .. AZInstancesMember[CurrentQ] .. " - " .. mw.wikibase.getLabelByLang(mw.wikibase.getEntity().claims['P65'][1].mainsnak.datavalue.value.id, "it") .. "]]"
 		end
 		
 		return (p.PropertiesOnTree("P68", 1, false) or "") .. AZCategory .. SpeciesCategory
