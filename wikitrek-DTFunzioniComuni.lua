@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2023-12-10T23:42:58+01:00
+-- [P2G] Auto upload by PageToGitHub on 2024-03-10T17:09:36+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTFunzioniComuni
 -- Keyword: wikitrek
 
@@ -171,12 +171,19 @@ function p.SeriesTree(frame)
 	--return table.concat(p.PropertiesOnTree("P16", 3, false), "</br>")
 	return p.PropertiesOnTree("P16", 3, false)
 end
+--------------------------------------------------------------------------------
+-- Build and return the list of categories for a specific page
+--
+-- @param {Frame} Info from MW session
+-- @return {string} List of properties in Wikitext
+--------------------------------------------------------------------------------
 function p.CategoryTree(frame)
 	local AZInstancesMember = {Q23 = "Personaggi", Q18 = "Specie", Q95 = "Pianeti", Q19 = "Cast", Q52 = "Cast"}
 	--local CurrentItem = mw.wikibase.getEntity()
 	local CurrentQ
 	local UpperCategories
 	local AZCategory = ''
+	local SpeciesCategory = ''
 	
 	if mw.wikibase.getEntity() then
 		CurrentQ = mw.wikibase.getEntity().claims['P14'][1].mainsnak.datavalue.value.id
@@ -205,7 +212,13 @@ function p.CategoryTree(frame)
 		end
 		
 		AZCategory = "[[Category:" .. AZInstancesMember[CurrentQ] .. " - " .. FirstLetter .. "]]"
-		return (p.PropertiesOnTree("P68", 1, false) or "") .. AZCategory
+		
+		-- Check if item has Species (P65) property
+		if mw.wikibase.getEntity().claims['P65'] ~= nil then
+			SpeciesCategory = "[[Category:" .. AZInstancesMember[CurrentQ] .. " - " .. mw.wikibase.getEntity().claims['P65'][1].mainsnak.datavalue.value .. "]]"
+		end
+		
+		return (p.PropertiesOnTree("P68", 1, false) or "") .. AZCategory .. SpeciesCategory
 	else
 		UpperCategories = p.PropertiesOnTree("P68", 2, true)
 		
