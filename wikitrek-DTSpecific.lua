@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2023-03-21T12:26:58+01:00
+-- [P2G] Auto upload by PageToGitHub on 2024-05-07T14:11:27+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTSpecific
 --- This module represent the package containing specific functions to access data from the WikiBase instance DataTrek
 -- @module p
@@ -166,7 +166,7 @@ function p.ListAppearances(frame)
 	local FinalArray = {}
 	local FinalString = ""
 	local Actor = mw.title.getCurrentTitle().text
-	local QueryResult = mw.smw.getQueryResult('[[Interprete::' .. Actor .. ']]|?' .. Actor .. '|sort=Numero di produzione|order=asc')
+	local QueryResult = mw.smw.getQueryResult('[[Interprete::' .. Actor .. ']]|?' .. Actor .. '|limit=500|sort=Numero di produzione|order=asc')
 	
 	if QueryResult == nil then
         return "''Nessun risultato''"
@@ -197,7 +197,10 @@ function p.ListAppearances(frame)
     end
 	
 	for ID, Group in pairs(FinalArray) do
+		-- Prepares string
 		FinalString = FinalString .. "* '''[[" .. ID .. "]]''': [[" .. table.concat(Group, "]], [[") .. "]]" .. string.char(10)
+		-- Add "Personaggio" as semantic property
+		mw.smw.set("Personaggio = " .. ID)
 	end
 	
 	return FinalString
@@ -404,7 +407,7 @@ function p.SecBoxSeries(frame)
 	    		--In the output, example:
 	    		--"fulltext": "Star Trek: Strange New Worlds",
 	    		LI =  mw.html.create('li')
-	        	LI:wikitext("[[" .. CurrSeries.fulltext .. "|" .. CurrSeries.printouts.Abbreviazione[1] .. "]]")
+	        	LI:wikitext("[[" .. (CurrSeries.fulltext or "NullFulltext") .. "|" .. (CurrSeries.printouts.Abbreviazione[1] or "NullAbbreviazione") .. "]]")
 	        	
 	        	UL:node(LI)
 	    	end
