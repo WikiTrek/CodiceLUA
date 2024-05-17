@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2023-12-10T22:01:22+01:00
+-- [P2G] Auto upload by PageToGitHub on 2024-05-17T22:50:58+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -565,6 +565,10 @@ function p.ListHTData(frame)
 		
 		ImageString = "[[File:Menu.png|left|middle|30px|HyperTrek logo]]"
 		DataString = "Informazioni originali lette dal database di <h2 class='hiddenheaderbold'>HyperTrek</h2> datato " .. frame:expandTemplate{title = 'TimeL', args = {Tipo='ITMedia', Istante=HTNodes.mainsnak.datavalue.value.time}} .. " con i seguenti dettagli: "
+		
+		if AddSemantic then
+			mw.smw.set(mw.wikibase.getLabelByLang('P79', 'it') .. "=" .. Item.claims['P79'][1].mainsnak.datavalue.value.time)
+		end
 		 
 		for _, Qualifier in pairs(HTNodes.qualifiers) do
 			local QualiProp = Qualifier[1].property
@@ -579,7 +583,11 @@ function p.ListHTData(frame)
 			if AddSemantic then
 				mw.smw.set(QualiName .. "=" .. QualiValue)
 			end
-			--QualiString = QualiString .. "<li " .. "title='" .. QualiProp .. "'>'''" .. QualiName .. "''': " .. QualiValue .. "</li>"
+			
+			if QualiProp == "P86" then
+				--Sezione ID, add link to page
+				QualiValue = frame:expandTemplate{title = 'HTSezioneID', args = {QualiValue}}
+			end
 			QualiString = QualiString .. "<li " .. "title='" .. QualiProp .. "'>'''" .. string.gsub(QualiName, "HyperTrek", "HT") .. "''': " .. QualiValue .. "</li>"
 		end
 		
