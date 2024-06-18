@@ -1,6 +1,15 @@
--- [P2G] Auto upload by PageToGitHub on 2022-08-28T17:00:32+02:00
+-- [P2G] Auto upload by PageToGitHub on 2024-06-18T10:59:00+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTSem
+-- <nowiki>
+--------------------------------------------------------------------------------
+-- This module handles generic semantic functions to support modules
+-- Comments are compatible with LDoc https://github.com/lunarmodules/ldoc
+--
+-- @module p
+-- @author Luca Mauri [[Utente:Lucamauri]]
+-- @keyword: wikitrek
 -- Keyword: wikitrek
+--------------------------------------------------------------------------------
 local p = {}
 
 local QFromP = require('Modulo:DTGenerico').QFromP
@@ -53,13 +62,57 @@ function p.DescrFromDT(frame)
 	
 	return string.char(10) .. AllLabels
 end
+--------------------------------------------------------------------------------
+-- Take parameters out of the frame and pass them to p._buildUniversalIncipit().
+-- Return the result.
+--
+-- @param {Frame} Info from MW session
+-- @return {string} The full incipit wikitext
+--------------------------------------------------------------------------------
+function p.URIFromatterFromDT(frame)
+	local Item
+	local Type
+	
+	Item = mw.wikibase.getEntity()
+	
+	if not Item then
+		Item = mw.wikibase.getEntity(frame.args['Item'])
+	end
+	if not Item then
+		Item = mw.wikibase.getEntity('Q1')
+	end
+	
+	if (not Item['claims']) or (not Item['claims']['P5']) then
+		return "ERROR"
+	else
+		Type = Item['claims']['P5'][1].mainsnak.datavalue.value
+		return "[[External formatter uri::" .. Type .. "|''" .. Type .. "'']]"
+	end
+end
+
+--------------------------------------------------------------------------------
+-- Generic value parser from arbitrary Item and Property
+-- Return the result.
+--
+-- @param {Item} The Entity
+-- @param {Property} String containing the property identifier and number
+-- @return {string} Value of the mainsnak
+--------------------------------------------------------------------------------
+function p.GenericFromDT(Item, Property)
+	if (not Item['claims']) or (not Item['claims'][Property]) then
+		return "ERROR"
+	else
+		return Item['claims'][Property][1].mainsnak.datavalue.value
+	end
+end
+
 --- Function to calculate the number of seasons of a series
 -- 
 -- @param ShortName The short name of the series as in P24
 -- @return Integer Number of seasons
 function p.SeasonsQty(ShortName)
 	local QueryResult
-	local Max
+	local Max = 0
 	local PrefixText
 	
 	if ShortName == "Serie Classica" or ShortName == "Serie Animata" then
@@ -73,10 +126,10 @@ function p.SeasonsQty(ShortName)
 	QueryResult = mw.smw.ask(PrefixText .. ShortName .. ']]|?Stagione|sort=Stagione|order=desc|format=max')
 	-- See https://github.com/SemanticMediaWiki/SemanticScribunto/blob/master/docs/mw.smw.ask.md#result
 	-- for return value example
-	Max = QueryResult[1]["Stagione"]
     if QueryResult == nil or Max < 0 then
         return 0
     else
+    	Max = QueryResult[1]["Stagione"]
     	return Max
     end
 end
@@ -234,7 +287,7 @@ function p.RecurringList(Pages, Series, MinOccurr)
         	
         	--Count = mw.smw.ask('[[Serie::' .. Series .. ']][[Personaggio::' .. Page.fulltext .. ']]|format=count')
         	--Episodes = mw.smw.ask('[[Serie::' .. Series .. ']][[Personaggio::' .. Page.fulltext .. ']]|sort=Numero di produzione|order=asc')
-        	Episodes = mw.smw.ask('[[Serie::' .. Series .. ']][[Personaggio::' .. Page .. ']]|sort=Numero di produzione|order=asc')
+        	Episodes = mw.smw.ask('[[Serie::' .. Series .. ']][[Personaggio::' .. Page .. ']]|limit=100|sort=Numero di produzione|order=asc')
         	
         	if (Episodes ~= nil) and (#Episodes > MinOccurr - 1) then
         		--[=[
