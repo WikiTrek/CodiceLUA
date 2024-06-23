@@ -1,0 +1,39 @@
+name: Generate Documentation
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+
+  generate-docs:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Set up Lua
+      uses: leafo/gh-actions-lua@v8
+      with:
+        luaVersion: '5.1'
+        
+    - name: Install LuaDoc dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y luarocks
+        sudo luarocks install luafilesystem
+        sudo luarocks install lualogging
+        
+    - name: Generate Documentation
+      run: |
+        lua luadoc.lua -d docs .
+        
+    - name: Commit Documentation
+      uses: EndBug/add-and-commit@v7
+      with:
+        author_name: GitHub Actions
+        author_email: actions@github.com
+        message: 'Update documentation'
+        add: 'docs/'
