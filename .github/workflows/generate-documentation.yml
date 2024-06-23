@@ -33,7 +33,7 @@ jobs:
 
     - name: Generate Documentation
       run: |
-        ldoc -c config.ld .
+        ldoc -c config.ld ${GITHUB_WORKSPACE}/*.lua
       env:
         GITHUB_WORKSPACE: ${{ github.workspace }}
         
