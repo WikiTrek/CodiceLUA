@@ -8,15 +8,11 @@ version = "1.0"
 -- Output directory
 dir = "docs"
 
--- Source files
+-- Source files, leading ! excludes files and / or folders
 file = {
-  "**.lua",
-}
-
--- Exclude certain files or directories
-exclude = {
-  "vendor/",
-  "tests/",
+  "**/*.lua",
+  "!**/vendor/**",
+  "!**/tests/**",
 }
 
 -- Additional configuration options
