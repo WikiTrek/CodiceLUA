@@ -10,7 +10,6 @@ dir = "docs"
 
 -- Source files, leading ! excludes files and / or folders
 file = {
-  "**/*.lua",
   "!**/vendor/**",
   "!**/tests/**",
 }
