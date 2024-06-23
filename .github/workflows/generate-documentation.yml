@@ -21,7 +21,7 @@ jobs:
         node-version: '20.x'
 
     - name: Install Lua
-      uses: leafo/gh-actions-lua@v11
+      uses: actions/setup-lua@v1
       with:
         luaVersion: '5.1'
 
