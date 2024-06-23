@@ -36,9 +36,9 @@ jobs:
         ldoc -c config.ld ${GITHUB_WORKSPACE}/*.lua
         
     - name: Commit Documentation
-      uses: stefanzweifel/git-auto-commit-action@v4
+      uses: stefanzweifel/git-auto-commit-action@v5
       with:
-        author_name: Luca Mauri
-        author_email: github@wikitrek.org
-        message: 'Update documentation'
-        add: 'docs/'
+        commit_user_name: Luca Mauri
+        commit_user_email: github@wikitrek.org
+        commit_message: 'Update documentation'
+        add_options: 'docs/'
