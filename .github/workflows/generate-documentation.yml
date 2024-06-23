@@ -33,7 +33,7 @@ jobs:
     - name: Commit Documentation
       uses: EndBug/add-and-commit@v7
       with:
-        author_name: GitHub Actions
-        author_email: actions@github.com
+        author_name: Luca Mauri
+        author_email: github@wikitrek.org
         message: 'Update documentation'
         add: 'docs/'
