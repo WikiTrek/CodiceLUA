@@ -33,7 +33,9 @@ jobs:
 
     - name: Generate Documentation
       run: |
-        ldoc -c config.ld
+        ldoc -c config.ld .
+      env:
+        GITHUB_WORKSPACE: ${{ github.workspace }}
         
     - name: Commit Documentation
       uses: EndBug/add-and-commit@v7
