@@ -7,7 +7,3 @@ version = "1.0"
 
 -- Output directory
 dir = "docs"
-
--- Additional configuration options
-style = "plain"
-format = "markdown"
