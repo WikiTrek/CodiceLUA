@@ -7,25 +7,29 @@ on:
     branches: [ main ]
 
 jobs:
-
   generate-docs:
     runs-on: ubuntu-latest
-    
+
     steps:
-    - uses: actions/checkout@v2
-    
-    - name: Set up Lua
-      uses: leafo/gh-actions-lua@v8
+    - uses: actions/checkout@v4
+
+    - name: Use Node.js 20.x
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20.x'
+
+    - name: Install Lua
+      uses: leafo/gh-actions-lua@v9
       with:
         luaVersion: '5.1'
-        
+
     - name: Install LuaDoc dependencies
       run: |
         sudo apt-get update
         sudo apt-get install -y luarocks
         sudo luarocks install luafilesystem
         sudo luarocks install lualogging
-        
+
     - name: Generate Documentation
       run: |
         lua luadoc.lua -d docs .
