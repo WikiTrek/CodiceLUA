@@ -33,7 +33,7 @@ jobs:
 
     - name: Generate Documentation
       run: |
-        ldoc -d docs .
+        ldoc -c config.ld
         
     - name: Commit Documentation
       uses: EndBug/add-and-commit@v7
