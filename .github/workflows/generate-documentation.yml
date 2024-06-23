@@ -40,8 +40,8 @@ jobs:
         find ${GITHUB_WORKSPACE} -type f -name '*.lua' 
 
     - name: Generate Documentation
-      run: |
-        find ${GITHUB_WORKSPACE} -type f -name '*.lua' -exec ldoc -c config.ld -v {} +
+      run: |        
+        ldoc -c config.ld -v ${GITHUB_WORKSPACE}
         
     - name: Commit Documentation
       uses: stefanzweifel/git-auto-commit-action@v5
