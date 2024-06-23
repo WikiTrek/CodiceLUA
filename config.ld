@@ -8,12 +8,6 @@ version = "1.0"
 -- Output directory
 dir = "docs"
 
--- Source files, leading ! excludes files and / or folders
-file = {
-  "!**/vendor/**",
-  "!**/tests/**",
-}
-
 -- Additional configuration options
 style = "plain"
 format = "markdown"
