@@ -21,7 +21,7 @@ jobs:
         node-version: '20.x'
 
     - name: Install Lua
-      uses: leafo/gh-actions-lua@v9
+      uses: leafo/gh-actions-lua@v10
       with:
         luaVersion: '5.1'
 
@@ -34,11 +34,9 @@ jobs:
     - name: Generate Documentation
       run: |
         ldoc -c config.ld ${GITHUB_WORKSPACE}/*.lua
-      env:
-        GITHUB_WORKSPACE: ${{ github.workspace }}
         
     - name: Commit Documentation
-      uses: EndBug/add-and-commit@v7
+      uses: EndBug/add-and-commit@v8
       with:
         author_name: Luca Mauri
         author_email: github@wikitrek.org
