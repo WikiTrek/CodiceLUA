@@ -21,9 +21,9 @@ jobs:
         node-version: '20.x'
 
     - name: Install Lua
-      uses: actions/setup-lua@v1
+      uses: leafo/gh-actions-lua@v9
       with:
-        lua-version: '5.1'
+        luaVersion: '5.1'
 
     - name: Install LuaDoc dependencies
       run: |
