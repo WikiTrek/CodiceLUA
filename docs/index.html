@@ -28,22 +28,313 @@
 
 
 
+<h2>Contents</h2>
+<ul>
+<li><a href="#Functions">Functions</a></li>
+</ul>
 
 
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><strong>wikitrek-FunzioniGeneriche</strong></li>
+</ul>
 
 </div>
 
 <div id="content">
 
+<h1>Module <code>wikitrek-FunzioniGeneriche</code></h1>
+<p>Returns the color to use in CSS for the text depending on the luminance
+ of the background</p>
+<p></p>
 
-  <h2>Documentation for Lua modules in WikiTrek</h2>
+
+<h2><a href="#Functions">Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#p.TestArray">p.TestArray (frame)</a></td>
+	<td class="summary">Test function for array manipulation</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#p.TestSpaces">p.TestSpaces (frame)</a></td>
+	<td class="summary">Test function for spaces identifiaction
+ using regex</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#p.ShipName">p.ShipName (frame)</a></td>
+	<td class="summary">Extract the name of a ship from its full designation</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#p.ShipNameCore">p.ShipNameCore (designation)</a></td>
+	<td class="summary">Extract the name of a ship from its full designation</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#p.SortedPropertiesList">p.SortedPropertiesList (frame)</a></td>
+	<td class="summary">Test function to check properties sorting</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#p.ParameterToSemantic">p.ParameterToSemantic (frame)</a></td>
+	<td class="summary">Process the value assigned to parameter of the "old"-style template
+ (pre-DataTrek) to sanitize it and pass it as clean value to
+ SMW property using the #set function</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#p.PerformersToSemanticOriginal">p.PerformersToSemanticOriginal (frame)</a></td>
+	<td class="summary">OLD simpler original version
+ Process the value assigned to "EpisodioPersonaggi" of the "old-style"
+ template (pre-DataTrek) to sanitize it and pass it as clean value to
+ SMW property using the #set function</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#p.PerformersToSemantic">p.PerformersToSemantic (frame)</a></td>
+	<td class="summary">NEW improved version
+ Process the values assigned to "EpisodioPersonaggi" parameter of the
+ "old-style" template (pre-DataTrek) to sanitize it and pass it
+ as clean value to SMW property using the #set function</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#p.SVGValidate">p.SVGValidate (frame)</a></td>
+	<td class="summary">Check if a file is SVG and validate it</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Functions"></a>Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "p.TestArray"></a>
+    <strong>p.TestArray (frame)</strong>
+    </dt>
+    <dd>
+    Test function for array manipulation
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">frame</span>
+         The interface to the parameters passed to {{#invoke:}}
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        Processed string
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "p.TestSpaces"></a>
+    <strong>p.TestSpaces (frame)</strong>
+    </dt>
+    <dd>
+    Test function for spaces identifiaction
+ using regex
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">frame</span>
+         The interface to the parameters passed to {{#invoke:}}
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        Processed string
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "p.ShipName"></a>
+    <strong>p.ShipName (frame)</strong>
+    </dt>
+    <dd>
+    Extract the name of a ship from its full designation
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">frame</span>
+         The interface to the parameters passed to {{#invoke:}}
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        Bare name of the ship
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "p.ShipNameCore"></a>
+    <strong>p.ShipNameCore (designation)</strong>
+    </dt>
+    <dd>
+    Extract the name of a ship from its full designation
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">designation</span>
+         The full designation to process
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        Bare name of the ship
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "p.SortedPropertiesList"></a>
+    <strong>p.SortedPropertiesList (frame)</strong>
+    </dt>
+    <dd>
+    Test function to check properties sorting
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">frame</span>
+         The interface to the parameters passed to {{#invoke:}}
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        Comma-separated list of properties
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "p.ParameterToSemantic"></a>
+    <strong>p.ParameterToSemantic (frame)</strong>
+    </dt>
+    <dd>
+    Process the value assigned to parameter of the "old"-style template
+ (pre-DataTrek) to sanitize it and pass it as clean value to
+ SMW property using the #set function
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">frame</span>
+         The interface to the parameters passed to {{#invoke:}}
+ No return @return Sanitized string representing one or more property values
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "p.PerformersToSemanticOriginal"></a>
+    <strong>p.PerformersToSemanticOriginal (frame)</strong>
+    </dt>
+    <dd>
+    OLD simpler original version
+ Process the value assigned to "EpisodioPersonaggi" of the "old-style"
+ template (pre-DataTrek) to sanitize it and pass it as clean value to
+ SMW property using the #set function
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">frame</span>
+         The interface to the parameters passed to {{#invoke:}}
+ No return @return Sanitized string representing one or more property values
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "p.PerformersToSemantic"></a>
+    <strong>p.PerformersToSemantic (frame)</strong>
+    </dt>
+    <dd>
+    NEW improved version
+ Process the values assigned to "EpisodioPersonaggi" parameter of the
+ "old-style" template (pre-DataTrek) to sanitize it and pass it
+ as clean value to SMW property using the #set function
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">frame</span>
+         The interface to the parameters passed to {{#invoke:}}
+ No return @return Sanitized string representing one or more property values
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "p.SVGValidate"></a>
+    <strong>p.SVGValidate (frame)</strong>
+    </dt>
+    <dd>
+    Check if a file is SVG and validate it
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">frame</span>
+         The interface to the parameters passed to {{#invoke:}}
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        Processed string
+    </ol>
+
+
+
+
+</dd>
+</dl>
 
 
 </div> <!-- id="content" -->
 </div> <!-- id="main" -->
 <div id="about">
 <i>generated by <a href="http://github.com/lunarmodules/LDoc">LDoc 1.0</a></i>
-<i style="float:right;">Last updated 2024-06-23 21:10:15 </i>
+<i style="float:right;">Last updated 2024-06-23 21:17:03 </i>
 </div> <!-- id="about" -->
 </div> <!-- id="container" -->
 </body>
