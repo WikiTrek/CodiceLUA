@@ -25,16 +25,15 @@ jobs:
       with:
         luaVersion: '5.1'
 
-    - name: Install LuaDoc dependencies
+    - name: Install LDoc dependencies
       run: |
         sudo apt-get update
         sudo apt-get install -y luarocks
-        sudo luarocks install luafilesystem
-        sudo luarocks install lualogging
+        sudo luarocks install ldoc
 
     - name: Generate Documentation
       run: |
-        lua luadoc.lua -d docs .
+        ldoc -d docs .
         
     - name: Commit Documentation
       uses: EndBug/add-and-commit@v7
