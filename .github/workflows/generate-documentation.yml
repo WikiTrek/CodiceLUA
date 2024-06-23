@@ -35,6 +35,10 @@ jobs:
       run: |
         ls -l ${GITHUB_WORKSPACE}/*.lua
 
+    - name: Find files
+      run: |
+        find ${GITHUB_WORKSPACE} -type f -name '*.lua' 
+
     - name: Generate Documentation
       run: |
         find ${GITHUB_WORKSPACE} -type f -name '*.lua' -exec ldoc -c config.ld -v {} +
