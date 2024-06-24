@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2024-03-09T16:42:52+01:00
+-- [P2G] Auto upload by PageToGitHub on 2024-06-24T11:29:30+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTBase
 --- This module represent the package containing basic functions to access data from the WikiBase instance DataTrek
 -- @module p
@@ -169,6 +169,8 @@ function p.ExternalID()
 	for _, Property in pairs(AllP) do
 		if Item.claims[Property][1].mainsnak.datatype == 'external-id' then
 			AllExtID[#AllExtID + 1] = "* ["  .. p.ExtIDLink(Property, Item.claims[Property][1].mainsnak.datavalue.value) .. " ''" .. Item.claims[Property][1].mainsnak.datavalue.value .. "''], " .. (mw.wikibase.getLabelByLang(Property, 'it') or mw.wikibase.getLabel(Property)) -- [[:" .. SiteLink['site'] .. ":" .. SiteLink['title'] .. "|''" .. SiteLink['title'] .. "'']], " .. TitleLabel
+			-- Sets semantic property
+			mw.smw.set((mw.wikibase.getLabelByLang(Property, 'it') or mw.wikibase.getLabel(Property)) .. " = " .. Item.claims[Property][1].mainsnak.datavalue.value)
 		end
 	end
 	
@@ -400,7 +402,7 @@ end
 --- Three dashes indicate the beginning of a function or field documented
 -- using the LDoc format
 -- @param Item Father of Previous and Next
--- @param[opt="Navigatore"]
+-- @param[opt="Navigatore"] Title
 -- @return Table
 function p.MakeNavTable(Item, Title)
 --[[
@@ -495,7 +497,7 @@ function p.ListReferences(frame)
 end
 --- generates a list of backlink using SMW query.
 -- 
--- @frame Info from MW session
+-- @param frame Info from MW session
 -- @return A bullet list of backlinks
 function p.ListBackReferences(frame)
 	-- See example here https://github.com/SemanticMediaWiki/SemanticScribunto/blob/master/docs/mw.smw.getQueryResult.md
@@ -549,7 +551,7 @@ function p.ListBackReferences(frame)
         end
         
         ResultText = table.concat(AllBackReferences, string.char(10))
-        ResultText = "<div style='column-count:3;-moz-column-count:3;-webkit-column-count:3'>" .. ResultText .. "</div>"
+        ResultText = "<div style='column-count:3;-moz-column-count:3;-webkit-column-count:3'>" .. string.char(10) .. ResultText .. string.char(10) .. "</div>"
         
         if not (ImagesList == nil or ImagesList == "") then
         	ResultText = ResultText .. string.char(10) .. "=== Immagini collegate ===" .. string.char(10) .. frame:extensionTag( "gallery", ImagesList)
