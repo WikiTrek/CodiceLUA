@@ -1,0 +1,258 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Reference</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>Wikitrek Lua modules</h1>
+
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Functions">Functions</a></li>
+</ul>
+
+
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><a href="../modules/wikitrek-BeginEndPage.html">wikitrek-BeginEndPage</a></li>
+  <li><strong>wikitrek-DTBase</strong></li>
+  <li><a href="../modules/wikitrek-DTFunzioniComuni.html">wikitrek-DTFunzioniComuni</a></li>
+  <li><a href="../modules/wikitrek-DTGenerico.html">wikitrek-DTGenerico</a></li>
+  <li><a href="../modules/wikitrek-DTSem.html">wikitrek-DTSem</a></li>
+  <li><a href="../modules/wikitrek-DTSpecific.html">wikitrek-DTSpecific</a></li>
+  <li><a href="../modules/wikitrek-FunzioniGeneriche.html">wikitrek-FunzioniGeneriche</a></li>
+  <li><a href="../modules/wikitrek-Locations.html">wikitrek-Locations</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Module <code>wikitrek-DTBase</code></h1>
+<p>Set the semantic property for the linked DataTrek entity on the current page</p>
+<p></p>
+
+
+<h2><a href="#Functions">Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#p.SemanticToItem">p.SemanticToItem (frame)</a></td>
+	<td class="summary">Set the semantic property for the linked DataTrek entity on the current page
+ to be used as a plain text string</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#p.LabelOrLink">p.LabelOrLink (QItem[, SMWProperty=nil[, AddSemantic=false[, ForcedLabel=""[, ForceString=false]]]])</a></td>
+	<td class="summary">Return a label ora wikilink or a link to the special Placeholder page for a
+ given Property
+ Return string containing label or link</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#p.MakeNavTable">p.MakeNavTable (Item[, Title="Navigatore"])</a></td>
+	<td class="summary">Three dashes indicate the beginning of a function or field documented
+ using the LDoc format</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#p.ListBackReferences">p.ListBackReferences (frame)</a></td>
+	<td class="summary">generates a list of backlink using SMW query.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#p.PropertyList">p.PropertyList (PName, SMWPrefix)</a></td>
+	<td class="summary">Writes a gneric UL list from property, adding SMW link if specified</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Functions"></a>Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "p.SemanticToItem"></a>
+    <strong>p.SemanticToItem (frame)</strong>
+    </dt>
+    <dd>
+    Set the semantic property for the linked DataTrek entity on the current page
+ to be used as a plain text string
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">frame</span>
+         The frame of the page
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "p.LabelOrLink"></a>
+    <strong>p.LabelOrLink (QItem[, SMWProperty=nil[, AddSemantic=false[, ForcedLabel=""[, ForceString=false]]]])</strong>
+    </dt>
+    <dd>
+    Return a label ora wikilink or a link to the special Placeholder page for a
+ given Property
+ Return string containing label or link
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">QItem</span>
+         The item identifier in the from 'Q0'
+        </li>
+        <li><span class="parameter">SMWProperty</span>
+         Name of the semantic property to add
+         (<em>default</em> nil)
+        </li>
+        <li><span class="parameter">AddSemantic</span>
+         Wether to add sematinc or not
+         (<em>default</em> false)
+        </li>
+        <li><span class="parameter">ForcedLabel</span>
+         Specific label to show regardless DataTrek values
+         (<em>default</em> "")
+        </li>
+        <li><span class="parameter">ForceString</span>
+         Force to return string even in case of Page
+                               that should return link
+
+         (<em>default</em> false)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+        String containing label or wikilink
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "p.MakeNavTable"></a>
+    <strong>p.MakeNavTable (Item[, Title="Navigatore"])</strong>
+    </dt>
+    <dd>
+    Three dashes indicate the beginning of a function or field documented
+ using the LDoc format
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">Item</span>
+         Father of Previous and Next
+        </li>
+        <li><span class="parameter">Title</span>
+
+         (<em>default</em> "Navigatore")
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        Table
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "p.ListBackReferences"></a>
+    <strong>p.ListBackReferences (frame)</strong>
+    </dt>
+    <dd>
+    generates a list of backlink using SMW query.
+
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">frame</span>
+         Info from MW session
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A bullet list of backlinks
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "p.PropertyList"></a>
+    <strong>p.PropertyList (PName, SMWPrefix)</strong>
+    </dt>
+    <dd>
+    Writes a gneric UL list from property, adding SMW link if specified
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">PName</span>
+         Info from MW session
+        </li>
+        <li><span class="parameter">SMWPrefix</span>
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A bullet list of backlinks
+    </ol>
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/lunarmodules/LDoc">LDoc 1.0</a></i>
+<i style="float:right;">Last updated 2024-06-24 09:29:56 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

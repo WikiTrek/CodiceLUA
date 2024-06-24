@@ -1,0 +1,309 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Reference</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>Wikitrek Lua modules</h1>
+
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Functions">Functions</a></li>
+</ul>
+
+
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><a href="../modules/wikitrek-BeginEndPage.html">wikitrek-BeginEndPage</a></li>
+  <li><a href="../modules/wikitrek-DTBase.html">wikitrek-DTBase</a></li>
+  <li><a href="../modules/wikitrek-DTFunzioniComuni.html">wikitrek-DTFunzioniComuni</a></li>
+  <li><a href="../modules/wikitrek-DTGenerico.html">wikitrek-DTGenerico</a></li>
+  <li><a href="../modules/wikitrek-DTSem.html">wikitrek-DTSem</a></li>
+  <li><strong>wikitrek-DTSpecific</strong></li>
+  <li><a href="../modules/wikitrek-FunzioniGeneriche.html">wikitrek-FunzioniGeneriche</a></li>
+  <li><a href="../modules/wikitrek-Locations.html">wikitrek-Locations</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Module <code>wikitrek-DTSpecific</code></h1>
+<p>generates a list of backlink using SMW query.</p>
+<p>
+ </p>
+
+
+<h2><a href="#Functions">Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#p.ListAppearances">p.ListAppearances (frame)</a></td>
+	<td class="summary">generates a list of backlink using SMW query.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#p.SecBoxBuilder">p.SecBoxBuilder (frame)</a></td>
+	<td class="summary">Content of a generic secondary box</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#p.SecBoxSeries">p.SecBoxSeries (frame)</a></td>
+	<td class="summary">Content of secondary box</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#p.MottoBoxes">p.MottoBoxes (frame)</a></td>
+	<td class="summary">Listo of "motto" sentences (P104) for Template:BoxAvvisi</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#dump">dump (entity, indent, omitType)</a></td>
+	<td class="summary">This dumps the variable (converts it into a string representation of itself)</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#concat">concat (...)</a></td>
+	<td class="summary">Concatenates a variable number of strings and numbers to one single string
+ ignores tables, bools, functions, and such and replaces them with the empty string
+<p> What is the benefit of using variable.concat instead of the ..</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#print">print (v)</a></td>
+	<td class="summary">This function prints a variable depending on its type:
+ * tables get concatenated by a comma
+ * bools get printed as true or false
+ * strings and numbers get simple returned as string
+ * functions and nils return as emtpy string</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Functions"></a>Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "p.ListAppearances"></a>
+    <strong>p.ListAppearances (frame)</strong>
+    </dt>
+    <dd>
+    generates a list of backlink using SMW query.
+
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">frame</span>
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A bullet list of appearances
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "p.SecBoxBuilder"></a>
+    <strong>p.SecBoxBuilder (frame)</strong>
+    </dt>
+    <dd>
+    Content of a generic secondary box
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">frame</span>
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        Wikitext to inject in template
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "p.SecBoxSeries"></a>
+    <strong>p.SecBoxSeries (frame)</strong>
+    </dt>
+    <dd>
+    Content of secondary box
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">frame</span>
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        Wikitext to inject in template
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "p.MottoBoxes"></a>
+    <strong>p.MottoBoxes (frame)</strong>
+    </dt>
+    <dd>
+    Listo of "motto" sentences (P104) for Template:BoxAvvisi
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">frame</span>
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        Wikitext to inject in template
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "dump"></a>
+    <strong>dump (entity, indent, omitType)</strong>
+    </dt>
+    <dd>
+    This dumps the variable (converts it into a string representation of itself)
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">entity</span>
+         mixed, value to dump
+        </li>
+        <li><span class="parameter">indent</span>
+         string, can bu used to set an indentation
+        </li>
+        <li><span class="parameter">omitType</span>
+         bool, set to true to omit the (<TYPE>) in front of the value
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        string
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "concat"></a>
+    <strong>concat (...)</strong>
+    </dt>
+    <dd>
+    Concatenates a variable number of strings and numbers to one single string
+ ignores tables, bools, functions, and such and replaces them with the empty string
+<p> What is the benefit of using variable.concat instead of the ..  operator?
+ Answer: .. throws an error, when trying to concat bools, tables, functions, etc.
+ This here handels them by converting them to an empty string
+
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">...</span>
+         varaibles to concatenate
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        string
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "print"></a>
+    <strong>print (v)</strong>
+    </dt>
+    <dd>
+    This function prints a variable depending on its type:
+ * tables get concatenated by a comma
+ * bools get printed as true or false
+ * strings and numbers get simple returned as string
+ * functions and nils return as emtpy string
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">v</span>
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        string
+    </ol>
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/lunarmodules/LDoc">LDoc 1.0</a></i>
+<i style="float:right;">Last updated 2024-06-24 09:29:56 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>
