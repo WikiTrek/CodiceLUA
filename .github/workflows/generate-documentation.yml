@@ -33,7 +33,7 @@ jobs:
 
     - name: Generate Documentation
       run: |        
-        ldoc -c config.ld -s ldoc-custom.css -v ${GITHUB_WORKSPACE}/
+        ldoc -c config.ld -s ${GITHUB_WORKSPACE}/ -v ${GITHUB_WORKSPACE}/
         
     - name: Commit Documentation
       uses: stefanzweifel/git-auto-commit-action@v5
