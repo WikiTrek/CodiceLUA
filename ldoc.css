@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css?family=Fjalla+One|Open+Sans|Libre+Baskerville:ital@1');
 /* BEGIN RESET
 
 Copyright (c) 2010, Yahoo! Inc. All rights reserved.
@@ -88,6 +89,7 @@ em { font-style: italic;}
 h1 {
     font-size: 1.5em;
     margin: 20px 0 20px 0;
+    font-family: "Fjalla One";
 }
 h2, h3, h4 { margin: 15px 0 10px 0; }
 h2 { font-size: 1.25em; }
