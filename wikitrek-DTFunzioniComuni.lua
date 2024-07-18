@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2024-03-10T17:16:58+01:00
+-- [P2G] Auto upload by PageToGitHub on 2024-07-18T23:32:03+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTFunzioniComuni
 -- Keyword: wikitrek
 
@@ -72,6 +72,130 @@ function p.LinkFromPage(frame)
 		end
 	end
 	return table.concat(results, ', ')
+end
+
+--------------------------------------------------------------------------------
+-- Function to convert ISO code to language name in Italian
+--
+-- @param isoCode The two-letters anguage code according to ISO 639-1
+-- @return String with language full name
+--------------------------------------------------------------------------------
+function p.getLanguageName(isoCode)
+	-- Define the lookup table
+	local language_codes = {
+		["en"] = "Inglese",
+    ["fr"] = "Francese",
+    ["es"] = "Spagnolo",
+    ["de"] = "Tedesco",
+    ["it"] = "Italiano",
+    ["pt"] = "Portoghese",
+    ["ru"] = "Russo",
+    ["zh"] = "Cinese",
+    ["ar"] = "Arabo",
+    ["ja"] = "Giapponese",
+    ["ko"] = "Coreano",
+    ["hi"] = "Hindi",
+    ["nl"] = "Olandese",
+    ["pl"] = "Polacco",
+    ["sv"] = "Svedese",
+    ["da"] = "Danese",
+    ["no"] = "Norvegese",
+    ["fi"] = "Finlandese",
+    ["el"] = "Greco",
+    ["he"] = "Ebraico",
+    ["vi"] = "Vietnamita",
+    ["th"] = "Tailandese",
+    ["id"] = "Indonesiano",
+    ["tr"] = "Turco",
+    ["cs"] = "Ceco",
+    ["sk"] = "Slovacco",
+    ["hu"] = "Ungherese",
+    ["ro"] = "Rumeno",
+    ["bg"] = "Bulgaro",
+    ["hr"] = "Croatiano",
+    ["sl"] = "Sloveno",
+    ["et"] = "Estoniano",
+    ["lt"] = "Lituano",
+    ["lv"] = "Lettone",
+    ["fa"] = "Persiano",
+    ["ms"] = "Malese",
+    ["ca"] = "Catalano",
+    ["gl"] = "Galiziano",
+    ["oc"] = "Occitano",
+    ["br"] = "Bretone",
+    ["ga"] = "Irlandese",
+    ["cy"] = "Gallese",
+    ["mt"] = "Maltese",
+    ["sq"] = "Albanese",
+    ["mk"] = "Macedone",
+    ["sr"] = "Serbo",
+    ["bs"] = "Bosniaco",
+    ["hr"] = "Croatiano",
+    ["sh"] = "Serbo-Croato",
+    ["uk"] = "Ucraino",
+    ["be"] = "Bielorusso",
+    ["kk"] = "Kazako",
+    ["ky"] = "Kirghiso",
+    ["uz"] = "Uzbeko",
+    ["az"] = "Azerbaigiano",
+    ["tk"] = "Turkmeno",
+    ["mn"] = "Mongolo",
+    ["tt"] = "Tataro",
+    ["ba"] = "Bashkir",
+    ["ce"] = "Ceceno",
+    ["cr"] = "Croatiano",
+    ["cs"] = "Ceco",
+    ["da"] = "Danese",
+    ["de"] = "Tedesco",
+    ["el"] = "Greco",
+    ["en"] = "Inglese",
+    ["es"] = "Spagnolo",
+    ["et"] = "Estoniano",
+    ["fa"] = "Persiano",
+    ["fi"] = "Finlandese",
+    ["fr"] = "Francese",
+    ["gl"] = "Galiziano",
+    ["he"] = "Ebraico",
+    ["hi"] = "Hindi",
+    ["hr"] = "Croatiano",
+    ["hu"] = "Ungherese",
+    ["id"] = "Indonesiano",
+    ["it"] = "Italiano",
+    ["ja"] = "Giapponese",
+    ["ka"] = "Georgiano",
+    ["kk"] = "Kazako",
+    ["ko"] = "Coreano",
+    ["ky"] = "Kirghiso",
+    ["lt"] = "Lituano",
+    ["lv"] = "Lettone",
+    ["mk"] = "Macedone",
+    ["ms"] = "Malese",
+    ["nl"] = "Olandese",
+    ["no"] = "Norvegese",
+    ["pl"] = "Polacco",
+    ["pt"] = "Portoghese",
+    ["ro"] = "Rumeno",
+    ["ru"] = "Russo",
+    ["sk"] = "Slovacco",
+    ["sl"] = "Sloveno",
+    ["sq"] = "Albanese",
+    ["sr"] = "Serbo",
+    ["sv"] = "Svedese",
+    ["th"] = "Tailandese",
+    ["tr"] = "Turco",
+    ["tt"] = "Tataro",
+    ["uk"] = "Ucraino",
+    ["uz"] = "Uzbeko",
+    ["vi"] = "Vietnamita",
+    	["zh"] = "Cinese"
+    }
+
+    local languageName = language_codes[isoCode]
+    if languageName then
+        return languageName
+    else
+        return isoCode
+    end
 end
 
 --------------------------------------------------------------------------------
