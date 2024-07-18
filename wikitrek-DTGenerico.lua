@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2024-05-17T22:50:58+02:00
+-- [P2G] Auto upload by PageToGitHub on 2024-07-18T23:48:36+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -8,6 +8,7 @@ local MakeNavTable = require('Modulo:DTBase').MakeNavTable
 --local AffiliationTree = require('Modulo:DTFunzioniComuni').AffiliationTree
 --local OperatorTree = require('Modulo:DTFunzioniComuni').OperatorTree
 local PropertiesOnTree = require('Modulo:DTFunzioniComuni').PropertiesOnTree
+local getLanguageName = require('Modulo:DTFunzioniComuni').getLanguageName
 local ShipNameCore = require('Modulo:FunzioniGeneriche').ShipNameCore
 	
 local p = {}
@@ -108,7 +109,7 @@ function p.ListAllP(frame)
 		IsEpisode = frame.args['IsEpisode']
 	end
 	
-	ExcludeP = {P3 = true, P7 = true, P8 = true, P11 = true, P21 = IsEpisode, P23 = true, P26 = true, P37 = true,  P46 = true, P58 = true, P68 = true, P52 = true, P79 = true, P90 = true, P104 = true, P162 = true}
+	ExcludeP = {P3 = true, P7 = true, P8 = true, P11 = true, P21 = IsEpisode, P23 = true, P26 = true, P37 = true,  P46 = true, P58 = true, P68 = true, P52 = true, P61 = true, P79 = true, P90 = true, P104 = true, P162 = true}
 	
 	AllP = mw.wikibase.orderProperties(Item:getProperties())
 	--Debug: list unsorted and sorted properties
@@ -119,6 +120,7 @@ function p.ListAllP(frame)
 	if (mw.wikibase.getLabelByLang(ItemQ, 'en')) and (mw.wikibase.getLabelByLang(ItemQ, 'en')) ~= PageTitle.text then
 		AllRows[#AllRows + 1] = {"In originale:", {mw.wikibase.getLabelByLang(ItemQ, 'en')}}
 	end
+	--[[
 	if (mw.wikibase.getLabelByLang(ItemQ, 'it')) then
 		local ITLabel
 		local ITValue
@@ -134,6 +136,28 @@ function p.ListAllP(frame)
 		PageName = ITValue
 		if (mw.wikibase.getLabelByLang(ItemQ, 'it')) ~= PageTitle.text then
 			AllRows[#AllRows + 1] = {ITLabel .. ":", {ITValue}}
+		end
+	end
+	]]
+	
+	for _, Label in pairs(Item.labels) do
+		local LangLabel
+		local LangValue
+		if IsEpisode or IsBook or IsFilm then
+			LangLabel = "Titolo " .. getLanguageName(Label.language)
+		else
+			LangLabel = "In " .. getLanguageName(Label.language)
+		end
+		LangValue = Label.value
+		if AddSemantic then
+			mw.smw.set(LangLabel .. "=" .. LangValue)
+		end
+		if Label.language == 'it' then
+			PageName = LangValue
+		end
+		
+		if LangValue ~= PageTitle.text then
+			table.insert(AllRows, {LangLabel .. ":", {LangValue}})
 		end
 	end
 	
@@ -332,7 +356,7 @@ function p.ListAllP(frame)
 									--P74 - Event
 									YearLink = LabelOrLink(SnakValue.qualifiers['P74'][1].datavalue.value['id'], nil, nil, PrintDate)
 								end
-								QualiString = " " .. "(" .. p.ProcessQualifiers(SnakValue) .. ")"
+								QualiString = " " .. p.ProcessQualifiers(SnakValue) --"(" .. p.ProcessQualifiers(SnakValue) .. ")"
 							end
 							
 							if YearLink == "" then
@@ -373,6 +397,12 @@ function p.ListAllP(frame)
 							if AddSemantic then
 								mw.smw.set(Header[2] .. "=" .. StringValue)
 							end
+							
+							AccValues[#AccValues + 1] = StringValue
+						elseif SnakValue.mainsnak.datavalue.type == 'monolingualtext' then
+							-- TODO process or ignore based on LANG
+							local StringValue
+							StringValue = SnakValue.mainsnak.datavalue.value.text
 							
 							AccValues[#AccValues + 1] = StringValue
 						else
@@ -520,10 +550,13 @@ function p.ProcessQualifiers(SnakValue)
 	local QualiValue = {}
 	
 	for _, Qualifier in pairs(SnakValue.qualifiers) do
-		
 		if Qualifier[1].property == "P4" then
 			--Broadcaster
-			QualiValue[#QualiValue + 1] = Qualifier[1].datavalue.value
+			--QualiValue[#QualiValue + 1] = Qualifier[1].datavalue.value
+			table.insert(QualiValue, Qualifier[1].datavalue.value)
+		elseif Qualifier[1].property == "P19" then  --SnakValue.qualifiers['P19'] ~= nil then
+			-- Suffix
+			table.insert(QualiValue, Qualifier[1].datavalue.value)
 		end
 	end
 	
