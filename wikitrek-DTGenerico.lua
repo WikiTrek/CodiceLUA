@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2024-07-18T23:48:36+02:00
+-- [P2G] Auto upload by PageToGitHub on 2024-07-19T09:41:28+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -143,15 +143,17 @@ function p.ListAllP(frame)
 	for _, Label in pairs(Item.labels) do
 		local LangLabel
 		local LangValue
+		
+		LangValue = Label.value
 		if IsEpisode or IsBook or IsFilm then
 			LangLabel = "Titolo " .. getLanguageName(Label.language)
+			if AddSemantic then
+				mw.smw.set(LangLabel .. "=" .. LangValue)
+			end
 		else
 			LangLabel = "In " .. getLanguageName(Label.language)
 		end
-		LangValue = Label.value
-		if AddSemantic then
-			mw.smw.set(LangLabel .. "=" .. LangValue)
-		end
+		
 		if Label.language == 'it' then
 			PageName = LangValue
 		end
