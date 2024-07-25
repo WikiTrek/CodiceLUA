@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2024-06-24T11:29:30+02:00
+-- [P2G] Auto upload by PageToGitHub on 2024-07-25T15:27:30+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTBase
 --- This module represent the package containing basic functions to access data from the WikiBase instance DataTrek
 -- @module p
@@ -181,7 +181,7 @@ function p.ExtIDLink(Property, Value)
 	local URL
 	
 	URL = mw.wikibase.getEntity(Property).claims[ExtIDP][1].mainsnak.datavalue.value
-	return string.gsub(URL, '$1', Value)
+	return string.gsub(URL, '$1', mw.uri.encode(Value, 'QUERY'))
 end
 function p.LinkToEntity(frame, AddSemantic)
 	-- La URI si otterrebbe con
