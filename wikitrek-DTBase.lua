@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2024-07-25T15:27:30+02:00
+-- [P2G] Auto upload by PageToGitHub on 2024-07-25T16:41:03+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTBase
 --- This module represent the package containing basic functions to access data from the WikiBase instance DataTrek
 -- @module p
@@ -168,7 +168,7 @@ function p.ExternalID()
 	AllP = mw.wikibase.orderProperties(Item:getProperties())
 	for _, Property in pairs(AllP) do
 		if Item.claims[Property][1].mainsnak.datatype == 'external-id' then
-			AllExtID[#AllExtID + 1] = "* ["  .. p.ExtIDLink(Property, Item.claims[Property][1].mainsnak.datavalue.value) .. " ''" .. Item.claims[Property][1].mainsnak.datavalue.value .. "''], " .. (mw.wikibase.getLabelByLang(Property, 'it') or mw.wikibase.getLabel(Property)) -- [[:" .. SiteLink['site'] .. ":" .. SiteLink['title'] .. "|''" .. SiteLink['title'] .. "'']], " .. TitleLabel
+			AllExtID[#AllExtID + 1] = "* ["  .. p.ExtIDLink(Property, Item.claims[Property][1].mainsnak.datavalue.value) .. " ''" .. Item.claims[Property][1].mainsnak.datavalue.value .. "''], " .. (mw.wikibase.getLabelByLang(Property, 'it') or mw.wikibase.getLabel(Property))
 			-- Sets semantic property
 			mw.smw.set((mw.wikibase.getLabelByLang(Property, 'it') or mw.wikibase.getLabel(Property)) .. " = " .. Item.claims[Property][1].mainsnak.datavalue.value)
 		end
@@ -176,12 +176,20 @@ function p.ExternalID()
 	
 	return table.concat(AllExtID, string.char(10))
 end
+--------------------------------------------------------------------------------
+-- Return a URL for the external IDentifier
+--
+-- @param Property The P beign processed
+-- @param The ID value itself
+--
+-- @return string String containing escaped URL
+--------------------------------------------------------------------------------
 function p.ExtIDLink(Property, Value)
 	local ExtIDP = 'P5'
 	local URL
 	
 	URL = mw.wikibase.getEntity(Property).claims[ExtIDP][1].mainsnak.datavalue.value
-	return string.gsub(URL, '$1', mw.uri.encode(Value, 'QUERY'))
+	return string.gsub(URL, '$1', mw.uri.encode(Value, "QUERY"):gsub("%%", "%%%%"))
 end
 function p.LinkToEntity(frame, AddSemantic)
 	-- La URI si otterrebbe con
