@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2024-07-25T16:41:03+02:00
+-- [P2G] Auto upload by PageToGitHub on 2024-08-19T22:53:24+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTBase
 --- This module represent the package containing basic functions to access data from the WikiBase instance DataTrek
 -- @module p
@@ -187,9 +187,16 @@ end
 function p.ExtIDLink(Property, Value)
 	local ExtIDP = 'P5'
 	local URL
+	local FullLink
 	
 	URL = mw.wikibase.getEntity(Property).claims[ExtIDP][1].mainsnak.datavalue.value
-	return string.gsub(URL, '$1', mw.uri.encode(Value, "QUERY"):gsub("%%", "%%%%"))
+	if string.find(Value, "[%%%+%-%*%?]") ~= nil then
+		FullLink = string.gsub(URL, '$1', mw.uri.encode(Value, "QUERY"):gsub("%%", "%%%%"))
+	else
+		FullLink = string.gsub(URL, '$1', Value)
+	end
+	
+	return FullLink
 end
 function p.LinkToEntity(frame, AddSemantic)
 	-- La URI si otterrebbe con
@@ -238,6 +245,7 @@ end
 function p.SemanticToItem(frame)
 	if mw.wikibase.getEntity() ~= nil then
 		mw.smw.set("DataTrek Item = " .. mw.wikibase.getEntityIdForCurrentPage())
+		mw.smw.set("DataTrek ID = " .. mw.wikibase.getEntityIdForCurrentPage())
 	end
 end
 function p.LabelByLang(frame)
@@ -552,7 +560,7 @@ function p.ListBackReferences(frame)
 				Row = "[[" .. v.fulltext .. "]]"
             end
             if v.printouts['DataTrek ID'][1] ~= nil then
-            	Row = Row .. " - " .. v.printouts['DataTrek ID'][1] .. " - " .. v.printouts['Istanza'][1].fulltext
+            	Row = Row .. " - " .. v.printouts['DataTrek ID'][1] --.. " - " .. v.printouts['Istanza'][1].fulltext
             end
             
 			AllBackReferences[#AllBackReferences + 1] = "*" .. Row
