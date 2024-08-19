@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2024-08-19T22:53:24+02:00
+-- [P2G] Auto upload by PageToGitHub on 2024-08-19T22:59:14+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTBase
 --- This module represent the package containing basic functions to access data from the WikiBase instance DataTrek
 -- @module p
@@ -560,7 +560,10 @@ function p.ListBackReferences(frame)
 				Row = "[[" .. v.fulltext .. "]]"
             end
             if v.printouts['DataTrek ID'][1] ~= nil then
-            	Row = Row .. " - " .. v.printouts['DataTrek ID'][1] --.. " - " .. v.printouts['Istanza'][1].fulltext
+            	Row = Row .. " - " .. v.printouts['DataTrek ID'][1] 
+            	if v.printouts['Istanza'][1] ~= nil then
+            		Row = Row .. " - " .. v.printouts['Istanza'][1].fulltext
+            	end
             end
             
 			AllBackReferences[#AllBackReferences + 1] = "*" .. Row
