@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2024-09-07T18:02:39+02:00
+-- [P2G] Auto upload by PageToGitHub on 2024-09-07T18:03:20+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -224,7 +224,7 @@ function p.ListAllP(frame)
 				InstanceQ = Item.claims[Property][1].mainsnak.datavalue.value.id
 				RootInstanceArray = PropertiesOnTree("P14", 3, true, false, true)
 				
-				if #RootInstance > 1 then
+				if #RootInstanceArray > 1 then
 					--Second to last resul, because last one should always be a Class, the topmost Instance possible
 					RootInstance = RootInstanceArray[#RootInstanceArray - 1]
 				else
