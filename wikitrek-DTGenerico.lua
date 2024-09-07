@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2024-07-19T09:41:28+02:00
+-- [P2G] Auto upload by PageToGitHub on 2024-09-07T18:02:39+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -90,6 +90,7 @@ function p.ListAllP(frame)
 	local Item = mw.wikibase.getEntity()
 	local ItemQ = mw.wikibase.getEntityIdForCurrentPage()
 	local InstanceQ
+	local RootInstanceQ
 	local IsEpisode = false
 	local OperatorName = ""
 	local AstroRA = nil
@@ -215,27 +216,27 @@ function p.ListAllP(frame)
 							--mw.smw.set("OperatorName1=" .. OperatorName)
 						end
 						if AddSemantic then
-							--mw.smw.set(PropName .. "=" .. PropValue)
+							mw.smw.set(PropName .. "=" .. PropValue)
 						end
 					end
 				end
 				
 				InstanceQ = Item.claims[Property][1].mainsnak.datavalue.value.id
+				RootInstanceArray = PropertiesOnTree("P14", 3, true, false, true)
 				
-				if InstanceQ == "Q876" or InstanceQ == "Q78" then
+				if #RootInstance > 1 then
+					--Second to last resul, because last one should always be a Class, the topmost Instance possible
+					RootInstance = RootInstanceArray[#RootInstanceArray - 1]
+				else
+					--Should be a Class
+					RootInstance = RootInstanceArray[1]
+				end
+				mw.smw.set("Istanza radice=" .. RootInstance)
+				if RootInstance == "Astronave" or RootInstance == "Spaceship" then
+				--if InstanceQ == "Q876" or InstanceQ == "Q78" or InstanceQ == "Q890" then
 					--Spaceship or starship
 					mw.smw.set("Nome=" .. ShipNameCore(PageName))
 				end
-				
-				--[==[AllRows[#AllRows + 1] = {{"P40", "Affiliazione:"}, {AffiliationTree(frame)}}
-				AllRows[#AllRows + 1] = {{"P41", "Operatore:"}, {OperatorTree(frame)}}
-				AllRows[#AllRows + 1] = {{"P88", "Classe navale:"}, {table.concat(PropertiesOnTree("P88", 3, false))}}
-				if AddSemantic then
-					mw.smw.set("Affiliazione=" .. AffiliationTree(frame))
-					mw.smw.set("Operatore=" .. OperatorTree(frame))
-				end]==]
-				--mw.smw.set("OperatorName2=" .. OperatorName)
-			-- END specific property
 			else
 				-- START Unspecified Property
 				local Header = {Property, (mw.wikibase.getLabelByLang(Property, 'it') or mw.wikibase.getLabel(Property))} -- .. ":"} -- or {Property, mw.wikibase.getLabel(Property) .. ":"} --'-' .. Property .. ":"}
