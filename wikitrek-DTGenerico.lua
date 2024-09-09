@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2024-09-07T18:03:20+02:00
+-- [P2G] Auto upload by PageToGitHub on 2024-09-09T14:27:57+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -222,16 +222,25 @@ function p.ListAllP(frame)
 				end
 				
 				InstanceQ = Item.claims[Property][1].mainsnak.datavalue.value.id
-				RootInstanceArray = PropertiesOnTree("P14", 3, true, false, true)
-				
-				if #RootInstanceArray > 1 then
-					--Second to last resul, because last one should always be a Class, the topmost Instance possible
-					RootInstance = RootInstanceArray[#RootInstanceArray - 1]
-				else
-					--Should be a Class
-					RootInstance = RootInstanceArray[1]
+				--Initial setting to calculate the root class of the item
+				RootInstanceQ = InstanceQ
+				--Loop only if the element is not a Class itself
+				if RootInstanceQ ~= "Q47" then
+					--Set a reasonable number of iteration to avoid infinite loop
+					for i = 1, 15, 1 do
+						local TempQ
+						TempQ = mw.wikibase.getEntity(RootInstanceQ).claims["P14"][1].mainsnak.datavalue.value.id
+						--If 
+						if TempQ == "Q47" then
+							break
+						else
+							RootInstanceQ = TempQ
+						end
+					end
 				end
+				RootInstance = mw.wikibase.getLabelByLang(RootInstanceQ, 'it')
 				mw.smw.set("Istanza radice=" .. RootInstance)
+				--If the item's root class is spaceship, then sets the name
 				if RootInstance == "Astronave" or RootInstance == "Spaceship" then
 				--if InstanceQ == "Q876" or InstanceQ == "Q78" or InstanceQ == "Q890" then
 					--Spaceship or starship
