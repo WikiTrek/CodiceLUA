@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2024-09-07T17:40:43+02:00
+-- [P2G] Auto upload by PageToGitHub on 2024-10-04T22:09:58+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTBase
 --- This module represent the package containing basic functions to access data from the WikiBase instance DataTrek
 -- @module p
@@ -520,29 +520,6 @@ function p.ListBackReferences(frame)
 	-- See example here https://github.com/SemanticMediaWiki/SemanticScribunto/blob/master/docs/mw.smw.getQueryResult.md
 	-- See also here https://doc.semantic-mediawiki.org/md_content_extensions_SemanticScribunto_docs_mw_8smw_8getQueryResult.html
 	local AllBackReferences = {}
-	--[=[
-	local QueryResult = mw.smw.ask('[[Riferimento::' .. mw.title.getCurrentTitle().text .. ']]|?DataTrek ID|format=broadtable')
-	
-	if not QueryResult then
-		return "''Nessun risultato''"
-	else
-		for _, Row in pairs(QueryResult) do
-			local Items = {}
-			for _, Field in pairs(Row) do
-				if string.sub(Field, 1, 7) == "[[File:" then
-					Items[#Items + 1] = "[[:" .. string.sub(Field, 3)
-				else
-					Items[#Items + 1] = Field
-				end
-			end
-			AllBackReferences[#AllBackReferences + 1] = "*" .. table.concat(Items, ', ')
-		end
-		return table.concat(AllBackReferences, string.char(10))
-	end
-	]=]
-
-	--local QueryResult = mw.smw.getQueryResult('[[Riferimento::' .. mw.title.getCurrentTitle().text .. ']]|?DataTrek ID')
-	--local queryResult = mw.smw.getQueryResult( frame.args )
 	local QueryResult = mw.smw.getQueryResult('[[Riferimento::' .. mw.title.getCurrentTitle().text .. ']]|?DataTrek ID|?Istanza')
 	
     if QueryResult == nil then
@@ -555,7 +532,8 @@ function p.ListBackReferences(frame)
         local ResultText = ""
         for k, v in pairs(QueryResult.results) do
             if string.sub(v.fulltext, 1, 5) == "File:" then
-				Row = "[[:" .. v.fulltext .. "]]" --string.sub(v.fulltext, 3)
+				--IF the back reference is a media, don't list it, but show the thumbnail only
+				--Row = "[[:" .. v.fulltext .. "]]"
 				ImagesList = ImagesList .. v.fulltext .. "|" .. frame:expandTemplate{ title = v.fulltext} .. string.char(10)
 			else
 				Row = "[[" .. v.fulltext .. "]]"
