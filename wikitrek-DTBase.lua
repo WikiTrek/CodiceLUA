@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2024-10-31T00:01:29+01:00
+-- [P2G] Auto upload by PageToGitHub on 2025-03-20T10:25:21+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTBase
 --- This module represent the package containing basic functions to access data from the WikiBase instance DataTrek
 -- @module p
@@ -51,7 +51,7 @@ function p.ExtLinks(frame)
 		AllRows = AllRows .. string.char(10) .. string.char(10)
 	end
 	
-	ExternalIDList = p.ExternalID()
+	ExternalIDList = p.ExternalID(frame)
 	
 	if ExternalIDList ~= nil and ExternalIDList ~= "" then
 		ExternalIDList = string.char(10) .. "=== Identificativi esterni ===" .. string.char(10) .. ExternalIDList
@@ -157,24 +157,40 @@ function p.SiteLinksInterwiki()
 	
 	return table.concat(AllLinks, string.char(10))
 end
-function p.ExternalID()
+function p.ExternalID(frame)
 	local AllExtID = {}
+	local AllSources = {}
+	local SourcesP = {}
 	local Item = mw.wikibase.getEntity()
 	local AllP
+	local finalList
 	if not Item then
 		Item = mw.wikibase.getEntity('Q1')
 	end
 	
 	AllP = mw.wikibase.orderProperties(Item:getProperties())
+	SourcesP = {P200 = true}
+	
 	for _, Property in pairs(AllP) do
 		if Item.claims[Property][1].mainsnak.datatype == 'external-id' then
-			AllExtID[#AllExtID + 1] = "* ["  .. p.ExtIDLink(Property, Item.claims[Property][1].mainsnak.datavalue.value) .. " ''" .. Item.claims[Property][1].mainsnak.datavalue.value .. "''], " .. (mw.wikibase.getLabelByLang(Property, 'it') or mw.wikibase.getLabel(Property))
 			-- Sets semantic property
 			mw.smw.set((mw.wikibase.getLabelByLang(Property, 'it') or mw.wikibase.getLabel(Property)) .. " = " .. Item.claims[Property][1].mainsnak.datavalue.value)
+			if (SourcesP[Property]) then
+				--ID is for external source
+				table.insert(AllSources, "* " .. frame:expandTemplate{title = 'CitazioneIEEE', args = {'Contributori Memory Alpha', Item.sitelinks['itma'].title, 'Memory Alpha', Item.claims[Property][1].qualifiers['P201'][1].datavalue.value.time, p.ExtIDLink(Property, Item.claims[Property][1].mainsnak.datavalue.value)}})
+			else
+				--ID is normal external link
+				AllExtID[#AllExtID + 1] = "* ["  .. p.ExtIDLink(Property, Item.claims[Property][1].mainsnak.datavalue.value) .. " ''" .. Item.claims[Property][1].mainsnak.datavalue.value .. "''], " .. (mw.wikibase.getLabelByLang(Property, 'it') or mw.wikibase.getLabel(Property))
+			end
 		end
 	end
 	
-	return table.concat(AllExtID, string.char(10))
+	finalList = table.concat(AllExtID, string.char(10))
+	if AllSources ~= nil then
+		finalList = finalList .. string.char(10) .. "== Fonti Esterne (" .. frame:expandTemplate{title = 'Beta'} .. ") ==" .. string.char(10) .. table.concat(AllSources, string.char(10))
+	end
+	
+	return finalList
 end
 --------------------------------------------------------------------------------
 -- Return a URL for the external IDentifier
