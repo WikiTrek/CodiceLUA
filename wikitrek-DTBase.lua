@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2025-03-21T22:55:27+01:00
+-- [P2G] Auto upload by PageToGitHub on 2025-03-21T23:03:46+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTBase
 --- This module represent the package containing basic functions to access data from the WikiBase instance DataTrek
 -- @module p
