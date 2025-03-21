@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2025-03-20T10:25:21+01:00
+-- [P2G] Auto upload by PageToGitHub on 2025-03-21T22:55:27+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTBase
 --- This module represent the package containing basic functions to access data from the WikiBase instance DataTrek
 -- @module p
@@ -163,7 +163,7 @@ function p.ExternalID(frame)
 	local SourcesP = {}
 	local Item = mw.wikibase.getEntity()
 	local AllP
-	local finalList
+	local finalList = ""
 	if not Item then
 		Item = mw.wikibase.getEntity('Q1')
 	end
@@ -185,10 +185,14 @@ function p.ExternalID(frame)
 		end
 	end
 	
-	finalList = table.concat(AllExtID, string.char(10))
-	if AllSources ~= nil then
+	if AllExtID ~= nil and AllExtID ~= "" then
+		finalList = table.concat(AllExtID, string.char(10))
+	end
+	if AllSources ~= nil and AllSources ~= "" then
 		finalList = finalList .. string.char(10) .. "== Fonti Esterne (" .. frame:expandTemplate{title = 'Beta'} .. ") ==" .. string.char(10) .. table.concat(AllSources, string.char(10))
 	end
+	
+	mw.smw.set("finalList = " .. finalList)
 	
 	return finalList
 end
