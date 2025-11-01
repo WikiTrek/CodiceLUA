@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2025-03-21T23:03:46+01:00
+-- [P2G] Auto upload by PageToGitHub on 2025-11-01T18:02:20+01:00
 -- [P2G] This code from page Modulo:wikitrek-DTBase
 --- This module represent the package containing basic functions to access data from the WikiBase instance DataTrek
 -- @module p
@@ -133,7 +133,8 @@ function p.SiteLinksInterwiki()
 		dema = 'Memory Alpha (tedesco)',
 		demb = 'Memory Beta (tedesco)',
 		fanlore = 'Fanlore',
-		trekipedia = 'Trekipedia'
+		trekipedia = 'Trekipedia',
+		commonswiki = 'Wikimedia Commons'
 	}
 	
 	for _, SiteLink in pairs(SiteLinks) do
@@ -159,7 +160,7 @@ function p.SiteLinksInterwiki()
 end
 function p.ExternalID(frame)
 	local AllExtID = {}
-	local AllSources = {}
+	local AllSources
 	local SourcesP = {}
 	local Item = mw.wikibase.getEntity()
 	local AllP
@@ -177,6 +178,10 @@ function p.ExternalID(frame)
 			mw.smw.set((mw.wikibase.getLabelByLang(Property, 'it') or mw.wikibase.getLabel(Property)) .. " = " .. Item.claims[Property][1].mainsnak.datavalue.value)
 			if (SourcesP[Property]) then
 				--ID is for external source
+				if AllSources == nil then
+					AllSources = {}
+				end
+				
 				table.insert(AllSources, "* " .. frame:expandTemplate{title = 'CitazioneIEEE', args = {'Contributori Memory Alpha', Item.sitelinks['itma'].title, 'Memory Alpha', Item.claims[Property][1].qualifiers['P201'][1].datavalue.value.time, p.ExtIDLink(Property, Item.claims[Property][1].mainsnak.datavalue.value)}})
 			else
 				--ID is normal external link
@@ -210,7 +215,7 @@ function p.ExtIDLink(Property, Value)
 	local FullLink
 	
 	URL = mw.wikibase.getEntity(Property).claims[ExtIDP][1].mainsnak.datavalue.value
-	if string.find(Value, "[%%%+%-%*%?]") ~= nil then
+	if string.find(Value, "[%%%+%-%*%?]") ~= nil and string.find(Value, " ") ~= nil then
 		FullLink = string.gsub(URL, '$1', mw.uri.encode(Value, "QUERY"):gsub("%%", "%%%%"))
 	else
 		FullLink = string.gsub(URL, '$1', Value)
