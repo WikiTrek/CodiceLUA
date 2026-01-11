@@ -13,3 +13,6 @@ Si veda anche https://wikitrek.org/index.php/Categoria:Moduli_LUA_di_WikiTrek
 [![Discuss on StackOverflow](https://img.shields.io/badge/Discuss_on-Stack_Overflow-fe7a16?logo=stackoverflow)](https://stackoverflow.com/questions/tagged/wt-LUA?tab=Active)
 [![LDoc](https://img.shields.io/badge/Support-LDoc-000081)](https://github.com/lunarmodules/ldoc)
 [![Luacheck](https://github.com/lunarmodules/ldoc/workflows/Luacheck/badge.svg)](https://github.com/WikiTrek/CodiceLUA/actions/workflows/luacheck.yml)
+
+## Actions
+Dato che il codice è commentato seguendo lo standard [LDoc](https://stevedonovan.github.io/ldoc/manual/doc.md.html), una [_GitHub Action_](https://github.com/WikiTrek/CodiceLUA/blob/main/.github/workflows/generate-documentation.yml) si occupa di generare automaticamente la dcoumentazione in HTML qui https://wikitrek.github.io/CodiceLUA/.
