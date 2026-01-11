@@ -40,10 +40,10 @@
 <h2>Modules</h2>
 <ul class="nowrap">
   <li><a href="../modules/wikitrek-BeginEndPage.html">wikitrek-BeginEndPage</a></li>
-  <li><a href="../modules/wikitrek-CaseExpander.html">wikitrek-CaseExpander</a></li>
+  <li><strong>wikitrek-CaseExpander</strong></li>
   <li><a href="../modules/wikitrek-DTBase.html">wikitrek-DTBase</a></li>
   <li><a href="../modules/wikitrek-DTFunzioniComuni.html">wikitrek-DTFunzioniComuni</a></li>
-  <li><strong>wikitrek-DTGenerico</strong></li>
+  <li><a href="../modules/wikitrek-DTGenerico.html">wikitrek-DTGenerico</a></li>
   <li><a href="../modules/wikitrek-DTSem.html">wikitrek-DTSem</a></li>
   <li><a href="../modules/wikitrek-DTSpecific.html">wikitrek-DTSpecific</a></li>
   <li><a href="../modules/wikitrek-FunzioniGeneriche.html">wikitrek-FunzioniGeneriche</a></li>
@@ -55,28 +55,28 @@
 
 <div id="content">
 
-<h1>Module <code>wikitrek-DTGenerico</code></h1>
-<p>Function to expand template contained within description,
- if present</p>
-<p></p>
+<h1>Module <code>wikitrek-CaseExpander</code></h1>
+<p>Parses a CasesList page and returns structured case data
+ Reads a template's /CasesList subpage and creates mappings for codes,
+ aliases, and expansions.</p>
+<p> Supports case-insensitive lookups.
+<p> CasesList format:
+   CODE1, CODE2 = Expansion text for both codes
+   CODE3 = Expansion text for CODE3
+</p>
 
 
 <h2><a href="#Functions">Functions</a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#p.DescrWithTemplate">p.DescrWithTemplate (frame)</a></td>
-	<td class="summary">Function to expand template contained within description,
- if present</td>
+	<td class="name" nowrap><a href="#p.expand">p.expand (frame)</a></td>
+	<td class="summary">Expands a single case/code to its full text
+ Performs case-insensitive lookup of a code and returns its expansion.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#p.ProcessQualifiers">p.ProcessQualifiers (Snak)</a></td>
-	<td class="summary">Function to query for HyperTrek migration data and to construct a proper box
- to show them, if present</td>
-	</tr>
-	<tr>
-	<td class="name" nowrap><a href="#p.ListHTData">p.ListHTData (frame, AddSemantic)</a></td>
-	<td class="summary">Function to query for HyperTrek migration data and to construct a proper box
- to show them, if present</td>
+	<td class="name" nowrap><a href="#p.listAll">p.listAll (frame)</a></td>
+	<td class="summary">Generates a formatted list or table of all cases
+ Creates a display of all available cases and their expansions.</td>
 	</tr>
 </table>
 
@@ -88,25 +88,32 @@
 
     <dl class="function">
     <dt>
-    <a name = "p.DescrWithTemplate"></a>
-    <strong>p.DescrWithTemplate (frame)</strong>
+    <a name = "p.expand"></a>
+    <strong>p.expand (frame)</strong>
     </dt>
     <dd>
-    Function to expand template contained within description,
- if present
+    Expands a single case/code to its full text
+ Performs case-insensitive lookup of a code and returns its expansion.
+ If the code is not found, returns the default value.
+<p> Usage from template:
+   {{#invoke:CaseExpander|expand|CODENAME|DefaultText|Template:Ship}}
+
 
 
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">frame</span>
-         Data from MW session
+         frame object from MediaWiki with args:
+   - [1]: the code to expand (required)
+   - [2]: the default text if code not found (optional, default: "Unknown case")
+   - [3]: the template name (optional, default: "Template:Ship")
         </li>
     </ul>
 
     <h3>Returns:</h3>
     <ol>
 
-        String Text containing expanded template
+        string The expansion text or default value
     </ol>
 
 
@@ -114,54 +121,32 @@
 
 </dd>
     <dt>
-    <a name = "p.ProcessQualifiers"></a>
-    <strong>p.ProcessQualifiers (Snak)</strong>
+    <a name = "p.listAll"></a>
+    <strong>p.listAll (frame)</strong>
     </dt>
     <dd>
-    Function to query for HyperTrek migration data and to construct a proper box
- to show them, if present
+    Generates a formatted list or table of all cases
+ Creates a display of all available cases and their expansions.
+ Can output as a formatted HTML table or a bullet list.
+<p> Usage from template:
+   {{#invoke:CaseExpander|listAll|Template:Ship|format=table}}
+   {{#invoke:CaseExpander|listAll|Template:Ship|format=list}}
 
-
-    <h3>Parameters:</h3>
-    <ul>
-        <li><span class="parameter">Snak</span>
-         The Snak the qualifiers belongs to
-        </li>
-    </ul>
-
-    <h3>Returns:</h3>
-    <ol>
-
-        String or link with qualifiers value processed
-    </ol>
-
-
-
-
-</dd>
-    <dt>
-    <a name = "p.ListHTData"></a>
-    <strong>p.ListHTData (frame, AddSemantic)</strong>
-    </dt>
-    <dd>
-    Function to query for HyperTrek migration data and to construct a proper box
- to show them, if present
 
 
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">frame</span>
-         Data from MW session
-        </li>
-        <li><span class="parameter">AddSemantic</span>
-         Boolean value to instruct about adding SMW prefix
+         frame object from MediaWiki with args:
+   - [1]: the template name (required)
+   - format: output format - "table" or "list" (optional, default: "table")
         </li>
     </ul>
 
     <h3>Returns:</h3>
     <ol>
 
-        DIV with HT migration in it or empty string
+        string HTML or wikitext formatted list of all cases
     </ol>
 
 
