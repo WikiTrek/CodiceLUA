@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2026-01-11T17:32:38+01:00
+-- [P2G] Auto upload by PageToGitHub on 2026-01-11T17:43:55+01:00
 -- [P2G] This code from page Modulo:wikitrek-CaseExpander
 --- Module:CaseExpander
 -- Central code expansion system for MediaWiki templates
@@ -131,8 +131,8 @@ function p.listAll(frame)
     
     if format == "table" then
         -- Generate HTML table with sortable class
-        result = '<table class="wikitable sortable">\n'
-        result = result .. '<tr><th>Code(s)</th><th>Ship</th></tr>\n'
+        result = '<table class="wikitable sortable" style="width:80%">\n'
+        result = result .. '<tr><th style="width:40%">Valore del parametro</th><th>Testo restituito</th></tr>\n'
         
         for _, group in ipairs(data.codeGroups) do
             local codesDisplay = table.concat(group.codes, ", ")
