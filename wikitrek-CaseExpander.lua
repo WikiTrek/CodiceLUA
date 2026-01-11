@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2026-01-11T17:43:55+01:00
+-- [P2G] Auto upload by PageToGitHub on 2026-01-11T21:32:13+01:00
 -- [P2G] This code from page Modulo:wikitrek-CaseExpander
 --- Module:CaseExpander
 -- Central code expansion system for MediaWiki templates
@@ -86,17 +86,25 @@ end
 -- If the code is not found, returns the default value.
 --
 -- Usage from template:
+--   {{#invoke:CaseExpander|expand|CODENAME|DefaultText}}
+-- OR if called from a different context:
 --   {{#invoke:CaseExpander|expand|CODENAME|DefaultText|Template:Ship}}
 --
 -- @param frame frame object from MediaWiki with args:
 --   - [1]: the code to expand (required)
 --   - [2]: the default text if code not found (optional, default: "Unknown case")
---   - [3]: the template name (optional, default: "Template:Ship")
+--   - [3]: the template name (optional, auto-detected if not provided)
 -- @return string The expansion text or default value
 function p.expand(frame)
     local code = frame.args[1] or ""
     local default = frame.args[2] or "Unknown case"
-    local templateName = frame.args[3] or "Template:Ship"
+    
+    -- Try to get template name from args, otherwise auto-detect
+    local templateName = frame.args[3]
+    if not templateName or templateName == "" then
+        local currentTitle = mw.title.getCurrentTitle()
+        templateName = currentTitle.prefixedText
+    end
     
     local data = p.parseCasesList(templateName)
     
@@ -114,15 +122,22 @@ end
 -- Can output as a formatted HTML table or a bullet list.
 --
 -- Usage from template:
+--   {{#invoke:CaseExpander|listAll|format=table}}
+-- OR if called from a different context:
 --   {{#invoke:CaseExpander|listAll|Template:Ship|format=table}}
---   {{#invoke:CaseExpander|listAll|Template:Ship|format=list}}
 --
 -- @param frame frame object from MediaWiki with args:
---   - [1]: the template name (required)
+--   - [1]: the template name (optional, auto-detected if not provided)
 --   - format: output format - "table" or "list" (optional, default: "table")
 -- @return string HTML or wikitext formatted list of all cases
 function p.listAll(frame)
-    local templateName = frame.args[1] or "Template:Ship"
+    -- Try to get template name from args, otherwise auto-detect
+    local templateName = frame.args[1]
+    if not templateName or templateName == "" then
+        local currentTitle = mw.title.getCurrentTitle()
+        templateName = currentTitle.prefixedText
+    end
+    
     local format = frame.args.format or "table"
     
     local data = p.parseCasesList(templateName)
@@ -131,8 +146,8 @@ function p.listAll(frame)
     
     if format == "table" then
         -- Generate HTML table with sortable class
-        result = '<table class="wikitable sortable" style="width:80%">\n'
-        result = result .. '<tr><th style="width:40%">Valore del parametro</th><th>Testo restituito</th></tr>\n'
+        result = '<table class="wikitable sortable">\n'
+        result = result .. '<tr><th>Code(s)</th><th>Ship</th></tr>\n'
         
         for _, group in ipairs(data.codeGroups) do
             local codesDisplay = table.concat(group.codes, ", ")
