@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2026-02-01T11:44:32+01:00
+-- [P2G] Auto upload by PageToGitHub on 2026-02-01T11:59:58+01:00
 -- [P2G] This code from page Modulo:wikitrek-Stardate
 --- Module:Stardate
 -- Bidirectional conversion between Gregorian dates and Star Trek TNG-era stardates.
@@ -55,13 +55,13 @@ local function _parseDate(dateStr)
     dateStr = mw.ustring.gsub(dateStr, "^%s*(.-)%s*$", "%1")
     
     -- ISO: YYYY-MM-DD or YYYY/MM/DD
-    local y, m, d = mw.ustring.match(dateStr, "^(%d{4})[-/]%d?%d[-/](%d?%d)$")
+    local y, m, d = mw.ustring.match(dateStr, "^(%d{4})[-/](%d{1,2})[-/](%d{1,2})$")
     if y then
         return {year=tonumber(y), month=tonumber(m), day=tonumber(d)}, nil
     end
     
     -- Day Month Year (English/Italian): 31 January 2024, 31 gennaio 2024
-    local dayStr, monthStr, yearStr = mw.ustring.match(dateStr, "^(%d+)%s+([%wàèìòùáéíóú]+)%s+(%d{4})$")
+    local dayStr, monthStr, yearStr = mw.ustring.match(dateStr, "^(%d{1,2})%s+([%wàèìòùáéíóú]+)%s+(%d{4})$")
     if dayStr then
         local monthNum = _parseMonth(monthStr:lower())
         if monthNum then
