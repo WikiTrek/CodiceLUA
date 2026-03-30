@@ -1,4 +1,4 @@
--- [P2G] Auto upload by PageToGitHub on 2026-03-30T10:01:07+02:00
+-- [P2G] Auto upload by PageToGitHub on 2026-03-30T10:02:09+02:00
 -- [P2G] This code from page Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
@@ -424,7 +424,7 @@ function p.ListAllP(frame)
 							--URL, URI or URN
 							local URLString
 							URLString = SnakValue.mainsnak.datavalue.value
-							if SnakValue.qualifiers['P20'] ~= nil then
+							if SnakValue.qualifiers ~= nil and SnakValue.qualifiers['P20'] ~= nil then
 								--Label is present
 								URLString = "[" .. URLString .. " " .. mw.text.nowiki(SnakValue.qualifiers['P20'][1].datavalue.value) .. "]"
 							end
