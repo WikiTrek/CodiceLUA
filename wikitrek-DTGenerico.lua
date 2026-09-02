@@ -1,5 +1,5 @@
--- [P2G] Auto upload by PageToGitHub on 2026-03-30T10:02:09+02:00
--- [P2G] This code from page Modulo:wikitrek-DTGenerico
+-- Upload automatica di PageToGitHub il 2026-09-02T12:36:47+02:00
+-- Questo codice proviene da Modulo:wikitrek-DTGenerico
 -- Keyword: wikitrek
 local TableFromArray = require('Modulo:FunzioniGeneriche').TableFromArray
 local LabelOrLink = require('Modulo:DTBase').LabelOrLink
@@ -118,29 +118,16 @@ function p.ListAllP(frame)
 	--AllRows[#AllRows + 1] = {"AllP:", AllP}
 	
 	PageTitle =  mw.title.getCurrentTitle()
+	
+	-- The following code is obsolete, since now all the languages are shown
+	-- as per the next code block
+	--[[
 	if (mw.wikibase.getLabelByLang(ItemQ, 'en')) and (mw.wikibase.getLabelByLang(ItemQ, 'en')) ~= PageTitle.text then
 		AllRows[#AllRows + 1] = {"In originale:", {mw.wikibase.getLabelByLang(ItemQ, 'en')}}
 	end
-	--[[
-	if (mw.wikibase.getLabelByLang(ItemQ, 'it')) then
-		local ITLabel
-		local ITValue
-		if IsEpisode or IsBook or IsFilm then
-			ITLabel = "Titolo italiano"
-		else
-			ITLabel = "In italiano"
-		end
-		ITValue = mw.wikibase.getLabelByLang(ItemQ, 'it')
-		if AddSemantic then
-			mw.smw.set(ITLabel .. "=" .. ITValue)
-		end
-		PageName = ITValue
-		if (mw.wikibase.getLabelByLang(ItemQ, 'it')) ~= PageTitle.text then
-			AllRows[#AllRows + 1] = {ITLabel .. ":", {ITValue}}
-		end
-	end
 	]]
 	
+	-- List and print all languages
 	for _, Label in pairs(Item.labels) do
 		local LangLabel
 		local LangValue
