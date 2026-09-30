@@ -1,4 +1,4 @@
--- Upload automatica di PageToGitHub il 2026-10-01T00:00:55+02:00
+-- Upload automatica di PageToGitHub il 2026-10-01T00:22:30+02:00
 -- Questo codice proviene da Modulo:wikitrek-ChronoSpine
 --[[
 Module:ChronoSpine/selftest
@@ -7,10 +7,10 @@ Module:ChronoSpine/selftest
 Purpose
 -------
 A small, self-contained test harness for Module:ChronoSpine/date,
-Module:ChronoSpine/stardate, and Module:ChronoSpine/manual, usable
-while it is still unknown whether ScribuntoUnit (or a `/testcases`
-convention) is available on wikitrek.org (project briefing, open
-question #4).
+Module:ChronoSpine/stardate, Module:ChronoSpine/manual, and
+Module:ChronoSpine/group, usable while it is still unknown whether
+ScribuntoUnit (or a `/testcases` convention) is available on
+wikitrek.org (project briefing, open question #4).
 
 Usage
 -----
@@ -41,6 +41,8 @@ local p = {}
 local date_parser = require("Module:ChronoSpine/date")
 local stardate_parser = require("Module:ChronoSpine/stardate")
 local manual_adapter = require("Module:ChronoSpine/manual")
+local entry = require("Module:ChronoSpine/entry")
+local group_module = require("Module:ChronoSpine/group")
 
 --[[
 compare_fields(actual, expected, path)
@@ -283,6 +285,138 @@ local MANUAL_CASES = {
 }
 
 --[[
+Test cases for Module:ChronoSpine/group.
+
+Each case provides a list of already-normalised entries (built with
+entry.new, deliberately in SCRAMBLED input order, to make sure the
+module's own sorting -- not accidental input order -- is what
+produces the expected result) and a `raggruppa` mode, and expects a
+specific ordered list of groups back.
+
+  {
+    name      = "...",
+    raggruppa = "anno" | "mese" | "giorno" | "stagione" | <anything else> | nil,
+    entries   = { entry.new({...}), ... },
+    expect    = {
+      { key = {...}, kind = "normal"|"incerta", voce_order = { "...", ... } },
+      ...
+    },
+  }
+
+`voce_order` is the authoritative check on a group's contents: the
+exact list of labels expected in that group, IN ORDER. This both
+confirms which entries landed in which bucket and that they are
+correctly sorted within it, in one check.
+--]]
+local GROUP_CASES = {
+	{
+		name = "anno mode: basic grouping, chronological order",
+		raggruppa = "anno",
+		entries = {
+			entry.new({ anno = 2257, voce = "B", ordine = 2 }),
+			entry.new({ anno = 2256, voce = "A", ordine = 1 }),
+			entry.new({ anno = 2257, voce = "C", ordine = 3 }),
+		},
+		expect = {
+			{ key = { anno = 2256 }, kind = "normal", voce_order = { "A" } },
+			{ key = { anno = 2257 }, kind = "normal", voce_order = { "B", "C" } },
+		},
+	},
+	{
+		name = "mese mode: a year-only entry gets its own bucket, sorted before any month",
+		raggruppa = "mese",
+		entries = {
+			entry.new({ anno = 2022, mese = 5, voce = "May", ordine = 1 }),
+			entry.new({ anno = 2022, voce = "YearOnly", ordine = 2 }),
+			entry.new({ anno = 2022, mese = 3, voce = "March", ordine = 3 }),
+		},
+		expect = {
+			{ key = { anno = 2022 }, kind = "normal", voce_order = { "YearOnly" } },
+			{ key = { anno = 2022, mese = 3 }, kind = "normal", voce_order = { "March" } },
+			{ key = { anno = 2022, mese = 5 }, kind = "normal", voce_order = { "May" } },
+		},
+	},
+	{
+		name = "giorno mode: cascades one level deeper (month-only before any day)",
+		raggruppa = "giorno",
+		entries = {
+			entry.new({ anno = 2022, mese = 5, giorno = 5, voce = "FullDate", ordine = 1 }),
+			entry.new({ anno = 2022, mese = 5, voce = "MonthOnly", ordine = 2 }),
+		},
+		expect = {
+			{ key = { anno = 2022, mese = 5 }, kind = "normal", voce_order = { "MonthOnly" } },
+			{ key = { anno = 2022, mese = 5, giorno = 5 }, kind = "normal", voce_order = { "FullDate" } },
+		},
+	},
+	{
+		name = "stagione mode: a non-contiguous (interleaved) season is still merged into one bucket",
+		raggruppa = "stagione",
+		entries = {
+			entry.new({ anno = 2257, mese = 3, gruppo = "Stagione 1", voce = "Ep2", ordine = 3 }),
+			entry.new({ anno = 2257, mese = 1, gruppo = "Stagione 1", voce = "Ep1", ordine = 1 }),
+			entry.new({ anno = 2257, mese = 2, gruppo = "Stagione A", voce = "OtherEp1", ordine = 2 }),
+		},
+		expect = {
+			-- "Stagione 1" comes first because its FIRST (chronologically
+			-- earliest) member, Ep1, precedes "Stagione A"'s only member --
+			-- even though Ep2 (also "Stagione 1") sorts AFTER it.
+			{ key = { gruppo = "Stagione 1" }, kind = "normal", voce_order = { "Ep1", "Ep2" } },
+			{ key = { gruppo = "Stagione A" }, kind = "normal", voce_order = { "OtherEp1" } },
+		},
+	},
+	{
+		name = "stagione mode: entries with no gruppo share one ungrouped bucket",
+		raggruppa = "stagione",
+		entries = {
+			entry.new({ anno = 2257, mese = 3, voce = "NoGroup2", ordine = 3 }),
+			entry.new({ anno = 2257, mese = 1, voce = "NoGroup1", ordine = 1 }),
+			entry.new({ anno = 2257, mese = 2, gruppo = "Stagione X", voce = "Grouped", ordine = 2 }),
+		},
+		expect = {
+			{ key = {}, kind = "normal", voce_order = { "NoGroup1", "NoGroup2" } },
+			{ key = { gruppo = "Stagione X" }, kind = "normal", voce_order = { "Grouped" } },
+		},
+	},
+	{
+		name = "incerta entries are always last, in their own order, regardless of raggruppa",
+		raggruppa = "anno",
+		entries = {
+			entry.new({ incerta = true, voce = "Uncertain2", ordine = 5 }),
+			entry.new({ anno = 2257, voce = "Certain", ordine = 1 }),
+			entry.new({ incerta = true, voce = "Uncertain1", ordine = 2 }),
+		},
+		expect = {
+			{ key = { anno = 2257 }, kind = "normal", voce_order = { "Certain" } },
+			{ key = {}, kind = "incerta", voce_order = { "Uncertain1", "Uncertain2" } },
+		},
+	},
+	{
+		name = "unrecognised raggruppa value falls back to anno behaviour",
+		raggruppa = "not-a-real-mode",
+		entries = {
+			entry.new({ anno = 2257, voce = "X", ordine = 1 }),
+			entry.new({ anno = 2256, voce = "Y", ordine = 2 }),
+		},
+		expect = {
+			{ key = { anno = 2256 }, kind = "normal", voce_order = { "Y" } },
+			{ key = { anno = 2257 }, kind = "normal", voce_order = { "X" } },
+		},
+	},
+	{
+		name = "nil raggruppa (not given at all) also falls back to anno behaviour",
+		raggruppa = nil,
+		entries = {
+			entry.new({ anno = 2257, voce = "X", ordine = 1 }),
+			entry.new({ anno = 2256, voce = "Y", ordine = 2 }),
+		},
+		expect = {
+			{ key = { anno = 2256 }, kind = "normal", voce_order = { "Y" } },
+			{ key = { anno = 2257 }, kind = "normal", voce_order = { "X" } },
+		},
+	},
+}
+
+--[[
 run_case(parser, case)
 ------------------------
 Private helper. Runs a single test case against `parser` (either
@@ -409,6 +543,103 @@ local function run_manual_case(case)
 end
 
 --[[
+labels_of(group)
+------------------
+Private helper, used only by run_group_case(). Extracts a group's
+entries as a plain list of `voce` labels, in order, for comparison
+against a case's `voce_order`.
+--]]
+local function labels_of(group)
+	local labels = {}
+	for _, e in ipairs(group.entries) do
+		table.insert(labels, e.voce)
+	end
+	return labels
+end
+
+--[[
+labels_match(actual_labels, expected_labels)
+-----------------------------------------------
+Private helper, used only by run_group_case(). Exact, order-sensitive
+comparison of two label lists.
+
+Returns:
+  ok       (boolean)
+  mismatch (string|nil)
+--]]
+local function labels_match(actual_labels, expected_labels)
+	if #actual_labels ~= #expected_labels then
+		return false, string.format(
+			"entries: expected %d, got %d", #expected_labels, #actual_labels
+		)
+	end
+	for i, expected_label in ipairs(expected_labels) do
+		if actual_labels[i] ~= expected_label then
+			return false, string.format(
+				"entries[%d]: expected voce=%s, got voce=%s",
+				i, tostring(expected_label), tostring(actual_labels[i])
+			)
+		end
+	end
+	return true, nil
+end
+
+--[[
+run_group_case(case)
+----------------------
+Private helper. Runs a single GROUP_CASES entry against
+Module:ChronoSpine/group's M.group(), checking the number of groups,
+each group's `kind`, each group's `key` fields (partial match, via
+compare_fields -- see its docstring), and each group's contents
+(exact, order-sensitive label match, via labels_match()).
+
+Returns:
+  (table) { input, expected (string, for display), passed (boolean),
+            mismatch (string|nil) } -- same shape as run_case() and
+            run_manual_case(), so all three fit in one report table.
+--]]
+local function run_group_case(case)
+	local groups = group_module.group(case.entries, case.raggruppa)
+	local mismatches = {}
+
+	if #groups ~= #case.expect then
+		table.insert(mismatches, string.format(
+			"groups: expected %d, got %d", #case.expect, #groups
+		))
+	else
+		for i, expected_group in ipairs(case.expect) do
+			local actual_group = groups[i]
+
+			if actual_group.kind ~= expected_group.kind then
+				table.insert(mismatches, string.format(
+					"groups[%d].kind: expected %s, got %s",
+					i, tostring(expected_group.kind), tostring(actual_group.kind)
+				))
+			end
+
+			local key_ok, key_mismatch = compare_fields(actual_group.key, expected_group.key)
+			if not key_ok then
+				table.insert(mismatches, "groups[" .. i .. "].key." .. key_mismatch)
+			end
+
+			local labels_ok, labels_mismatch = labels_match(
+				labels_of(actual_group), expected_group.voce_order
+			)
+			if not labels_ok then
+				table.insert(mismatches, "groups[" .. i .. "]." .. labels_mismatch)
+			end
+		end
+	end
+
+	return {
+		input = case.name,
+		expected = string.format("%d groups", #case.expect),
+		passed = (#mismatches == 0),
+		mismatch = (#mismatches > 0) and table.concat(mismatches, "; ") or nil,
+	}
+end
+
+--[[
 p.run_all()
 ------------
 Runs every test case for both parsers.
@@ -430,6 +661,10 @@ function p.run_all()
 
 	for _, case in ipairs(MANUAL_CASES) do
 		table.insert(results, { module_name = "manual", info = run_manual_case(case) })
+	end
+
+	for _, case in ipairs(GROUP_CASES) do
+		table.insert(results, { module_name = "group", info = run_group_case(case) })
 	end
 
 	return results
